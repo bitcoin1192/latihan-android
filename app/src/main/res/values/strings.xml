@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Movie Ticket App</string>
+    <string name="home_upcoming">Upcoming</string>
+    <string name="home_recomended">Your Recomendation</string>
+    <string name="home_best_selling">Top Selling</string>
+</resources>
