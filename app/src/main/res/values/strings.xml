@@ -3,4 +3,16 @@
     <string name="home_upcoming">Upcoming</string>
     <string name="home_recomended">Your Recomendation</string>
     <string name="home_best_selling">Top Selling</string>
+    <string name="lewati_perkenalan">Lewati Perkenalan</string>
+    <string name="lanjutkan">Lanjutkan</string>
+    <string name="nowplaying">Now Playing</string>
+    <string name="nowplayingdesription">Lebih mudah untuk mengetahui\nfilm yang sedang tampil</string>
+    <string name="presale">Pre-Sale</string>
+    <string name="presaleDescription">Tidak khawatir ketinggalan\nupdate film terbaru</string>
+    <string name="cashless">Cashless</string>
+    <string name="cashless_description">Gunakan e-wallet untuk\ntransaksi tiket nonton</string>
+    <string name="signin">Sign In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="logoDesc">MOV LOGO</string>
 </resources>
