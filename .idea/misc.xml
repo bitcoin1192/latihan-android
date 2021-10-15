@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/drawable-v24/shape_rectangle_false.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/drawable/add_vector.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/drawable/shape_eclipse_green.xml" value="0.278125" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/drawable/shape_rectangle_false.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/drawable/shape_rectangle_true.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/activity_home.xml" value="0.12708333333333333" />
@@ -17,6 +19,7 @@
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/homecard_fragment.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/homecardfragment.xml" value="0.4" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/movie_card.xml" value="0.536" />
+        <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/photoUp_page.xml" value="0.264" />
       </map>
     </option>
   </component>
