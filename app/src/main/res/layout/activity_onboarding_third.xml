@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Global_blue"
-    tools:context=".onboarding.OnboardingOneActivity">
+    tools:context=".onboarding.OnboardingThirdActivity">
 
     <Button
         android:id="@+id/buttonTrue"
@@ -16,6 +16,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/shape_rectangle_true"
         android:text="@string/lanjutkan"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
