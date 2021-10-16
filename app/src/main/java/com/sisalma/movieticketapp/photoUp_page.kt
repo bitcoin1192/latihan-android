@@ -12,10 +12,20 @@ import android.widget.*
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
+import java.security.Permission
+import java.util.jar.Manifest
 import java.util.logging.Logger
 
-
-class photoUp_page : AppCompatActivity() {
+//I guess dexter hasn't added support for latest android api,
+//error like "class doesn't have constructor" popup when trying
+//to extend this activity with PermissionListener()
+class photoUp_page : AppCompatActivity(){
 
     lateinit var database: DatabaseReference
     lateinit var storage: FirebaseStorage
@@ -51,7 +61,8 @@ class photoUp_page : AppCompatActivity() {
             if(statusAdd){
                 statusAdd = false
                 next.visibility = View.VISIBLE
-
+            }else{
+            //TODO: try to access camera folder for user selecting their profile pictures
             }
         }
     }
