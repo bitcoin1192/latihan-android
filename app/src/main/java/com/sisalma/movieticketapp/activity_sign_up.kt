@@ -12,12 +12,13 @@ import java.util.logging.Logger
 
 class activity_sign_up : AppCompatActivity() {
     lateinit var database: DatabaseReference
+    private lateinit var preferences: Preferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         //Set database reference to latihan-mta/User firebase
         database = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User")
-
+        preferences = Preferences(this)
         //I wish this variable can be found automatically
         var btnBack = findViewById<ImageView>(R.id.imageView4)
         var next = findViewById<Button>(R.id.buttonTrue)
@@ -33,8 +34,8 @@ class activity_sign_up : AppCompatActivity() {
             dataUser.nama = name.text.toString()
             dataUser.email = mail.text.toString()
 
-            if (dataUser.email.isEmpty() or dataUser.username.isEmpty() or dataUser.nama.isEmpty()
-            or dataUser.password.isEmpty()){
+            if (dataUser.email!!.isEmpty() or dataUser.username!!.isEmpty() or dataUser.nama!!.isEmpty()
+            or dataUser.password!!.isEmpty()){
                 Toast.makeText(this,"Salah satu kolom diatas belum terisi", Toast.LENGTH_LONG).show()
             }else{
                 saveUsertoFirebase(dataUser)
@@ -47,15 +48,23 @@ class activity_sign_up : AppCompatActivity() {
         }
     }
     private fun saveUsertoFirebase(dataUser: Users){
-        database.child(dataUser.username).addValueEventListener(object : ValueEventListener{
+        database.child(dataUser.username!!).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var user = dataSnapshot.getValue(Users::class.java)
                 if (user != null) {
                     Toast.makeText(this@activity_sign_up, "Nama user "+ user.username + " tidak tersedia",Toast.LENGTH_LONG).show()
                 }else{
                     // Update firebase to set new user then
-                    database.child(dataUser.username).setValue(dataUser)
+                    database.child(dataUser.username!!).setValue(dataUser)
+                    preferences.setValues("nama", dataUser.nama.toString())
+                    preferences.setValues("user", dataUser.username.toString())
+                    preferences.setValues("saldo", "")
+                    preferences.setValues("url", "")
+                    preferences.setValues("email", dataUser.email.toString())
+                    preferences.setValues("status", "1")
                     Toast.makeText(this@activity_sign_up,"User berhasil dibuat", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this@activity_sign_up, photoUp_page::class.java).putExtra("data",dataUser.nama)
+                    startActivity(intent)
                 }
             }
             override fun onCancelled(dbErr: DatabaseError) {
