@@ -3,7 +3,7 @@ package com.sisalma.movieticketapp
 data class movieDataApi(
     val title: String,
     val genre: String,
-    val sinopsis: String,
+    val synopsis: String,
     val photoLink: String
 ) {}
 
@@ -14,6 +14,6 @@ data class movieCardData(
 
 data class movieDetailData(
     val title: String,
-    val sinopsis: String,
+    val synopsis: String,
     val ytEmbed: String
 )
