@@ -16,6 +16,6 @@ class splash_screen : AppCompatActivity() {
             var intent = Intent(this@splash_screen, OnboardingOneActivity::class.java)
             startActivity(intent)
             finish()
-        }, 2000)
+        }, 1000)
     }
 }
