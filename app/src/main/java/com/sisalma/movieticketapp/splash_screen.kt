@@ -13,9 +13,9 @@ class splash_screen : AppCompatActivity() {
 
         var handler = Handler()
         handler.postDelayed({
-            var intent = Intent(this@splash_screen, OnboardingOneActivity::class.java)
+            var intent = Intent(this, OnboardingOneActivity::class.java)
             startActivity(intent)
             finish()
-        }, 2000)
+        }, 1000)
     }
 }
