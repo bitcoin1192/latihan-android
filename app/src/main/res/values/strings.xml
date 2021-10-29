@@ -20,4 +20,7 @@
     <string name="signup">Daftar akun</string>
     <string name="nama">Nama</string>
     <string name="email">Alamat e-mail</string>
+    <string name="upload_nanti">Upload nanti</string>
+    <string name="photoText">Photo</string>
+    <string name="welcomeUserText">Selamat datang,\nAngga Rizki</string>
 </resources>
