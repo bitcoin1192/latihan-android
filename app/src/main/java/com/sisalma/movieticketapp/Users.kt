@@ -1,10 +1,12 @@
 package com.sisalma.movieticketapp
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.database.*
 
-abstract class Users {
+abstract class Users() {
     lateinit var username: String
     lateinit var nama: String
     abstract fun getPhotoLink(): String?
@@ -14,18 +16,32 @@ abstract class readOnly: Users() {
     abstract fun daftarBaru(dataUser: dataUser)
 }
 abstract class readWrite: Users(){
-    abstract fun userAuthenticate(username: String, password: String)
+    abstract fun userAuthenticate(inputUser: String, inputPass: String)
     abstract fun userDeauthenticate(): String
-    abstract fun getUserData():dataUser
+    abstract fun getUserData():dataUser?
     abstract fun updateUserData(nama:String?, email: String?, password: String?)
     abstract fun setProfilePic()
     abstract fun getTicketHistory():ArrayList<Movie>
 }
-class authenticatedUsers(database: DatabaseReference):readWrite(){
-    var authenticated = 0
+class authenticatedUsers():readWrite(){
     lateinit var user: dataUser
+    var authenticated = false
+    var authFailed  = true
     val database = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User")
 
+    fun isAuthFailed(): Boolean{
+        if(authFailed){
+            return true
+        }
+        return false
+    }
+    fun isAuthenticated(): Boolean{
+        if(authenticated){
+            return true
+        }
+        return false
+
+    }
     override fun userDeauthenticate(): String{
         TODO("Local Deauth by ending authenticated user lifecycle")
     }
@@ -34,10 +50,12 @@ class authenticatedUsers(database: DatabaseReference):readWrite(){
         TODO("Not yet implemented")
     }
 
-    override fun getUserData():dataUser {
+    override fun getUserData():dataUser? {
         //Check for authenticated flags
-        if(authenticated.equals(1)){
+        if(!authenticated){
             return user
+        }else{
+            return null
         }
     }
 
@@ -55,10 +73,10 @@ class authenticatedUsers(database: DatabaseReference):readWrite(){
                     if(!nama.isNullOrEmpty()){
                         user.nama = nama
                     }
-                    database.child(user!!.username).setValue(user)
+                    database.child(user.username).setValue(user)
                 }
                 override fun onCancelled(p0: DatabaseError) {
-                    TODO("Not yet implemented")
+
                 }
             })
         }
@@ -72,29 +90,38 @@ class authenticatedUsers(database: DatabaseReference):readWrite(){
         TODO("Not yet implemented")
     }
 
-    override fun userAuthenticate(username: String, password: String){
-        if (username.isNullOrEmpty() or password.isNullOrEmpty()){
-            authenticated = 0
-        }else{
-            database.child(username).addValueEventListener(object : ValueEventListener {
+    override fun userAuthenticate(inputUser: String, inputPass: String) {
+        if (inputUser.isNullOrEmpty() or inputPass.isNullOrEmpty()) {
+            authenticated = false
+            authFailed = true
+        } else {
+            database.child(inputUser).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     var data = dataSnapshot.getValue(dataUser::class.java)
+                    Log.e("Auth","Test")
                     //On username found, check flags and assign user with data
                     if (data != null) {
-                        if (password == data.password){
-                            authenticated = 1
+                        if (inputPass == data.password.toString()) {
+                            Log.e("Auth",data.password.toString())
+                            authenticated = true
+                            authFailed = false
                             user = data
-                        }else{
-                            authenticated = 0
+                        } else {
+                            authenticated = false
+                            authFailed = true
                         }
+                    }else{
+                        authFailed = true
                     }
+
                 }
-                override fun onCancelled(dbErr: DatabaseError) {
+
+                override fun onCancelled(p0: DatabaseError) {
+                    authFailed = true
                 }
             })
         }
     }
-
 }
 
 class guestUser():readOnly(){
@@ -122,10 +149,10 @@ class guestUser():readOnly(){
     }
 }
 
-data class dataUser(val username: String,
-                    var password: String?,
-                    var email: String?,
-                    var nama: String?,
-                    var saldo: Int,
-                    var url: String?
+data class dataUser(@get:PropertyName("username") @set:PropertyName("username") var username: String = "",
+                    @get:PropertyName("password") @set:PropertyName("password") var password: String? = "",
+                    @get:PropertyName("email") @set:PropertyName("email") var email: String? = "",
+                    @get:PropertyName("nama") @set:PropertyName("nama") var nama: String? = "",
+                    @get:PropertyName("saldo") @set:PropertyName("saldo") var saldo: String = "",
+                    @get:PropertyName("url") @set:PropertyName("url") var url: String? = ""
                     )
