@@ -27,17 +27,15 @@ class activity_sign_up : AppCompatActivity() {
         var mail = findViewById<EditText>(R.id.inputMail)
 
         next.setOnClickListener(){
-            var dataUser = Users()
-            dataUser.username = user.text.toString()
-            dataUser.password = pass.text.toString()
-            dataUser.nama = name.text.toString()
-            dataUser.email = mail.text.toString()
+            var dataUser = dataUser(user.text.toString(),pass.text.toString(),mail.text.toString()
+                ,name.text.toString(),"0","")
+            var user = guestUser()
 
-            if (dataUser.email.isEmpty() or dataUser.username.isEmpty() or dataUser.nama.isEmpty()
-            or dataUser.password.isEmpty()){
+            if (dataUser.email!!.isEmpty() or dataUser.username.isEmpty() or dataUser.nama!!.isEmpty()
+            or dataUser.password!!.isEmpty()){
                 Toast.makeText(this,"Salah satu kolom diatas belum terisi", Toast.LENGTH_LONG).show()
             }else{
-                saveUsertoFirebase(dataUser)
+                user.daftarBaru(dataUser)
             }
 
         }

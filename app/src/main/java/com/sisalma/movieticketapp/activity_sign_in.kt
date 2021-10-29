@@ -10,27 +10,28 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.*
+import java.util.*
 import java.util.logging.Logger
 
 
 class activity_sign_in : AppCompatActivity() {
-    lateinit var database: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-        database = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User")
-        var next = findViewById<Button>(R.id.buttonTrue)
-        var btnDaftar = findViewById<Button>(R.id.buttonFalse)
-        var user = findViewById<EditText>(R.id.inputUser)
-        var pass = findViewById<EditText>(R.id.inputPass)
+        val next = findViewById<Button>(R.id.buttonTrue)
+        val btnDaftar = findViewById<Button>(R.id.buttonFalse)
+        var inputUser = findViewById<EditText>(R.id.inputUser)
+        var inputPass = findViewById<EditText>(R.id.inputPass)
+        var authUser = authenticatedUsers()
 
         next.setOnClickListener(){
-            var textUser = user.text.toString()
-            var textPass = pass.text.toString()
-            if(textUser.isEmpty() or textPass.isEmpty()){
-                Toast.makeText(this,"Username atau password belum terisi", Toast.LENGTH_LONG).show()
-            }else{
-                checkLoginData(textUser,textPass)
+            authUser.userAuthenticate(inputUser.text.toString(),inputPass.text.toString())
+            //Unreliable because of async firebase,
+            if(authUser.isAuthFailed()){
+                Toast.makeText(this@activity_sign_in,"Authentication Failed, Try Again later", Toast.LENGTH_LONG).show()
+            }else {
+                //val intent = Intent(this, home::class.java)
+                Toast.makeText(this@activity_sign_in,"Authentication Success, Go to Home", Toast.LENGTH_LONG).show()
             }
         }
         btnDaftar.setOnClickListener(){
@@ -40,27 +41,12 @@ class activity_sign_in : AppCompatActivity() {
 
     }
 
-    private fun checkLoginData(username:String, password:String):Int{
-        database.child(username).addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var user = dataSnapshot.getValue(Users::class.java)
-                if (user != null) {
-                    if(password == user.password.toString()){
-                        val intent = Intent(this@activity_sign_in, activity_sign_up::class.java)
-                        startActivity(intent)
-                        finish()
-                    }else{
-                        Toast.makeText(this@activity_sign_in,"Password Salah",Toast.LENGTH_LONG).show()
-                    }
-                }else{
-
-                    Toast.makeText(this@activity_sign_in,"User Tidak ditemukan",Toast.LENGTH_LONG).show()
-                }
+    private fun testAuthorizeUser(authenticatedUsers: authenticatedUsers): Int{
+        while (!authenticatedUsers.isAuthenticated()){
+            if(authenticatedUsers.isAuthFailed()){
+                return 1
             }
-            override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(this@activity_sign_in,p0.message,Toast.LENGTH_LONG).show()
-            }
-        })
-        return 1
+        }
+        return 0
     }
 }
