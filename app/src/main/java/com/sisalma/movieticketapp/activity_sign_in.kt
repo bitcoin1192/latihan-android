@@ -26,7 +26,7 @@ class activity_sign_in : AppCompatActivity() {
 
         next.setOnClickListener(){
             authUser.userAuthenticate(inputUser.text.toString(),inputPass.text.toString())
-            //Unreliable because of async firebase,
+            //Unreliable because of async behavior of firebase library,
             if(authUser.isAuthFailed()){
                 Toast.makeText(this@activity_sign_in,"Authentication Failed, Try Again later", Toast.LENGTH_LONG).show()
             }else {

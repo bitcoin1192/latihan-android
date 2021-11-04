@@ -17,12 +17,6 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import java.security.Permission
 import java.util.*
 import java.util.jar.Manifest
@@ -38,11 +32,7 @@ import android.service.notification.NotificationListenerService
 import androidx.core.app.NotificationManagerCompat
 import java.util.prefs.Preferences
 
-
-//I guess dexter hasn't added support for latest android api,
-//error like "class doesn't have constructor" popup when trying
-//to extend this activity with PermissionListener()
-class photoUp_page : AppCompatActivity(), PermissionListener{
+class photoUp_page : AppCompatActivity(){
 
     lateinit var database: DatabaseReference
     lateinit var storage: FirebaseStorage
@@ -55,11 +45,11 @@ class photoUp_page : AppCompatActivity(), PermissionListener{
     var statusAdd:Boolean = false
 
     val preferences = Preferences(this)
-    val user = intent.getParcelableExtra<Parcelable>("data")
+    //val user = intent.getParcelableExtra<Parcelable>("data")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.photoUp_page)
+        setContentView(R.layout.photoup_page)
         //Set database reference to latihan-mta/User firebase "https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/"
         database = FirebaseDatabase.getInstance().getReference("User")
         storageRef  = FirebaseStorage.getInstance().getReference("Photos")
@@ -91,7 +81,7 @@ class photoUp_page : AppCompatActivity(), PermissionListener{
                 .addOnSuccessListener {
                     Toast.makeText(this,"Upload berhasil", Toast.LENGTH_LONG).show()
                     path.downloadUrl.addOnSuccessListener {
-                        savetoFirebase(path.path)
+                        //savetoFirebase(path.path)
                     }
                     val intent = Intent(this,home::class.java)
                     startActivity(intent)
@@ -129,14 +119,9 @@ class photoUp_page : AppCompatActivity(), PermissionListener{
                 next.visibility = View.VISIBLE
             }else{
             //TODO: try to access camera folder and prompt user to select their new profile pictures
-                Dexter.withContext(this)
-                    .withPermission(android.Manifest.permission.CAMERA)
-                    .withListener(this)
-                    .check()
             }
-        }
     }
-    private fun savetoFirebase(Url: String){
+    /*private fun savetoFirebase(Url: String){
         database.child(user.toString()).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Mentok cara akses dataUsers dari activity sebelumnya
@@ -154,33 +139,6 @@ class photoUp_page : AppCompatActivity(), PermissionListener{
             override fun onCancelled(dbErr: DatabaseError) {
                 Toast.makeText(this@photoUp_page,dbErr.message,Toast.LENGTH_LONG).show()
             }
-        })
-    }
-
-    override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-        TODO("Not yet implemented")
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
-            takeImageIntent -> takeImageIntent.resolveActivity(packageManager).also {
-                startActivityForResult(takeImageIntent, REQUEST_IMAGE_CAPTURE)
-        }
-        }
-    }
-
-    override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onPermissionRationaleShouldBeShown(p0: PermissionRequest?, p1: PermissionToken?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode.equals(REQUEST_IMAGE_CAPTURE) and resultCode.equals(Activity.RESULT_OK)){
-            var imageBit = data?.extras.?get("data") as Bitmap
-            statusAdd = true
-
-            filepath = data.data
-
-        }
+        })*/
     }
 }
