@@ -3,10 +3,9 @@ package com.sisalma.movieticketapp.onboarding
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.activity_sign_in
+import com.sisalma.movieticketapp.usersign.activity_sign_in
 
 class OnboardingOneActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

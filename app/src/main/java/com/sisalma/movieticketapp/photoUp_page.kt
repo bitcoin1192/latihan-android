@@ -1,36 +1,23 @@
 package com.sisalma.movieticketapp
 
-import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
-import android.util.LogPrinter
 import android.view.View
 import android.widget.*
 import androidx.core.app.NotificationCompat
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.security.Permission
 import java.util.*
-import java.util.jar.Manifest
-import java.util.logging.Logger
 import android.app.NotificationManager
 
 import android.app.NotificationChannel
 import android.content.Context
-import android.graphics.Path
 import android.os.Build
-import android.os.Parcelable
-import android.service.notification.NotificationListenerService
 import androidx.core.app.NotificationManagerCompat
-import java.util.prefs.Preferences
+import com.sisalma.movieticketapp.home.home
 
 class photoUp_page : AppCompatActivity(){
 
@@ -83,7 +70,7 @@ class photoUp_page : AppCompatActivity(){
                     path.downloadUrl.addOnSuccessListener {
                         //savetoFirebase(path.path)
                     }
-                    val intent = Intent(this,home::class.java)
+                    val intent = Intent(this, home::class.java)
                     startActivity(intent)
                     finishAffinity()
                 }

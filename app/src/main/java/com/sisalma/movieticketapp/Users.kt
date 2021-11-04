@@ -22,7 +22,7 @@ abstract class readWrite: Users(){
     abstract fun getUserData():dataUser?
     abstract fun updateUserData(nama:String?, email: String?, password: String?)
     abstract fun setProfilePic()
-    abstract fun getTicketHistory():ArrayList<Movie>
+    abstract fun getTicketHistory():ArrayList<T>
 }
 class authenticatedUsers():readWrite(){
     lateinit var user: dataUser
@@ -83,7 +83,7 @@ class authenticatedUsers():readWrite(){
         }
     }
 
-    override fun getTicketHistory(): ArrayList<Movie> {
+    override fun getTicketHistory(): ArrayList<T> {
         TODO("Not yet implemented")
     }
 

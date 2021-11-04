@@ -1,13 +1,12 @@
-package com.sisalma.movieticketapp
+package com.sisalma.movieticketapp.usersign
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.util.LogPrinter
 import android.widget.*
 import com.google.firebase.database.*
-import java.util.logging.Logger
+import com.sisalma.movieticketapp.*
+import com.sisalma.movieticketapp.R
 
 
 class activity_sign_up : AppCompatActivity() {
