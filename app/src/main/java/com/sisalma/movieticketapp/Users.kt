@@ -22,26 +22,19 @@ abstract class readWrite: Users(){
     abstract fun getUserData():dataUser?
     abstract fun updateUserData(nama:String?, email: String?, password: String?)
     abstract fun setProfilePic()
-    abstract fun getTicketHistory():ArrayList<T>
+    //abstract fun getTicketHistory():ArrayList<T>
 }
 class authenticatedUsers():readWrite(){
-    lateinit var user: dataUser
+    var user = dataUser()
     var authenticated = false
-    var authFailed  = true
+    var authFailed  = false
     val database = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User")
 
     fun isAuthFailed(): Boolean{
-        if(authFailed){
-            return true
-        }
-        return false
+        return authFailed
     }
     fun isAuthenticated(): Boolean{
-        if(authenticated){
-            return true
-        }
-        return false
-
+        return authenticated
     }
     override fun userDeauthenticate(): String{
         TODO("Local Deauth by ending authenticated user lifecycle")
@@ -61,7 +54,7 @@ class authenticatedUsers():readWrite(){
     }
 
     override fun updateUserData(nama:String?, email: String?, password: String?) {
-        if(authenticated.equals(1)){
+        if(authenticated){
             database.child(user.username).addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     // Update firebase to set new user then
@@ -83,32 +76,28 @@ class authenticatedUsers():readWrite(){
         }
     }
 
-    override fun getTicketHistory(): ArrayList<T> {
-        TODO("Not yet implemented")
-    }
-
     override fun getPhotoLink(): String? {
         TODO("Not yet implemented")
     }
 
     override fun userAuthenticate(inputUser: String, inputPass: String) {
+        authenticated = false
+        authFailed  = false
+        Log.e("Auth",inputUser+"/"+inputPass)
         if (inputUser.isNullOrEmpty() or inputPass.isNullOrEmpty()) {
             authenticated = false
             authFailed = true
         } else {
             database.child(inputUser).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    Log.i("Firebase-fetch","Data incoming")
                     var data = dataSnapshot.getValue(dataUser::class.java)
-                    Log.e("Auth","Test")
-                    //On username found, check flags and assign user with data
+                    //On username found and password match, check flags and assign user with receive data
                     if (data != null) {
                         if (inputPass == data.password.toString()) {
-                            Log.e("Auth",data.password.toString())
                             authenticated = true
-                            authFailed = false
                             user = data
                         } else {
-                            authenticated = false
                             authFailed = true
                         }
                     }else{
@@ -116,7 +105,6 @@ class authenticatedUsers():readWrite(){
                     }
 
                 }
-
                 override fun onCancelled(p0: DatabaseError) {
                     authFailed = true
                 }
