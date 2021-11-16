@@ -1,10 +1,11 @@
-package com.sisalma.movieticketapp.home
+package com.sisalma.movieticketapp.appActivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.R
+import com.sisalma.movieticketapp.appActivity.homeFragment.dashboardFragment
 import com.sisalma.movieticketapp.databinding.ActivityHomeBinding
 
 class home : AppCompatActivity() {

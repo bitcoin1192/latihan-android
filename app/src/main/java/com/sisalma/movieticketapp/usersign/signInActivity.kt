@@ -4,20 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import com.google.android.gms.tasks.Tasks.await
 import com.google.firebase.database.*
-import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivitySignInBinding
-import com.sisalma.movieticketapp.home.home
+import com.sisalma.movieticketapp.appActivity.home
 import kotlinx.coroutines.*
 import java.util.*
 
 
-class activity_sign_in : AppCompatActivity() {
+class signInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var binding =   ActivitySignInBinding.inflate(layoutInflater)
@@ -34,17 +30,17 @@ class activity_sign_in : AppCompatActivity() {
                 var result = async {testAuthorizeUser(authUser)}
                 if(result.await()){
                     //finishAffinity()
-                    Toast.makeText(this@activity_sign_in,"Authentication Success, goto home", Toast.LENGTH_SHORT).show()
-                    intent = Intent(this@activity_sign_in,home::class.java)
+                    Toast.makeText(this@signInActivity,"Authentication Success, goto home", Toast.LENGTH_SHORT).show()
+                    intent = Intent(this@signInActivity,home::class.java)
                     startActivity(intent)
                 }else {
-                    Toast.makeText(this@activity_sign_in,"Authentication Fail, please try again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@signInActivity,"Authentication Fail, please try again", Toast.LENGTH_SHORT).show()
                 }
             }
 
         }
         binding.buttonFalse.setOnClickListener(){
-            val intent = Intent(this, activity_sign_up::class.java)
+            val intent = Intent(this, signUpActivity::class.java)
             startActivity(intent)
         }
 

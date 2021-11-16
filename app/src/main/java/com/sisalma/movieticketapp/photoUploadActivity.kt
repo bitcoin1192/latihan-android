@@ -17,9 +17,9 @@ import android.app.NotificationChannel
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
-import com.sisalma.movieticketapp.home.home
+import com.sisalma.movieticketapp.appActivity.home
 
-class photoUp_page : AppCompatActivity(){
+class photoUploadActivity : AppCompatActivity(){
 
     lateinit var database: DatabaseReference
     lateinit var storage: FirebaseStorage
@@ -90,7 +90,7 @@ class photoUp_page : AppCompatActivity(){
         }
         skip.setOnClickListener(){
             finishAffinity()
-            val intent = Intent(this@photoUp_page, home::class.java)
+            val intent = Intent(this@photoUploadActivity, home::class.java)
             startActivity(intent)
         }
         btnBack.setOnClickListener(){

@@ -9,7 +9,7 @@ import com.sisalma.movieticketapp.*
 import com.sisalma.movieticketapp.R
 
 
-class activity_sign_up : AppCompatActivity() {
+class signUpActivity : AppCompatActivity() {
     lateinit var database: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,17 +46,17 @@ class activity_sign_up : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var user = dataSnapshot.getValue(Users::class.java)
                 if (user != null) {
-                    Toast.makeText(this@activity_sign_up, "Nama user "+ user.username + " tidak tersedia",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@signUpActivity, "Nama user "+ user.username + " tidak tersedia",Toast.LENGTH_LONG).show()
                 }else{
                     // Update firebase to set new user then
                     database.child(dataUser.username!!).setValue(dataUser)
-                    Toast.makeText(this@activity_sign_up,"User berhasil dibuat", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@activity_sign_up, photoUp_page::class.java).putExtra("data",dataUser.nama)
+                    Toast.makeText(this@signUpActivity,"User berhasil dibuat", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this@signUpActivity, photoUploadActivity::class.java).putExtra("data",dataUser.nama)
                     startActivity(intent)
                 }
             }
             override fun onCancelled(dbErr: DatabaseError) {
-                Toast.makeText(this@activity_sign_up,dbErr.message,Toast.LENGTH_LONG).show()
+                Toast.makeText(this@signUpActivity,dbErr.message,Toast.LENGTH_LONG).show()
             }
         })
     }

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.usersign.activity_sign_in
+import com.sisalma.movieticketapp.usersign.signInActivity
 
 class OnboardingThirdActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class OnboardingThirdActivity : AppCompatActivity() {
 
         next.setOnClickListener(){
             finishAffinity()
-            var intent = Intent(this, activity_sign_in::class.java)
+            var intent = Intent(this, signInActivity::class.java)
             startActivity(intent)
         }
     }

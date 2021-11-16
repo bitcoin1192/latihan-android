@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieTicketApp.noActionBar">
         <activity
-            android:name=".home.home"
+            android:name=".appActivity.home"
             android:exported="true" />
         <activity
             android:name=".onboarding.OnboardingOneActivity"
@@ -28,10 +28,10 @@
             android:name=".onboarding.OnboardingThirdActivity"
             android:exported="true" />
         <activity
-            android:name=".usersign.activity_sign_up"
+            android:name=".usersign.signUpActivity"
             android:exported="true" />
         <activity
-            android:name=".usersign.activity_sign_in"
+            android:name=".usersign.signInActivity"
             android:exported="true" />
         <activity
             android:name=".splash_screen"
