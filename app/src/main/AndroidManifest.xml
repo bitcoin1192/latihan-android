@@ -34,6 +34,9 @@
             android:name=".usersign.signInActivity"
             android:exported="true" />
         <activity
+            android:name=".filmDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".splash_screen"
             android:exported="true">
             <intent-filter>

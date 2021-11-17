@@ -9,10 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bagicode.bwamov.filmDetailActivity
+import com.sisalma.movieticketapp.filmDetailActivity
 import com.sisalma.movieticketapp.appActivity.homeFragment.ComingSoonAdapter
 import com.sisalma.movieticketapp.appActivity.homeFragment.NowPlayingAdapter
 import com.sisalma.movieticketapp.R
+import com.sisalma.movieticketapp.appActivity.Film
 import com.sisalma.movieticketapp.databinding.FragmentDashboardBinding
 import com.sisalma.movieticketapp.viewModelFilm
 
@@ -41,18 +42,18 @@ class dashboardFragment : Fragment() {
         binding.tvSaldo.setText("Rp. 120.000")
 
         test.observe(this.viewLifecycleOwner, Observer{
-            binding.rvNowPlaying.adapter = NowPlayingAdapter(it) {
+            binding.rvNowPlaying.adapter = NowPlayingAdapter(it) { data: Film ->
                 val intent = Intent(
-                    context,
+                    activity,
                     filmDetailActivity::class.java
-                )
+                ).putExtra("filmDetail",data)
                 startActivity(intent)
             }
-            binding.rvComingSoon.adapter = ComingSoonAdapter(it) {
+            binding.rvComingSoon.adapter = ComingSoonAdapter(it) { data: Film ->
                 val intent = Intent(
-                    context,
+                    activity,
                     filmDetailActivity::class.java
-                )
+                ).putExtra("filmDetail",data)
                 startActivity(intent)
             }
             binding.rvNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

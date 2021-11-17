@@ -12,6 +12,7 @@ class viewModelFilm: ViewModel() {
     init {
         loadFilm()
     }
+    private var datalist = ArrayList<Film>()
     private val films: MutableLiveData<ArrayList<Film>> by lazy{
         MutableLiveData<ArrayList<Film>>()
     }
@@ -20,14 +21,16 @@ class viewModelFilm: ViewModel() {
         return films
     }
 
-    fun getFilmDetail(index:Int){
-        //TODO("Return from list on selected index")
+    private fun defaultValue(){
+        //TODO("Add default value when data hasn't arrive")
+        for(i in 1..4){
+            datalist
+        }
     }
-
     private fun loadFilm(){
-        var datalist = ArrayList<Film>()
         mDatabase.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
+                datalist.clear()
                 Log.e("test-child", data.childrenCount.toString())
                 for (filmdata in data.getChildren()){
                     if(filmdata != null) {
@@ -42,5 +45,9 @@ class viewModelFilm: ViewModel() {
                 TODO("Not yet implemented")
             }
         })
+    }
+
+    private fun loadAktorfromMap(AktorHashmap: HashMap<String,HashMap<String,String>>){
+
     }
 }
