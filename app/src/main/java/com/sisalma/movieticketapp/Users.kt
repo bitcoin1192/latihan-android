@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.database.*
+import kotlinx.coroutines.delay
 
 abstract class Users() {
     lateinit var username: String
@@ -22,7 +23,6 @@ abstract class readWrite: Users(){
     abstract fun getUserData():dataUser?
     abstract fun updateUserData(nama:String?, email: String?, password: String?)
     abstract fun setProfilePic()
-    //abstract fun getTicketHistory():ArrayList<T>
 }
 class authenticatedUsers():readWrite(){
     var user = dataUser()
@@ -46,7 +46,7 @@ class authenticatedUsers():readWrite(){
 
     override fun getUserData():dataUser? {
         //Check for authenticated flags
-        if(!authenticated){
+        if(authenticated){
             return user
         }else{
             return null
@@ -110,6 +110,22 @@ class authenticatedUsers():readWrite(){
                 }
             })
         }
+    }
+    suspend fun testAuthorizeUser(authenticatedUsers: authenticatedUsers): Boolean{
+        var counter = 0
+        while (counter <= 4){
+            if(authenticatedUsers.isAuthenticated()){
+                Log.i("testAuthorize", "User found in try #$counter")
+                return true
+            }else if (authenticatedUsers.isAuthFailed()){
+                Log.i("testAuthorize", "User or password not matching")
+                return false
+            }
+            delay(500)
+            counter++
+        }
+        Log.i("testAuthorize", "Counter exceed limits")
+        return false
     }
 }
 

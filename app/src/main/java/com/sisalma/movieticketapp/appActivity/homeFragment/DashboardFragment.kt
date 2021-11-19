@@ -14,34 +14,38 @@ import com.sisalma.movieticketapp.appActivity.homeFragment.ComingSoonAdapter
 import com.sisalma.movieticketapp.appActivity.homeFragment.NowPlayingAdapter
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.Film
+import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.FragmentDashboardBinding
 import com.sisalma.movieticketapp.viewModelFilm
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-class dashboardFragment : Fragment() {
+class dashboardFragment(userObject: authenticatedUsers) : Fragment() {
     var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    val user = userObject
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentDashboardBinding.inflate(inflater,container,false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val viewModelFilm = viewModelFilm()
-        val test = viewModelFilm.getFilmData()
+        val filmList = viewModelFilm.getFilmData()
 
-        binding.tvNama.setText("Test 123")
-        binding.tvSaldo.setText("Rp. 120.000")
+        Log.e("DashboardFragment", user.getUserData()?.nama?:"something")
+        binding.tvNama.setText(user.getUserData()?.nama)
+        binding.tvSaldo.setText(user.getUserData()?.saldo)
 
-        test.observe(this.viewLifecycleOwner, Observer{
+
+        filmList.observe(this.viewLifecycleOwner, Observer{
             binding.rvNowPlaying.adapter = NowPlayingAdapter(it) { data: Film ->
                 val intent = Intent(
                     activity,

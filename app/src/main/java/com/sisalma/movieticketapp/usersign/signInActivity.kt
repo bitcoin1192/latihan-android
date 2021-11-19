@@ -27,9 +27,13 @@ class signInActivity : AppCompatActivity() {
         binding.buttonTrue.setOnClickListener {
             authUser.userAuthenticate(inputUsername.toString(),inputPassword.toString())
             userCheckCoroutine.launch {
-                var result = async {testAuthorizeUser(authUser)}
+                var result = async {authUser.testAuthorizeUser(authUser)}
                 if(result.await()){
-                    //finishAffinity()
+                    val settingEditor = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE).edit()
+                    settingEditor.putString("username",inputUsername.toString())
+                    settingEditor.putString("password",inputPassword.toString())
+                    settingEditor.commit()
+                    finishAffinity()
                     Toast.makeText(this@signInActivity,"Authentication Success, goto home", Toast.LENGTH_SHORT).show()
                     intent = Intent(this@signInActivity,home::class.java)
                     startActivity(intent)
@@ -44,22 +48,5 @@ class signInActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-    }
-
-    suspend fun testAuthorizeUser(authenticatedUsers: authenticatedUsers): Boolean{
-        var counter = 0
-        while (counter <= 4){
-            if(authenticatedUsers.isAuthenticated()){
-                Log.i("testAuthorize", "User found in try #$counter")
-                return true
-            }else if (authenticatedUsers.isAuthFailed()){
-                Log.i("testAuthorize", "User or password not matching")
-                return false
-            }
-            delay(500)
-            counter++
-        }
-        Log.i("testAuthorize", "Counter exceed limits")
-        return false
     }
 }

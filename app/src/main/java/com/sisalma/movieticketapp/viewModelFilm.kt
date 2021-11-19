@@ -9,12 +9,13 @@ import com.sisalma.movieticketapp.appActivity.Film
 
 class viewModelFilm: ViewModel() {
     var mDatabase = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Film")
+    private val films: MutableLiveData<ArrayList<Film>> = MutableLiveData<ArrayList<Film>>()
+
+    private var datalist: ArrayList<Film> = ArrayList<Film>()
+
     init {
+        defaultValue()
         loadFilm()
-    }
-    private var datalist = ArrayList<Film>()
-    private val films: MutableLiveData<ArrayList<Film>> by lazy{
-        MutableLiveData<ArrayList<Film>>()
     }
 
     fun getFilmData(): LiveData<ArrayList<Film>> {
@@ -24,8 +25,12 @@ class viewModelFilm: ViewModel() {
     private fun defaultValue(){
         //TODO("Add default value when data hasn't arrive")
         for(i in 1..4){
-            datalist
+            datalist.add(Film("","",
+            "","",
+            HashMap(),"",
+            ""))
         }
+        films.value = datalist
     }
     private fun loadFilm(){
         mDatabase.addValueEventListener(object: ValueEventListener {
@@ -34,7 +39,6 @@ class viewModelFilm: ViewModel() {
                 Log.e("test-child", data.childrenCount.toString())
                 for (filmdata in data.getChildren()){
                     if(filmdata != null) {
-                        Log.e("test-child", filmdata.getValue(Film::class.java).toString())
                         datalist.add(filmdata.getValue(Film::class.java)!!)
                     }
                 }

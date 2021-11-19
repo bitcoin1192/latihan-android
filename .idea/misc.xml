@@ -21,12 +21,14 @@
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/fragment_blank.xml" value="0.12708333333333333" />
-        <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.264" />
+        <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/fragment_dashboard.xml" value="0.4" />
+        <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/fragment_ticket.xml" value="0.264" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/homecard_fragment.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/homecardfragment.xml" value="0.4" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/movie_card.xml" value="0.536" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/photoUp_page.xml" value="0.264" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/photoup_page.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/row_item_active_ticket.xml" value="0.536" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/row_item_coming_soon.xml" value="0.25" />
         <entry key="..\:/Users/dhiaa/AndroidStudioProjects/MovieTicketApp/app/src/main/res/layout/row_item_now_playing.xml" value="0.25" />
       </map>
