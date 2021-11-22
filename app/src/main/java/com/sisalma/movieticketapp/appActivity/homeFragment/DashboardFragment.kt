@@ -9,23 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sisalma.movieticketapp.filmDetailActivity
-import com.sisalma.movieticketapp.appActivity.homeFragment.ComingSoonAdapter
-import com.sisalma.movieticketapp.appActivity.homeFragment.NowPlayingAdapter
-import com.sisalma.movieticketapp.R
+import com.sisalma.movieticketapp.*
 import com.sisalma.movieticketapp.appActivity.Film
-import com.sisalma.movieticketapp.authenticatedUsers
+import com.sisalma.movieticketapp.appActivity.filmDetailActivity
 import com.sisalma.movieticketapp.databinding.FragmentDashboardBinding
-import com.sisalma.movieticketapp.viewModelFilm
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
-class dashboardFragment(userObject: authenticatedUsers) : Fragment() {
+class dashboardFragment(userRepository: userRepository, filmRepository: filmRepository) : Fragment() {
     var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
-    val user = userObject
+
+    val userProfile = userRepository.getUserProfile()
+    val filmRepo = filmRepository
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,12 +31,14 @@ class dashboardFragment(userObject: authenticatedUsers) : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val viewModelFilm = viewModelFilm()
+        val viewModelFilm = viewModelFilm(filmRepo, this.viewLifecycleOwner)
         val filmList = viewModelFilm.getFilmData()
 
-        Log.e("DashboardFragment", user.getUserData()?.nama?:"something")
-        binding.tvNama.setText(user.getUserData()?.nama)
-        binding.tvSaldo.setText(user.getUserData()?.saldo)
+        userProfile.observe(this.viewLifecycleOwner, Observer {
+            Log.e("userProfile change", "")
+            binding.tvNama.setText(it.nama)
+            binding.tvSaldo.setText(it.saldo)
+        })
 
 
         filmList.observe(this.viewLifecycleOwner, Observer{

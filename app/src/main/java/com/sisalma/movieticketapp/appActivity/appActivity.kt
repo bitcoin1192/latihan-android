@@ -1,7 +1,5 @@
 package com.sisalma.movieticketapp.appActivity
 
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.homeFragment.dashboardFragment
 import com.sisalma.movieticketapp.appActivity.ticketFragment.ticketFragment
+import com.sisalma.movieticketapp.appActivity.userProfileFragment.settingFragment
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivityHomeBinding
 import com.sisalma.movieticketapp.filmRepository
@@ -40,15 +39,14 @@ class home : AppCompatActivity() {
                 val filmRepo = filmRepository()
                 val userRepo = userRepository(userObject)
                 val fragmentTiket = ticketFragment(userRepo,filmRepo)
-                //val fragmentSetting = SettingFragment()
-                //Todo("Ganti input dari dashboardFragment menjadi userRepo dan filmRepo")
-                val fragmentHome = dashboardFragment(userObject)
+                val fragmentSetting = settingFragment()
+                val fragmentHome = dashboardFragment(userRepo,filmRepo)
 
                 setFragment(fragmentHome)
                 binding.ivMenu1.setOnClickListener {
                     setFragment(fragmentHome)
 
-                    changeIcon(binding.ivMenu1, R.drawable.ic_home)
+                    changeIcon(binding.ivMenu1, R.drawable.ic_home_active)
                     changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
                     changeIcon(binding.ivMenu3, R.drawable.ic_profile)
                 }
@@ -57,16 +55,16 @@ class home : AppCompatActivity() {
                     setFragment(fragmentTiket)
 
                     changeIcon(binding.ivMenu1, R.drawable.ic_home)
-                    changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
+                    changeIcon(binding.ivMenu2, R.drawable.ic_tiket_active)
                     changeIcon(binding.ivMenu3, R.drawable.ic_profile)
                 }
 
                 binding.ivMenu3.setOnClickListener {
-                    //setFragment(fragmentSetting)
+                    setFragment(fragmentSetting)
 
                     changeIcon(binding.ivMenu1, R.drawable.ic_home)
                     changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
-                    changeIcon(binding.ivMenu3, R.drawable.ic_profile)
+                    changeIcon(binding.ivMenu3, R.drawable.ic_profile_active)
                 }
             }
         }

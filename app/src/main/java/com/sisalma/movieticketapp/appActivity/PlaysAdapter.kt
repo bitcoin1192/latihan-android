@@ -1,4 +1,4 @@
-package com.bagicode.bwamov.home.dashboard
+package com.sisalma.movieticketapp.appActivity
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.Playlist
 
-class PlaysAdapter(private var data: List<Playlist>,
+class PlaysAdapter(private var data: ArrayList<Playlist>,
                    private val listener: (Playlist) -> Unit)
     : RecyclerView.Adapter<PlaysAdapter.LeagueViewHolder>() {
 
@@ -19,7 +20,7 @@ class PlaysAdapter(private var data: List<Playlist>,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         ContextAdapter = parent.context
-        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_coming_soon, parent, false)
+        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_play, parent, false)
 
         return LeagueViewHolder(inflatedView)
     }
@@ -39,6 +40,10 @@ class PlaysAdapter(private var data: List<Playlist>,
         fun bindItem(data: Playlist, listener: (Playlist) -> Unit, context : Context, position : Int) {
 
             tvTitle.text = data.nama
+            Glide
+                .with(context)
+                .load(data.url)
+                .into(tvImage)
 
             //itemView.setOnClickListener {
             //    listener(data)

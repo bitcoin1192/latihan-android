@@ -1,13 +1,13 @@
-package com.sisalma.movieticketapp
+package com.sisalma.movieticketapp.appActivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bagicode.bwamov.home.dashboard.PlaysAdapter
 import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.appActivity.Film
 import com.sisalma.movieticketapp.appActivity.Playlist
+import com.sisalma.movieticketapp.appActivity.PlaysAdapter
 import com.sisalma.movieticketapp.databinding.ActivityDetailBinding
 
 class filmDetailActivity : AppCompatActivity() {
@@ -27,9 +27,10 @@ class filmDetailActivity : AppCompatActivity() {
             .into(binding.ivPoster)
         Log.i("Hashmap Test",detailParcel.play.toString())
 
-        //binding.rvWhoPlay.adapter = PlaysAdapter(detailParcel.play){
+        val player = playerHashMap2Array(detailParcel)
+        binding.rvWhoPlay.adapter = PlaysAdapter(player){
+        }
 
-        //}
         binding.btnPilihBangku.setOnClickListener {
 
         }
@@ -40,5 +41,15 @@ class filmDetailActivity : AppCompatActivity() {
 
         binding.rvWhoPlay.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+    }
+
+    private fun playerHashMap2Array(filmData: Film): ArrayList<Playlist>{
+        val playerHashMap = filmData.play
+        var playerList = ArrayList<Playlist>()
+        playerHashMap.forEach{
+            playerList.add(Playlist(it.component2()["nama"],it.component2()["url"]))
+        }
+        Log.i("playListArr",playerList.toString())
+        return playerList
     }
 }

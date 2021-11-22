@@ -34,7 +34,7 @@
             android:name=".usersign.signInActivity"
             android:exported="true" />
         <activity
-            android:name=".filmDetailActivity"
+            android:name=".appActivity.filmDetailActivity"
             android:exported="true" />
         <activity
             android:name=".splash_screen"
