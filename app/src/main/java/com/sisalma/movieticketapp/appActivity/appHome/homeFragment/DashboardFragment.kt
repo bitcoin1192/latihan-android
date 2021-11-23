@@ -1,4 +1,4 @@
-package com.sisalma.movieticketapp.appActivity.homeFragment
+package com.sisalma.movieticketapp.appActivity.appHome.homeFragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sisalma.movieticketapp.*
-import com.sisalma.movieticketapp.appActivity.Film
+import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.appActivity.filmDetailActivity
 import com.sisalma.movieticketapp.databinding.FragmentDashboardBinding
+import com.sisalma.movieticketapp.repository.filmRepository
+import com.sisalma.movieticketapp.repository.userRepository
 
 class dashboardFragment(userRepository: userRepository, filmRepository: filmRepository) : Fragment() {
     var _binding: FragmentDashboardBinding? = null
@@ -39,7 +41,6 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
             binding.tvNama.setText(it.nama)
             binding.tvSaldo.setText(it.saldo)
         })
-
 
         filmList.observe(this.viewLifecycleOwner, Observer{
             binding.rvNowPlaying.adapter = NowPlayingAdapter(it) { data: Film ->

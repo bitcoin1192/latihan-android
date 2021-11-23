@@ -1,4 +1,4 @@
-package com.sisalma.movieticketapp
+package com.sisalma.movieticketapp.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.sisalma.movieticketapp.appActivity.Film
+import com.sisalma.movieticketapp.authenticatedUsers
+import com.sisalma.movieticketapp.dataUser
+import com.sisalma.movieticketapp.dataStructure.ticketData
 
 class userRepository (userAuthenticated: authenticatedUsers){
     val userObj = userAuthenticated

@@ -32,6 +32,7 @@ class signInActivity : AppCompatActivity() {
                     val settingEditor = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE).edit()
                     settingEditor.putString("username",inputUsername.toString())
                     settingEditor.putString("password",inputPassword.toString())
+                    settingEditor.putString("oldUser","true")
                     settingEditor.commit()
                     finishAffinity()
                     Toast.makeText(this@signInActivity,"Authentication Success, goto home", Toast.LENGTH_SHORT).show()

@@ -1,4 +1,4 @@
-package com.sisalma.movieticketapp.appActivity
+package com.sisalma.movieticketapp.dataStructure
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

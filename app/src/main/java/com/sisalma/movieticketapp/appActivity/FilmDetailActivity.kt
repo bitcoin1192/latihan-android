@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.sisalma.movieticketapp.appActivity.Film
-import com.sisalma.movieticketapp.appActivity.Playlist
-import com.sisalma.movieticketapp.appActivity.PlaysAdapter
+import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.ActivityDetailBinding
 
 class filmDetailActivity : AppCompatActivity() {

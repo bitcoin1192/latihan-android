@@ -44,13 +44,7 @@ class PlaysAdapter(private var data: ArrayList<Playlist>,
                 .with(context)
                 .load(data.url)
                 .into(tvImage)
-
-            //itemView.setOnClickListener {
-            //    listener(data)
-            //}
         }
-
     }
-
 }
 

@@ -1,13 +1,13 @@
-package com.sisalma.movieticketapp.appActivity.ticketFragment
+package com.sisalma.movieticketapp.appActivity.appHome.ticketFragment
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sisalma.movieticketapp.appActivity.Film
-import com.sisalma.movieticketapp.filmRepository
-import com.sisalma.movieticketapp.ticketData
-import com.sisalma.movieticketapp.userRepository
+import com.sisalma.movieticketapp.dataStructure.Film
+import com.sisalma.movieticketapp.repository.filmRepository
+import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.repository.userRepository
 
 class viewTicketModel(userRepository: userRepository, filmRepository: filmRepository, lifecycleOwner: LifecycleOwner): ViewModel() {
 

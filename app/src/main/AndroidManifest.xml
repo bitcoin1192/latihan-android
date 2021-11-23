@@ -34,10 +34,13 @@
             android:name=".usersign.signInActivity"
             android:exported="true" />
         <activity
+            android:name=".appActivity.editProfile.editProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".appActivity.filmDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".splash_screen"
+            android:name=".onboarding.splash_screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

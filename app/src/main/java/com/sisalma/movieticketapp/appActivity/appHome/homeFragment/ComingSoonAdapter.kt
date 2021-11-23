@@ -1,7 +1,6 @@
-package com.sisalma.movieticketapp.appActivity.homeFragment
+package com.sisalma.movieticketapp.appActivity.appHome.homeFragment
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +9,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.appActivity.Film
-import java.lang.System.load
+import com.sisalma.movieticketapp.dataStructure.Film
 
-class NowPlayingAdapter(private var data: ArrayList<Film>, private val listener: (Film) -> Unit): RecyclerView.Adapter<NowPlayingAdapter.LeagueViewHolder>() {
+class ComingSoonAdapter(private var data: ArrayList<Film>,
+                        private val listener: (Film) -> Unit)
+    : RecyclerView.Adapter<ComingSoonAdapter.LeagueViewHolder>() {
 
     lateinit var ContextAdapter : Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder {
-        Log.e("NowPlayingadapter","Its alive")
         val layoutInflater = LayoutInflater.from(parent.context)
         ContextAdapter = parent.context
-        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_now_playing, parent, false)
+        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_coming_soon, parent, false)
 
         return LeagueViewHolder(inflatedView)
     }
@@ -50,6 +49,7 @@ class NowPlayingAdapter(private var data: ArrayList<Film>, private val listener:
                 .with(context)
                 .load(data.poster)
                 .into(tvImage)
+
             itemView.setOnClickListener {
                 listener(data)
             }

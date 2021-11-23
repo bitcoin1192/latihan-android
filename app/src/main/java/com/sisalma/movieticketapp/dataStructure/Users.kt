@@ -1,10 +1,6 @@
 package com.sisalma.movieticketapp
 
-
-import android.content.Context
-import android.graphics.Bitmap
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.database.*
 import kotlinx.coroutines.delay
 
@@ -55,7 +51,7 @@ class authenticatedUsers():readWrite(){
 
     override fun updateUserData(nama:String?, email: String?, password: String?) {
         if(authenticated){
-            database.child(user.username).addValueEventListener(object : ValueEventListener{
+            database.child(user.username).addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     // Update firebase to set new user then
                     if(!email.isNullOrEmpty()){
@@ -88,7 +84,7 @@ class authenticatedUsers():readWrite(){
             authenticated = false
             authFailed = true
         } else {
-            database.child(inputUser).addValueEventListener(object : ValueEventListener {
+            database.child(inputUser).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     Log.i("Firebase-fetch","Data incoming")
                     var data = dataSnapshot.getValue(dataUser::class.java)

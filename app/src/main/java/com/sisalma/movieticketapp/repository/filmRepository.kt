@@ -1,4 +1,4 @@
-package com.sisalma.movieticketapp
+package com.sisalma.movieticketapp.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.sisalma.movieticketapp.appActivity.Film
+import com.sisalma.movieticketapp.dataStructure.Film
 
 class filmRepository {
     val instanceOfFirebase = "https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -16,7 +16,7 @@ class filmRepository {
 
     private var filmList: ArrayList<Film> = ArrayList()
     private val filmData: MutableLiveData<ArrayList<Film>> = MutableLiveData<ArrayList<Film>>()
-    private var keyFilmData: HashMap<String,Film> = HashMap()
+    private var keyFilmData: HashMap<String, Film> = HashMap()
 
     init {
         attachFilmData()
@@ -25,7 +25,7 @@ class filmRepository {
         return filmData
     }
 
-    fun getMapFilmData(): HashMap<String,Film>{
+    fun getMapFilmData(): HashMap<String, Film>{
         return keyFilmData
     }
 

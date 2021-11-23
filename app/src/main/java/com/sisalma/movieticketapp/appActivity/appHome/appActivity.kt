@@ -6,13 +6,13 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.appActivity.homeFragment.dashboardFragment
-import com.sisalma.movieticketapp.appActivity.ticketFragment.ticketFragment
-import com.sisalma.movieticketapp.appActivity.userProfileFragment.settingFragment
+import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.dashboardFragment
+import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ticketFragment
+import com.sisalma.movieticketapp.appActivity.appHome.userProfileFragment.settingFragment
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivityHomeBinding
-import com.sisalma.movieticketapp.filmRepository
-import com.sisalma.movieticketapp.userRepository
+import com.sisalma.movieticketapp.repository.filmRepository
+import com.sisalma.movieticketapp.repository.userRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -39,7 +39,7 @@ class home : AppCompatActivity() {
                 val filmRepo = filmRepository()
                 val userRepo = userRepository(userObject)
                 val fragmentTiket = ticketFragment(userRepo,filmRepo)
-                val fragmentSetting = settingFragment()
+                val fragmentSetting = settingFragment(userRepo)
                 val fragmentHome = dashboardFragment(userRepo,filmRepo)
 
                 setFragment(fragmentHome)
@@ -88,7 +88,6 @@ class home : AppCompatActivity() {
             fragmentTransaction.commit()
             currFragment = fragment
         }
-
     }
 
     private fun changeIcon(imageView: ImageView, int: Int) {

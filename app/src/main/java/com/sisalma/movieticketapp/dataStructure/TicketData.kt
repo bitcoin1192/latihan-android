@@ -1,4 +1,4 @@
-package com.sisalma.movieticketapp
+package com.sisalma.movieticketapp.dataStructure
 
 data class ticketData(val expDate:String = "",
                       val qrData:String = "",
