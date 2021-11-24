@@ -40,6 +40,9 @@
             android:name=".appActivity.filmDetailActivity"
             android:exported="true" />
         <activity
+            android:name=".appActivity.buyTicket.buyTicketActivity"
+            android:exported="true" />
+        <activity
             android:name=".onboarding.splash_screen"
             android:exported="true">
             <intent-filter>

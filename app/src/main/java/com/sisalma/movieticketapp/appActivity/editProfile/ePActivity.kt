@@ -34,7 +34,7 @@ class editProfileActivity: AppCompatActivity() {
         }
 
         uiBind.ivBackButton.setOnClickListener {
-
+            finish()
         }
 
     }
