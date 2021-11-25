@@ -137,6 +137,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView19" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_seat_selector"
         android:layout_width="409dp"
         android:layout_height="376dp"
         app:layout_constraintEnd_toEndOf="parent"
