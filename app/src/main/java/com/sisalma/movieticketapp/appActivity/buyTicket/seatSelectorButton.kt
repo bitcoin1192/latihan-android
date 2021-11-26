@@ -31,14 +31,27 @@ class seatSelectorButton(context: Context, attrs: AttributeSet): AppCompatImageV
         return seatIsSelected
     }
     fun setSeatIsSelectable(selectable: Boolean){
+        if(selectable) {
+            setImageState(intArrayOf(R.attr.seatIsSelectable), true)
+        }else{
+            setImageState(intArrayOf(-R.attr.seatIsSelectable), true)
+        }
         seatIsAvailable = selectable
         invalidate()
         requestLayout()
     }
-    fun setSeatSelected(selectable: Boolean){
-        Log.i("extend-iv","setSeatSelected is ${drawableState[0]}")
-        setImageState(intArrayOf(R.attr.seatIsSelectable), true)
-        seatIsSelected = selectable
+    fun seatSelectToggle(){
+        if(seatIsAvailable){
+            if(seatIsSelected){
+                setImageState(intArrayOf(-R.attr.seatIsChecked,R.attr.seatIsSelectable), true)
+            }else{
+                setImageState(intArrayOf(R.attr.seatIsChecked,R.attr.seatIsSelectable), true)
+            }
+        }else{
+            Log.i("extend-iv","Selected seat is not available")
+        }
+        seatIsSelected = !seatIsSelected
+        Log.i("extend-iv","setSeatSelected is now $seatIsSelected")
         invalidate()
         requestLayout()
     }

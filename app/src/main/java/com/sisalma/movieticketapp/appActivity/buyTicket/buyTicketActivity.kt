@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.dataStructure.Film
-import com.sisalma.movieticketapp.databinding.FragmentBuyTicketBinding
+import com.sisalma.movieticketapp.databinding.ActivityBuyTicketBinding
 
 class buyTicketActivity(): AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +18,7 @@ class buyTicketActivity(): AppCompatActivity() {
         val password = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
             .getString("password","")!!
         authUser.userAuthenticate(username,password)
-        var uiBind = FragmentBuyTicketBinding.inflate(layoutInflater)
+        var uiBind = ActivityBuyTicketBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
 
         val fragmentArrayList = arrayListOf<Fragment>(seatSelectionFragment(authUser,filmName),

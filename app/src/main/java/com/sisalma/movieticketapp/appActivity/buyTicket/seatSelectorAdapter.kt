@@ -10,12 +10,13 @@ import com.sisalma.movieticketapp.databinding.RowSeatBinding
 
 class seatSelectorAdapter: RecyclerView.Adapter<seatSelectorAdapter.seatSelection>() {
     val seatLevel = arrayListOf<String>("A","B","C","D")
+    val seatResult = HashMap<String,Boolean>()
     lateinit var ContextAdapter: Context
     var _binding: RowSeatBinding? = null
     private val uiBind get() = _binding!!
 
     override fun getItemCount(): Int {
-        return 4 // ABCD Level
+        return seatLevel.size
     }
 
     override fun onBindViewHolder(holder: seatSelection, position: Int) {
@@ -29,41 +30,40 @@ class seatSelectorAdapter: RecyclerView.Adapter<seatSelectorAdapter.seatSelectio
         ContextAdapter = parent.context
         var uiBind = RowSeatBinding.inflate(layoutInflater,parent,false)
 
-        return seatSelectorAdapter.seatSelection(uiBind)
+        return seatSelection(uiBind, seatResult)
     }
-    class seatSelection(view: RowSeatBinding):RecyclerView.ViewHolder(view.root){
+    class seatSelection(view: RowSeatBinding, seatResult: HashMap<String, Boolean>):RecyclerView.ViewHolder(view.root){
         val uiBind = view
-        var result = HashMap<String, Boolean>()
+        val result = seatResult
+        val seatAvailability = arrayListOf<Boolean>(true,false,true,false)
+        val rowSeat = arrayListOf<seatSelectorButton>(uiBind.seatSelector1,uiBind.seatSelector2,
+                                    uiBind.seatSelector3,uiBind.seatSelector4)
+
         fun bindSeat(seatLevelName: String){
+            selectAvailableSeat()
             uiBind.tvRowIndicator.text = seatLevelName
-            uiBind.seatSelector1.setOnClickListener {
-                if(result.containsKey(seatLevelName+"1")){
-                    result.remove(seatLevelName+"1")
-                    uiBind.seatSelector1.setSeatSelected(false)
-                }else {
-                    result.put(seatLevelName+"1", true)
-                    uiBind.seatSelector1.setSeatSelected(true)
+            // Iterate over array of seatSelectorButton and
+            // then set the onClickListener to respond to user input
+            rowSeat.forEachIndexed { index, seatSelectorButton ->
+                seatSelectorButton.setOnClickListener {
+                    val seatName = seatLevelName+index.toString()
+                    if(result.containsKey(seatName)) {
+                        result.remove(seatName)
+                    }
+                    else {
+                        result.put(seatName, true)
+                    }
+                    seatSelectorButton.seatSelectToggle()
                 }
             }
-            uiBind.seatSelector2.setOnClickListener {
-                if(result.containsKey(seatLevelName+"2")){
-                    result.remove(seatLevelName+"2")
-                }else {
-                    result.put(seatLevelName+"2", true)
-                }
-            }
-            uiBind.seatSelector3.setOnClickListener {
-                if(result.containsKey(seatLevelName+"3")){
-                    result.remove(seatLevelName+"3")
-                }else {
-                    result.put(seatLevelName+"3", true)
-                }
-            }
-            uiBind.seatSelector4.setOnClickListener {
-                if(result.containsKey(seatLevelName+"4")){
-                    result.remove(seatLevelName+"4")
-                }else {
-                    result.put(seatLevelName+"4", true)
+        }
+
+        fun selectAvailableSeat(){
+            rowSeat.forEachIndexed { index, seatSelectorButton ->
+                if(seatAvailability[index]){
+                    seatSelectorButton.setSeatIsSelectable(true)
+                }else{
+                    seatSelectorButton.setSeatIsSelectable(false)
                 }
             }
         }

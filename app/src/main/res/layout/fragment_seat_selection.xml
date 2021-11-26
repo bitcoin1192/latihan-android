@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Global_blue"
-    tools:context=".onboarding.OnboardingOneActivity">
+    tools:context=".appActivity.buyTicket.buyTicketActivity">
 
     <Button
-        android:id="@+id/btn_home"
+        android:id="@+id/btn_ticket_buy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -101,7 +101,7 @@
         android:text="Booked"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_home"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ticket_buy"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -117,7 +117,7 @@
         android:text="Empty"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_home"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ticket_buy"
         app:layout_constraintStart_toEndOf="@+id/textView18" />
 
     <TextView
@@ -133,7 +133,7 @@
         android:text="Selected"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_home"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ticket_buy"
         app:layout_constraintStart_toEndOf="@+id/textView19" />
 
     <androidx.recyclerview.widget.RecyclerView

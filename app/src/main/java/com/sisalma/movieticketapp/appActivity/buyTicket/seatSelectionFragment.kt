@@ -1,6 +1,7 @@
 package com.sisalma.movieticketapp.appActivity.buyTicket
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,14 @@ class seatSelectionFragment(authUser: authenticatedUsers, filmName: String): Fra
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         uiBind.tvKursi.text = filmName
-        uiBind.rvSeatSelector.adapter = seatSelectorAdapter()
+        val adapter = seatSelectorAdapter()
+        uiBind.rvSeatSelector.adapter = adapter
         uiBind.rvSeatSelector.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        uiBind.imageView3.setOnClickListener {
+            activity?.finish()
+        }
+        uiBind.btnTicketBuy.setOnClickListener {
+            Log.i("ticketBuyBtn",adapter.seatResult.toString())
+        }
     }
 }
