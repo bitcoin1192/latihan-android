@@ -10,17 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.FragmentSeatSelectionBinding
 
-class seatSelectionFragment(authUser: authenticatedUsers, filmName: String): Fragment() {
-    var _binding: FragmentSeatSelectionBinding? = null
+class seatSelectionFragment(filmName: String): Fragment() {
     val filmName = filmName
+    var _binding: FragmentSeatSelectionBinding? = null
     private val uiBind get() = _binding!!
-    val authUser = authUser
-
+    lateinit var ticketActivity:buyTicketActivity
+    lateinit var adapter:seatSelectorAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        ticketActivity = activity as buyTicketActivity
         _binding = FragmentSeatSelectionBinding.inflate(inflater,container,false)
         return uiBind.root
     }
@@ -28,14 +29,21 @@ class seatSelectionFragment(authUser: authenticatedUsers, filmName: String): Fra
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         uiBind.tvKursi.text = filmName
-        val adapter = seatSelectorAdapter()
+        adapter = seatSelectorAdapter()
         uiBind.rvSeatSelector.adapter = adapter
         uiBind.rvSeatSelector.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
         uiBind.imageView3.setOnClickListener {
-            activity?.finish()
+            ticketActivity.backPage()
         }
+
         uiBind.btnTicketBuy.setOnClickListener {
             Log.i("ticketBuyBtn",adapter.seatResult.toString())
+            ticketActivity.nextPage()
         }
+    }
+
+    fun returnSeatResult(): HashMap<String,Boolean>{
+        return adapter.seatResult
     }
 }

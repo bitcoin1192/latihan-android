@@ -24,6 +24,8 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String): Fra
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        uiBind.btnCancel.setOnClickListener {
+            activity?.finish()
+        }
     }
 }
