@@ -1,17 +1,18 @@
-package com.sisalma.movieticketapp.appActivity.buyTicket
+package com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment
 
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sisalma.movieticketapp.databinding.RowSeatBinding
 
-class seatSelectorAdapter: RecyclerView.Adapter<seatSelectorAdapter.seatSelection>() {
+class seatSelectorAdapter(): RecyclerView.Adapter<seatSelectorAdapter.seatSelection>() {
     val seatLevel = arrayListOf<String>("A","B","C","D")
+    var seatStatus = ArrayList<ArrayList<Boolean>>()
     val seatResult = HashMap<String,Boolean>()
     lateinit var ContextAdapter: Context
+
     var _binding: RowSeatBinding? = null
     private val uiBind get() = _binding!!
 
@@ -20,6 +21,7 @@ class seatSelectorAdapter: RecyclerView.Adapter<seatSelectorAdapter.seatSelectio
     }
 
     override fun onBindViewHolder(holder: seatSelection, position: Int) {
+        holder.setAvailableSeat(seatStatus[position])
         holder.bindSeat(seatLevel[position])
     }
 
@@ -32,11 +34,16 @@ class seatSelectorAdapter: RecyclerView.Adapter<seatSelectorAdapter.seatSelectio
 
         return seatSelection(uiBind, seatResult)
     }
+
+    fun setData(seatData: ArrayList<ArrayList<Boolean>>){
+        seatStatus = seatData
+    }
+
     class seatSelection(view: RowSeatBinding, seatResult: HashMap<String, Boolean>):RecyclerView.ViewHolder(view.root){
-        val uiBind = view
+        var seatAvailability: ArrayList<Boolean> = ArrayList()
+        private val uiBind = view
         val result = seatResult
-        val seatAvailability = arrayListOf<Boolean>(true,false,true,false)
-        val rowSeat = arrayListOf<seatSelectorButton>(uiBind.seatSelector1,uiBind.seatSelector2,
+        private val rowSeat = arrayListOf<seatSelectorButton>(uiBind.seatSelector1,uiBind.seatSelector2,
                                     uiBind.seatSelector3,uiBind.seatSelector4)
 
         fun bindSeat(seatLevelName: String){
@@ -60,12 +67,17 @@ class seatSelectorAdapter: RecyclerView.Adapter<seatSelectorAdapter.seatSelectio
 
         fun selectAvailableSeat(){
             rowSeat.forEachIndexed { index, seatSelectorButton ->
+                Log.i("seatIndex", seatAvailability.size.toString())
                 if(seatAvailability[index]){
                     seatSelectorButton.setSeatIsSelectable(true)
                 }else{
                     seatSelectorButton.setSeatIsSelectable(false)
                 }
             }
+        }
+
+        fun setAvailableSeat(seatStatus: ArrayList<Boolean>){
+            seatAvailability = seatStatus
         }
     }
 }

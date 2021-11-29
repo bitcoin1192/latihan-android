@@ -1,4 +1,4 @@
-package com.sisalma.movieticketapp.appActivity.buyTicket
+package com.sisalma.movieticketapp.appActivity.buyTicket.paymentFinishFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.FragmentPaymentConfirmBinding
 
-class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String): Fragment() {
+class paymentFinishFragment(authUser:authenticatedUsers,filmName: String): Fragment() {
     var _binding: FragmentPaymentConfirmBinding? = null
     private val uiBind get() = _binding!!
     val authUser = authUser
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,8 +25,6 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String): Fra
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        uiBind.btnCancel.setOnClickListener {
-            activity?.finish()
-        }
+
     }
 }

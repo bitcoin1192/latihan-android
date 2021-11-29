@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectorButton
+        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment.seatSelectorButton
             android:id="@+id/seat_selector_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:src="@drawable/seat_selection"/>
 
-        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectorButton
+        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment.seatSelectorButton
             android:id="@+id/seat_selector_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -46,7 +46,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectorButton
+        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment.seatSelectorButton
             android:id="@+id/seat_selector_3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:src="@drawable/seat_selection" />
 
-        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectorButton
+        <com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment.seatSelectorButton
             android:id="@+id/seat_selector_4"
             android:layout_width="0dp"
             android:layout_height="match_parent"

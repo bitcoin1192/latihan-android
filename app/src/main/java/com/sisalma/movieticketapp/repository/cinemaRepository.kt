@@ -63,6 +63,7 @@ class cinemaRepository {
     fun attachSessionData(){
         listSession.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(data: DataSnapshot) {
+                seatAvailable.clear()
                 Log.i("sessionDataListener", data.childrenCount.toString())
                 for (item in data.children){
                     sessionData.add(item.getValue(sesiTayang::class.java)!!)
@@ -71,6 +72,7 @@ class cinemaRepository {
                     }
                 }
                 sessionDataLiveData.value = sessionData
+                seatAvailableLiveData.value = seatAvailable
                 Log.i("seatArray",seatAvailable.toString())
             }
 

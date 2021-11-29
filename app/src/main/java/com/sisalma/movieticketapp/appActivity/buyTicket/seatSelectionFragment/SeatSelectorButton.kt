@@ -1,6 +1,5 @@
-package com.sisalma.movieticketapp.appActivity.buyTicket
+package com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment
 
-import android.animation.StateListAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log

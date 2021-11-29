@@ -8,7 +8,8 @@ data class cinemaDetail(
 data class sesiTayang(
     val namaFilm: String = "",
     val ruangTayang: Int = 1,
-    val tanggalTayang: String = ""
+    val tanggalTayang: String = "",
+    val priceList: Int = 0
 )
 data class availableSeat(
     val availableSeat: ArrayList<seat> = ArrayList()
