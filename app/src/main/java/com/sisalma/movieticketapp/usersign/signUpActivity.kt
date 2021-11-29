@@ -26,7 +26,7 @@ class signUpActivity : AppCompatActivity() {
 
         next.setOnClickListener(){
             var dataUser = dataUser(user.text.toString(),pass.text.toString(),mail.text.toString()
-                ,name.text.toString(),"0","")
+                ,name.text.toString(),0,"")
             var user = guestUser()
             if (dataUser.email!!.isEmpty() or dataUser.username.isEmpty() or dataUser.nama!!.isEmpty()
             or dataUser.password!!.isEmpty()){

@@ -154,6 +154,6 @@ data class dataUser(@get:PropertyName("username") @set:PropertyName("username") 
                     @get:PropertyName("password") @set:PropertyName("password") var password: String? = "",
                     @get:PropertyName("email") @set:PropertyName("email") var email: String? = "",
                     @get:PropertyName("nama") @set:PropertyName("nama") var nama: String? = "",
-                    @get:PropertyName("saldo") @set:PropertyName("saldo") var saldo: String = "",
+                    @get:PropertyName("saldo") @set:PropertyName("saldo") var saldo: Int = 0,
                     @get:PropertyName("url") @set:PropertyName("url") var url: String? = ""
                     )

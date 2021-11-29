@@ -16,13 +16,12 @@ class userRepository (userAuthenticated: authenticatedUsers){
     var userTicketActiveFB = FirebaseDatabase
         .getInstance(instanceOfFirebase)
         .getReference("ticketHistory")
-        .child(userObj.getUserData()?.username!!)
+        .child(userObj.getUserData()!!.username)
         .child("listActive")
 
     var userProfileFB = FirebaseDatabase
         .getInstance(instanceOfFirebase)
         .getReference("User")
-        .child(userObj.getUserData()?.username!!)
 
     private var ticketDataList:ArrayList<ticketData> = ArrayList()
     private val userOwnTicket: MutableLiveData<ArrayList<ticketData>> = MutableLiveData()
@@ -65,17 +64,20 @@ class userRepository (userAuthenticated: authenticatedUsers){
     }
 
     fun attachProfileData(){
-        userProfileFB.addValueEventListener(object: ValueEventListener {
+        userProfileFB.child(userObj.getUserData()!!.username).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
-                Log.i("attachProfileData", data.child("username").getValue().toString())
-                if(data != null) {
+                val user = data.getValue(dataUser::class.java)
+                Log.i("attachProfileData", user.toString())
+                userProfile.value = user
+                //Log.i("attachProfileData", data.child("username").getValue().toString())
+                /*if(data != null) {
                     userProfile.value = dataUser(data.child("username").getValue().toString(),
                         data.child("password").getValue().toString(),
                         data.child("email").getValue().toString(),
                         data.child("nama").getValue().toString(),
-                        data.child("saldo").getValue().toString(),
+                        data.child("saldo").getValue(),
                         data.child("url").getValue().toString())
-                }
+                }*/
             }
 
 
