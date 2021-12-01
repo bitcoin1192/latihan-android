@@ -48,13 +48,11 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
             binding.tvNama.text = (it.nama)
             binding.tvSaldo.text = convertInt2Rupiah(it.saldo)
 
-            if(it.url != "" || it.url != "-") {
-                Glide.with(binding.ivProfile)
-                    .load(it.url)
-                    .placeholder(R.drawable.defaultprofilepic)
-                    .circleCrop()
-                    .into(binding.ivProfile)
-            }
+            Glide.with(binding.ivProfile)
+                .load(it.url)
+                .placeholder(R.drawable.defaultprofilepic)
+                .circleCrop()
+                .into(binding.ivProfile)
         })
 
         filmList.observe(this.viewLifecycleOwner, Observer{
