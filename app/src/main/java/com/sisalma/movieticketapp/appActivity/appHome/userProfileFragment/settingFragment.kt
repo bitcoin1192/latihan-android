@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.editProfile.editProfileActivity
 import com.sisalma.movieticketapp.appActivity.saldoTopup.historiDompet
 import com.sisalma.movieticketapp.dataUser
@@ -39,7 +40,9 @@ class settingFragment(userRepository: userRepository) : Fragment() {
             uiBind.ivNama.text = it.nama
             uiBind.tvEmail.text = it.email
             Glide.with(uiBind.ivProfile)
-                .load(it.url).circleCrop()
+                .load(it.url)
+                .placeholder(R.drawable.ic_profile)
+                .circleCrop()
                 .into(uiBind.ivProfile)
         })
 

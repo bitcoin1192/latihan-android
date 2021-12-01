@@ -50,7 +50,9 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
 
             if(it.url != "" || it.url != "-") {
                 Glide.with(binding.ivProfile)
-                    .load(it.url).circleCrop()
+                    .load(it.url)
+                    .placeholder(R.drawable.defaultprofilepic)
+                    .circleCrop()
                     .into(binding.ivProfile)
             }
         })
