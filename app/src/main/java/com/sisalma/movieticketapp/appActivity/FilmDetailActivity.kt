@@ -17,7 +17,7 @@ class filmDetailActivity : AppCompatActivity() {
         var binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val detailParcel: Film = intent.getParcelableExtra<Film>("filmDetail")!!
+        val detailParcel = intent.getParcelableExtra<Film>("filmDetail")!!
         binding.tvKursi.text = detailParcel.judul
         binding.tvGenre.text = detailParcel.genre
         binding.tvDesc.text = detailParcel.desc

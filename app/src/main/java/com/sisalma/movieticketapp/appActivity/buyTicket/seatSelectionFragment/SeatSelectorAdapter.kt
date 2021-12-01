@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sisalma.movieticketapp.databinding.RowSeatBinding
 
-class seatSelectorAdapter(): RecyclerView.Adapter<seatSelectorAdapter.seatSelection>() {
+class seatSelectorAdapter(saldoSeat: Int): RecyclerView.Adapter<seatSelectorAdapter.seatSelection>() {
+    val hargaSeat = saldoSeat
     val seatLevel = arrayListOf<String>("A","B","C","D")
     var seatStatus = ArrayList<ArrayList<Boolean>>()
-    val seatResult = HashMap<String,Boolean>()
+    val seatResult = HashMap<String,Int>()
     lateinit var ContextAdapter: Context
 
     var _binding: RowSeatBinding? = null
@@ -32,15 +33,16 @@ class seatSelectorAdapter(): RecyclerView.Adapter<seatSelectorAdapter.seatSelect
         ContextAdapter = parent.context
         var uiBind = RowSeatBinding.inflate(layoutInflater,parent,false)
 
-        return seatSelection(uiBind, seatResult)
+        return seatSelection(uiBind, seatResult, hargaSeat)
     }
 
     fun setData(seatData: ArrayList<ArrayList<Boolean>>){
         seatStatus = seatData
     }
 
-    class seatSelection(view: RowSeatBinding, seatResult: HashMap<String, Boolean>):RecyclerView.ViewHolder(view.root){
+    class seatSelection(view: RowSeatBinding, seatResult: HashMap<String, Int>, hargaSeat: Int):RecyclerView.ViewHolder(view.root){
         var seatAvailability: ArrayList<Boolean> = ArrayList()
+        val seatRowPrice = hargaSeat
         private val uiBind = view
         val result = seatResult
         private val rowSeat = arrayListOf<seatSelectorButton>(uiBind.seatSelector1,uiBind.seatSelector2,
@@ -58,7 +60,7 @@ class seatSelectorAdapter(): RecyclerView.Adapter<seatSelectorAdapter.seatSelect
                         result.remove(seatName)
                     }
                     else {
-                        result.put(seatName, true)
+                        result.put(seatName, seatRowPrice)
                     }
                     seatSelectorButton.seatSelectToggle()
                 }

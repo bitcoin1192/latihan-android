@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.*
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.appActivity.filmDetailActivity
@@ -46,6 +47,12 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
             Log.e("userProfile change", "")
             binding.tvNama.text = (it.nama)
             binding.tvSaldo.text = convertInt2Rupiah(it.saldo)
+
+            if(it.url != "" || it.url != "-") {
+                Glide.with(binding.ivProfile)
+                    .load(it.url).circleCrop()
+                    .into(binding.ivProfile)
+            }
         })
 
         filmList.observe(this.viewLifecycleOwner, Observer{

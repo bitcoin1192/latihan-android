@@ -19,16 +19,16 @@ class editProfileActivity: AppCompatActivity() {
 
         val authUser = authenticatedUsers()
         authUser.userAuthenticate(name,pass)
-        authUser.isAuthenticated()
+
         Log.i("editProfile", "It's alive")
 
         uiBind.btnHome.setOnClickListener {
             authUser.updateUserData(uiBind.etNama.text.toString(),
                 uiBind.etEmail.text.toString(),
-                uiBind.etPassword.text.toString())
+                uiBind.etPassword.text.toString(),null,null)
+
             val editSettings = settings.edit()
-            editSettings.putString("password",uiBind.etPassword.text.toString())
-                .apply()
+            editSettings.putString("password",uiBind.etPassword.text.toString()).apply()
             Toast.makeText(this,"Your profile has been change",Toast.LENGTH_SHORT).show()
             finish()
         }
