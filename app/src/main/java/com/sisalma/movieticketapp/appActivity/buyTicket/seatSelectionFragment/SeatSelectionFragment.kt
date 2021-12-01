@@ -10,17 +10,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sisalma.movieticketapp.appActivity.buyTicket.buyTicketActivity
+import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.FragmentSeatSelectionBinding
 import com.sisalma.movieticketapp.repository.cinemaRepository
 
-class seatSelectionFragment(filmName: String, cinemaRepository: cinemaRepository): Fragment() {
-    val filmName = filmName
+class seatSelectionFragment(filmObj: Film, cinemaRepository: cinemaRepository): Fragment() {
+    val filmDetail = filmObj
     val cinemaRepo = cinemaRepository
 
     var _binding: FragmentSeatSelectionBinding? = null
     private val uiBind get() = _binding!!
     lateinit var ticketActivity: buyTicketActivity
-    lateinit var adapter: seatSelectorAdapter
+    val adapter: seatSelectorAdapter = seatSelectorAdapter(filmDetail.priceList)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +37,8 @@ class seatSelectionFragment(filmName: String, cinemaRepository: cinemaRepository
         super.onActivityCreated(savedInstanceState)
         val seatData = seatViewModel(cinemaRepo,this.viewLifecycleOwner)
         val seatArray = seatData.getSeatStatus()
-        uiBind.tvKursi.text = filmName
-        adapter = seatSelectorAdapter()
+        uiBind.tvKursi.text = filmDetail.judul
+        //adapter = seatSelectorAdapter(filmDetail.priceList)
 
         seatArray.observe(this.viewLifecycleOwner, Observer {
             adapter.setData(it)
@@ -64,7 +65,7 @@ class seatSelectionFragment(filmName: String, cinemaRepository: cinemaRepository
         }
     }
 
-    fun returnSeatResult(): HashMap<String,Boolean>{
+    fun returnSeatResult(): HashMap<String,Int>{
         return adapter.seatResult
     }
 }

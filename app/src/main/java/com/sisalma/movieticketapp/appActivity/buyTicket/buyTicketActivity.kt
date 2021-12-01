@@ -15,6 +15,8 @@ import com.sisalma.movieticketapp.repository.cinemaRepository
 class buyTicketActivity(): AppCompatActivity() {
     lateinit var uiBind: ActivityBuyTicketBinding
     lateinit var fragmentArrayList: ArrayList<Fragment>
+    lateinit var filmDetail: Film
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,7 +24,7 @@ class buyTicketActivity(): AppCompatActivity() {
         val cinemaRepo = cinemaRepository()
 
         //username and password is always available after login page
-        val filmName = intent.getParcelableExtra<Film>("filmData")?.judul.toString()
+        filmDetail = intent.getParcelableExtra<Film>("filmData")!!
         val username = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
             .getString("username","")!!
         val password = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
@@ -31,10 +33,10 @@ class buyTicketActivity(): AppCompatActivity() {
         uiBind = ActivityBuyTicketBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
 
-        val seatFragment = seatSelectionFragment(filmName, cinemaRepo)
+        val seatFragment = seatSelectionFragment(filmDetail, cinemaRepo)
         fragmentArrayList = arrayListOf<Fragment>(seatFragment,
-            paymentConfirmFragment(authUser, filmName),
-            paymentFinishFragment(authUser, filmName)
+            paymentConfirmFragment(authUser, filmDetail.judul, seatFragment.returnSeatResult()),
+            paymentFinishFragment(authUser, filmDetail.judul)
         )
         uiBind.fragmentHolder.adapter = pageHolder(this,fragmentArrayList)
         uiBind.fragmentHolder.isUserInputEnabled = false

@@ -23,6 +23,7 @@ class userRepository (userAuthenticated: authenticatedUsers){
         .getInstance(instanceOfFirebase)
         .getReference("User")
 
+
     private var ticketDataList:ArrayList<ticketData> = ArrayList()
     private val userOwnTicket: MutableLiveData<ArrayList<ticketData>> = MutableLiveData()
 
@@ -69,15 +70,6 @@ class userRepository (userAuthenticated: authenticatedUsers){
                 val user = data.getValue(dataUser::class.java)
                 Log.i("attachProfileData", user.toString())
                 userProfile.value = user
-                //Log.i("attachProfileData", data.child("username").getValue().toString())
-                /*if(data != null) {
-                    userProfile.value = dataUser(data.child("username").getValue().toString(),
-                        data.child("password").getValue().toString(),
-                        data.child("email").getValue().toString(),
-                        data.child("nama").getValue().toString(),
-                        data.child("saldo").getValue(),
-                        data.child("url").getValue().toString())
-                }*/
             }
 
 

@@ -34,6 +34,9 @@
             android:name=".usersign.signInActivity"
             android:exported="true" />
         <activity
+            android:name=".photoUploadActivity"
+            android:exported="true" />
+        <activity
             android:name=".appActivity.editProfile.editProfileActivity"
             android:exported="true" />
         <activity
@@ -41,6 +44,12 @@
             android:exported="true" />
         <activity
             android:name=".appActivity.buyTicket.buyTicketActivity"
+            android:exported="true" />
+        <activity
+            android:name=".appActivity.saldoTopup.historiDompet"
+            android:exported="true" />
+        <activity
+            android:name=".appActivity.saldoTopup.topupDompet"
             android:exported="true" />
         <activity
             android:name=".onboarding.splash_screen"

@@ -12,5 +12,6 @@ data class Film (
     var judul: String = "",
     var play: HashMap<String,HashMap<String,String>> = HashMap(),
     var poster: String = "",
-    var rating: String = ""
+    var rating: String = "",
+    var priceList: Int = 0
 ):Parcelable

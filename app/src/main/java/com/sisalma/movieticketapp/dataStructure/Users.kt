@@ -1,13 +1,23 @@
 package com.sisalma.movieticketapp
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.sisalma.movieticketapp.appActivity.home
 import kotlinx.coroutines.delay
+import kotlinx.parcelize.Parcelize
+import java.util.*
 
 abstract class Users() {
     lateinit var username: String
     lateinit var nama: String
-    abstract fun getPhotoLink(): String?
 }
 
 abstract class readOnly: Users() {
@@ -17,7 +27,7 @@ abstract class readWrite: Users(){
     abstract fun userAuthenticate(inputUser: String, inputPass: String)
     abstract fun userDeauthenticate(): String
     abstract fun getUserData():dataUser?
-    abstract fun updateUserData(nama:String?, email: String?, password: String?)
+    abstract fun updateUserData(nama:String?, email: String?, password: String?, saldo: Int?, url: String?)
     abstract fun setProfilePic()
 }
 class authenticatedUsers():readWrite(){
@@ -25,19 +35,39 @@ class authenticatedUsers():readWrite(){
     var authenticated = false
     var authFailed  = false
     val database = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User")
+    val storageRef  = FirebaseStorage.getInstance().getReference("Photos")
 
     fun isAuthFailed(): Boolean{
         return authFailed
     }
+
     fun isAuthenticated(): Boolean{
         return authenticated
     }
+
+    fun uploadImagetoFBStore(filepath: Uri){
+        var path = storageRef.child(UUID.randomUUID().toString())
+        path.putFile(filepath)
+            .addOnSuccessListener {
+                path.downloadUrl.addOnSuccessListener {
+                    //savetoFirebase(path.path)
+                    Log.i("uploadProfPic",it.toString())
+                    updateUserData(null,null,null,null, it.toString())
+                }
+
+            }
+            .addOnFailureListener {
+                    e ->
+            }
+    }
+
     override fun userDeauthenticate(): String{
         TODO("Local Deauth by ending authenticated user lifecycle")
     }
 
     override fun setProfilePic() {
-        TODO("Not yet implemented")
+        TODO("upload image then update url user data")
+
     }
 
     override fun getUserData():dataUser? {
@@ -49,7 +79,7 @@ class authenticatedUsers():readWrite(){
         }
     }
 
-    override fun updateUserData(nama:String?, email: String?, password: String?) {
+    override fun updateUserData(nama:String?, email: String?, password: String?, saldo: Int?, url: String?) {
         if(authenticated){
             database.child(user.username).addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -63,17 +93,20 @@ class authenticatedUsers():readWrite(){
                     if(!nama.isNullOrEmpty()){
                         user.nama = nama
                     }
+                    if(saldo != null){
+                        user.saldo += saldo
+                    }
+                    if(!url.isNullOrEmpty()){
+                        user.url = url
+                    }
+                    Log.i("updateInfo",user.toString())
                     database.child(user.username).setValue(user)
                 }
                 override fun onCancelled(p0: DatabaseError) {
-
+                    Log.e("updateUserData",p0.message)
                 }
             })
         }
-    }
-
-    override fun getPhotoLink(): String? {
-        TODO("Not yet implemented")
     }
 
     override fun userAuthenticate(inputUser: String, inputPass: String) {
@@ -107,6 +140,7 @@ class authenticatedUsers():readWrite(){
             })
         }
     }
+
     suspend fun testAuthorizeUser(authenticatedUsers: authenticatedUsers): Boolean{
         var counter = 0
         while (counter <= 4){
@@ -127,16 +161,14 @@ class authenticatedUsers():readWrite(){
 
 class guestUser():readOnly(){
     val database = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User")
+
     init {
         username = "Guest"
-    }
-    override fun getPhotoLink(): String? {
-        TODO("Get default image from firebase storage and set it to profilePhotoCache")
     }
 
     override fun daftarBaru(dataUser:dataUser){
         //Check for existing username
-        database.child(dataUser.username).addValueEventListener(object : ValueEventListener {
+        database.child(dataUser.username).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var user = dataSnapshot.getValue(dataUser::class.java)
                 //On username not found, allow user to use input username
@@ -150,10 +182,11 @@ class guestUser():readOnly(){
     }
 }
 
+@Parcelize
 data class dataUser(@get:PropertyName("username") @set:PropertyName("username") var username: String = "",
                     @get:PropertyName("password") @set:PropertyName("password") var password: String? = "",
                     @get:PropertyName("email") @set:PropertyName("email") var email: String? = "",
                     @get:PropertyName("nama") @set:PropertyName("nama") var nama: String? = "",
                     @get:PropertyName("saldo") @set:PropertyName("saldo") var saldo: Int = 0,
                     @get:PropertyName("url") @set:PropertyName("url") var url: String? = ""
-                    )
+                    ):Parcelable
