@@ -56,6 +56,10 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
         })
 
         filmList.observe(this.viewLifecycleOwner, Observer{
+            if(binding.rvComingSoon.adapter == null || binding.rvNowPlaying.adapter == null){
+                binding.rvNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                binding.rvComingSoon.layoutManager = LinearLayoutManager(context)
+            }
             binding.rvNowPlaying.adapter = NowPlayingAdapter(it) { data: Film ->
                 val intent = Intent(
                     activity,
@@ -70,8 +74,6 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
                 ).putExtra("filmDetail",data)
                 startActivity(intent)
             }
-            binding.rvNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            binding.rvComingSoon.layoutManager = LinearLayoutManager(context)
         })
     }
     override fun onDestroyView() {

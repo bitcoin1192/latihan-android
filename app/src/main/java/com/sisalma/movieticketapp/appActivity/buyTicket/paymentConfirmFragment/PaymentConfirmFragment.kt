@@ -45,6 +45,9 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seat
         uiBind.ivButtonBack.setOnClickListener {
             ticketActivity.backPage()
         }
+        uiBind.btnConfirm.setOnClickListener {
+            authUser
+        }
         userDetail = authUser.getUserData()!!
     }
 
@@ -54,6 +57,9 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seat
         uiBind.rcCheckout.adapter?.notifyDataSetChanged()
         uiBind.tvSaldo.text = calculateTotal(seatResult)
         uiBind.tvSisa.text = calculateTotal(userDetail.saldo)
+        if(userDetail.saldo-total < 0){
+            uiBind.btnConfirm.visibility = View.INVISIBLE
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
