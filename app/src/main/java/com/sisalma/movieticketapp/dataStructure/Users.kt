@@ -28,7 +28,7 @@ abstract class readWrite: Users(){
     abstract fun userDeauthenticate(): String
     abstract fun getUserData():dataUser?
     abstract fun updateUserData(nama:String?, email: String?, password: String?, saldo: Int?, url: String?)
-    abstract fun setProfilePic()
+    abstract fun uploadImagetoFBStore(filepath: Uri)
 }
 class authenticatedUsers():readWrite(){
     var user = dataUser()
@@ -45,7 +45,7 @@ class authenticatedUsers():readWrite(){
         return authenticated
     }
 
-    fun uploadImagetoFBStore(filepath: Uri){
+    override fun uploadImagetoFBStore(filepath: Uri){
         var path = storageRef.child(UUID.randomUUID().toString())
         path.putFile(filepath)
             .addOnSuccessListener {
@@ -54,20 +54,14 @@ class authenticatedUsers():readWrite(){
                     Log.i("uploadProfPic",it.toString())
                     updateUserData(null,null,null,null, it.toString())
                 }
-
             }
             .addOnFailureListener {
-                    e ->
+                    e -> Log.i("uploadProfPic", e.message.toString())
             }
     }
 
     override fun userDeauthenticate(): String{
         TODO("Local Deauth by ending authenticated user lifecycle")
-    }
-
-    override fun setProfilePic() {
-        TODO("upload image then update url user data")
-
     }
 
     override fun getUserData():dataUser? {
