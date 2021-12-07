@@ -26,12 +26,13 @@ class userRepository (userAuthenticated: authenticatedUsers){
 
     private var ticketDataList:ArrayList<ticketData> = ArrayList()
     private val userOwnTicket: MutableLiveData<ArrayList<ticketData>> = MutableLiveData()
-
+    private val userOwnSeat: HashMap<String, HashMap<String,Int>> = HashMap()
     private var userProfile: MutableLiveData<dataUser> = MutableLiveData()
 
     init {
         attachListener()
     }
+
     fun getUserTicket():MutableLiveData<ArrayList<ticketData>>{
         return userOwnTicket
     }
@@ -40,6 +41,9 @@ class userRepository (userAuthenticated: authenticatedUsers){
         return userProfile
     }
 
+    fun getUserSeat(namaFilm: String): HashMap<String,Int>{
+        return userOwnSeat.get(namaFilm)!!
+    }
     fun attachListener(){
         attachProfileData()
         attachTicketData()
@@ -49,10 +53,17 @@ class userRepository (userAuthenticated: authenticatedUsers){
         userTicketActiveFB.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
                 ticketDataList.clear()
+                userOwnSeat.clear()
                 Log.i("attachTicketData", data.childrenCount.toString())
                 for (data in data.getChildren()){
                     if(data != null) {
                         ticketDataList.add(data.getValue(ticketData::class.java)!!)
+                    }
+                    for(seat in data.child("selectedSeat").children){
+                        val test = HashMap<String,Int>()
+                        Log.i("test",seat.key.toString()+seat.value.toString())
+                        test.put(seat.key as String,0)
+                        userOwnSeat.put(data.getValue(ticketData::class.java)!!.namaFilm, test)
                     }
                 }
                 userOwnTicket.value = ticketDataList

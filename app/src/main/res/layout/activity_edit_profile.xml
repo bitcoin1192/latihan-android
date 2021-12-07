@@ -38,47 +38,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_hello"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/username"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
-
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
-        android:ems="10"
-        android:hint="@string/app_name"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/whiteHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_hello"
-        tools:text="Anggarisky" />
-
-    <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="@string/password"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePictureEdit" />
 
     <EditText
         android:id="@+id/et_password"
@@ -88,10 +56,11 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/white"
         android:ems="10"
+        android:hint="Ketikkan password baru"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        android:text="Name"
         android:textColor="@color/white"
+        android:textColorHint="@color/whiteHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -125,13 +94,14 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/white"
         android:ems="10"
+        android:hint="Ganti nama panggilan"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColor="@color/white"
+        android:textColorHint="@color/whiteHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        tools:text="Angga" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView6"
@@ -152,16 +122,17 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/white"
         android:ems="10"
+        android:hint="Ganti alamat email"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColor="@color/white"
+        android:textColorHint="@color/whiteHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        tools:text="angga.bwa@gmail.com" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/profilePictureEdit"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="32dp"

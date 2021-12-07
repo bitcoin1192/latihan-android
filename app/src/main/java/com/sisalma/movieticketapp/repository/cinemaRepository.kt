@@ -66,7 +66,7 @@ class cinemaRepository {
                 seatAvailable.clear()
                 Log.i("sessionDataListener", data.childrenCount.toString())
                 for (item in data.children){
-                    sessionData.add(item.getValue(sesiTayang::class.java)!!)
+                    item.getValue(sesiTayang::class.java)?.let { sessionData.add(it) }
                     for(seat in item.child("availableSeat").children){
                         seatAvailable.add(seat.value as Boolean)
                     }

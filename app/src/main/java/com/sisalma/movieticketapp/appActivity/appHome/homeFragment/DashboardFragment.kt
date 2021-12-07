@@ -23,23 +23,18 @@ import com.sisalma.movieticketapp.repository.userRepository
 import java.util.*
 
 class dashboardFragment(userRepository: userRepository, filmRepository: filmRepository) : Fragment() {
-    var _binding: FragmentDashboardBinding? = null
-    private val binding get() = _binding!!
-
+    //var _binding: FragmentDashboardBinding? = null
+    //private val binding get() = _binding!!
+    private lateinit var binding: FragmentDashboardBinding
     val userProfile = userRepository.getUserProfile()
     val filmRepo = filmRepository
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentDashboardBinding.inflate(inflater,container,false)
-        return binding.root
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        binding = FragmentDashboardBinding.inflate(inflater,container,false)
         val viewModelFilm = viewModelFilm(filmRepo, this.viewLifecycleOwner)
         val filmList = viewModelFilm.getFilmData()
 
@@ -75,10 +70,7 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
                 startActivity(intent)
             }
         })
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

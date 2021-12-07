@@ -53,7 +53,11 @@ class seatAdapter(seatResult: HashMap<String,Int>): RecyclerView.Adapter<seatAda
         private val uiBind = view
         fun bindMap(seatResult: itemData){
             uiBind.tvKursi.text = "Seat "+seatResult.kursi
-            uiBind.tvHarga.text = seatResult.harga
+            if(seatResult.harga == "Rp 0,00") {
+                uiBind.tvHarga.text = ""
+            }else{
+                uiBind.tvHarga.text = seatResult.harga
+            }
         }
     }
 

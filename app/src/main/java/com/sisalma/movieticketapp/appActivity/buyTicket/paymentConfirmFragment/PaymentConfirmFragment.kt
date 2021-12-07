@@ -46,7 +46,9 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seat
             ticketActivity.backPage()
         }
         uiBind.btnConfirm.setOnClickListener {
-            authUser
+            authUser.buyTicket(ticketActivity.filmDetail.judul)
+            authUser.potongSaldo(total)
+            ticketActivity.nextPage()
         }
         userDetail = authUser.getUserData()!!
     }
@@ -59,6 +61,8 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seat
         uiBind.tvSisa.text = calculateTotal(userDetail.saldo)
         if(userDetail.saldo-total < 0){
             uiBind.btnConfirm.visibility = View.INVISIBLE
+        }else{
+            uiBind.btnConfirm.visibility = View.VISIBLE
         }
     }
 

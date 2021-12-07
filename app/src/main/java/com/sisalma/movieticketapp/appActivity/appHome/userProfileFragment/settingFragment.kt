@@ -18,8 +18,7 @@ import com.sisalma.movieticketapp.repository.userRepository
 import java.util.*
 
 class settingFragment(userRepository: userRepository) : Fragment() {
-    var _binding: FragmentSettingBinding? = null
-    private val uiBind get() = _binding!!
+    private lateinit var uiBind: FragmentSettingBinding
     val userRepo = userRepository
 
     override fun onCreateView(
@@ -27,15 +26,12 @@ class settingFragment(userRepository: userRepository) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentSettingBinding.inflate(inflater,container,false)
-        return uiBind.root
-    }
+        uiBind = FragmentSettingBinding.inflate(inflater,container,false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         val setting = activity?.applicationContext?.getSharedPreferences("app-setting",MODE_PRIVATE)?.edit()!!
         val parcelableData = userRepo.userObj.getUserData()!!
         val userData = userRepo.getUserProfile()
+
         userData.observe(this.viewLifecycleOwner,{
             uiBind.ivNama.text = it.nama
             uiBind.tvEmail.text = it.email
@@ -54,14 +50,17 @@ class settingFragment(userRepository: userRepository) : Fragment() {
         uiBind.cardViewLogout.setOnClickListener {
             setting.remove("username")
             setting.remove("password")
+            setting.remove("cleanAffinity")
             setting.commit()
             val intent = Intent(activity, splash_screen::class.java)
+
             startActivity(intent)
         }
+
         uiBind.cardViewWallet.setOnClickListener {
             val intent = Intent(this.activity,historiDompet::class.java).putExtra("saldoUser",parcelableData)
             startActivity(intent)
         }
+        return uiBind.root
     }
-
 }

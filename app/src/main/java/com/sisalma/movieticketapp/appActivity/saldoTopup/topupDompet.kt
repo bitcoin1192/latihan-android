@@ -43,7 +43,7 @@ class topupDompet: AppCompatActivity() {
         }
 
         uiBind.btnTopUp.setOnClickListener {
-            authUser.updateUserData(null,null,null,topupSaldo,null)
+            authUser.topupSaldo(topupSaldo)
             val intent = Intent(this, home::class.java)
             startActivity(intent)
             finishAffinity()

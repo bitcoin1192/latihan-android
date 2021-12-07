@@ -26,8 +26,9 @@ class home : AppCompatActivity() {
         setContentView(binding.root)
 
         val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-        val name = settings.getString("username",null)?:""
-        val pass = settings.getString("password",null)?:""
+        val name = settings.getString("username","")?:""
+        val pass = settings.getString("password","")?:""
+        val oldUser = settings.getBoolean("oldUser",false)
 
         val userObject = authenticatedUsers()
         userObject.userAuthenticate(name,pass)
@@ -66,9 +67,11 @@ class home : AppCompatActivity() {
                     changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
                     changeIcon(binding.ivMenu3, R.drawable.ic_profile_active)
                 }
+                if (!oldUser){
+                    settings.edit().putBoolean("oldUser", true).apply()
+                }
             }
         }
-
     }
 
 

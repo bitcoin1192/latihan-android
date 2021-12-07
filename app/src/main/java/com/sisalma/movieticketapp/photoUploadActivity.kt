@@ -23,7 +23,7 @@ import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.appActivity.home
 import com.sisalma.movieticketapp.databinding.ActivityPhotouploadBinding
 
-class photoUploadActivity : AppCompatActivity(){
+class photoUploadActivity() : AppCompatActivity(){
 
     lateinit var filepath:Uri
 
@@ -34,8 +34,10 @@ class photoUploadActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
 
         val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
+        val settingEditor = settings.edit()
         val name = settings.getString("username",null)?:""
         val pass = settings.getString("password",null)?:""
+        val requestClean = settings.getBoolean("cleanAffinity",false)
         val user = intent.getParcelableExtra<dataUser>("data")
 
         val userObject = authenticatedUsers()
@@ -44,7 +46,12 @@ class photoUploadActivity : AppCompatActivity(){
         var uiBind = ActivityPhotouploadBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
 
-        uiBind.tvHello.text = "Selamat datang, "+user!!.nama
+        if(requestClean){
+            uiBind.tvHello.text = ""
+        }else{
+            uiBind.tvHello.text = "Selamat datang, "+user!!.nama
+        }
+
         val intentPhoto = registerForActivityResult(ActivityResultContracts.GetContent()) {
             if(it != null) {
                 filepath = it
@@ -57,7 +64,15 @@ class photoUploadActivity : AppCompatActivity(){
 
         uiBind.btnSave.setOnClickListener{
             userObject.uploadImagetoFBStore(filepath)
-            //finishAffinity()
+            if(requestClean){
+                finish()
+            }else{
+                val intent = Intent(this, home::class.java)
+                settingEditor.putBoolean("cleanAffinity",true)
+                settingEditor.commit()
+                finishAffinity()
+                startActivity(intent)
+            }
         }
 
         uiBind.btnHome.setOnClickListener(){
@@ -67,7 +82,6 @@ class photoUploadActivity : AppCompatActivity(){
         }
 
         uiBind.ivButtonBack.setOnClickListener(){
-            //Move back to login activity
             finish()
         }
 

@@ -21,16 +21,16 @@ class splash_screen : AppCompatActivity() {
             startActivity(intent)
             finishAffinity()
         }else{
-            if(setting.getString("oldUser","").isNullOrBlank()){
+            if(setting.getBoolean("oldUser",false)){
+                var intent = Intent(this, signInActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
                 handler.postDelayed({
                     var intent = Intent(this, OnboardingOneActivity::class.java)
                     startActivity(intent)
                     finish()
                 }, 500)
-            }else{
-                var intent = Intent(this, signInActivity::class.java)
-                startActivity(intent)
-                finish()
             }
         }
     }

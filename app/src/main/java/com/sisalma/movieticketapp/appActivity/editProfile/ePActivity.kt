@@ -1,5 +1,6 @@
 package com.sisalma.movieticketapp.appActivity.editProfile
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivityEditProfileBinding
+import com.sisalma.movieticketapp.photoUploadActivity
 
 class editProfileActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,11 @@ class editProfileActivity: AppCompatActivity() {
 
         uiBind.ivBackButton.setOnClickListener {
             finish()
+        }
+
+        uiBind.profilePictureEdit.setOnClickListener {
+            val intent = Intent(this, photoUploadActivity::class.java).putExtra("data",authUser.getUserData())
+            startActivity(intent)
         }
 
     }

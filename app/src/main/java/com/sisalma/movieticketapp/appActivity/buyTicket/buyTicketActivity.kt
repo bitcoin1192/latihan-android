@@ -1,5 +1,6 @@
 package com.sisalma.movieticketapp.appActivity.buyTicket
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment.paymentConfirmFragment
 import com.sisalma.movieticketapp.appActivity.buyTicket.paymentFinishFragment.paymentFinishFragment
 import com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment.seatSelectionFragment
+import com.sisalma.movieticketapp.appActivity.home
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.ActivityBuyTicketBinding
@@ -48,6 +50,10 @@ class buyTicketActivity(): AppCompatActivity() {
     fun nextPage(){
         if(uiBind.fragmentHolder.currentItem <= uiBind.fragmentHolder.childCount){
             uiBind.fragmentHolder.setCurrentItem(uiBind.fragmentHolder.currentItem + 1)
+        }else{
+            finishAffinity()
+            val intent = Intent(this, home::class.java)
+            startActivity(intent)
         }
         val seatFragment = fragmentArrayList[0] as seatSelectionFragment
         Log.i("seatResultActivity", seatFragment.returnSeatResult().toString())
