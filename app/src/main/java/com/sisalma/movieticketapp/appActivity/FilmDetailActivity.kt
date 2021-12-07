@@ -1,10 +1,12 @@
 package com.sisalma.movieticketapp.appActivity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.sisalma.movieticketapp.appActivity.buyTicket.buyTicketActivity
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.ActivityDetailBinding
 
@@ -15,7 +17,7 @@ class filmDetailActivity : AppCompatActivity() {
         var binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val detailParcel: Film = intent.getParcelableExtra<Film>("filmDetail")!!
+        val detailParcel = intent.getParcelableExtra<Film>("filmDetail")!!
         binding.tvKursi.text = detailParcel.judul
         binding.tvGenre.text = detailParcel.genre
         binding.tvDesc.text = detailParcel.desc
@@ -26,11 +28,12 @@ class filmDetailActivity : AppCompatActivity() {
         Log.i("Hashmap Test",detailParcel.play.toString())
 
         val player = playerHashMap2Array(detailParcel)
-        binding.rvWhoPlay.adapter = PlaysAdapter(player){
-        }
 
+        binding.rvWhoPlay.adapter = PlaysAdapter(player)
         binding.btnPilihBangku.setOnClickListener {
-
+            val intent = Intent(this,buyTicketActivity::class.java)
+                .putExtra("filmData",detailParcel)
+            startActivity(intent)
         }
 
         binding.ivBack.setOnClickListener {

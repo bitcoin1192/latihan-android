@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:constantSize="false">
+    <item app:seatIsSelectable="true"
+        app:seatIsChecked="true"
+        android:drawable="@drawable/ic_rectangle_selected" />
+    <item app:seatIsSelectable="true"
+        app:seatIsChecked="false"
+        android:drawable="@drawable/ic_rectangle_empty" />
+    <item app:seatIsSelectable="false"
+        app:seatIsChecked="true"
+        android:drawable="@drawable/ic_rectangle_booked" />
+    <item app:seatIsSelectable="false"
+        app:seatIsChecked="false"
+        android:drawable="@drawable/ic_rectangle_booked" />
+</selector>

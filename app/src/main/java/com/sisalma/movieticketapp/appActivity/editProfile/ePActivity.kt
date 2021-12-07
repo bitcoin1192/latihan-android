@@ -1,5 +1,6 @@
 package com.sisalma.movieticketapp.appActivity.editProfile
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivityEditProfileBinding
+import com.sisalma.movieticketapp.photoUploadActivity
 
 class editProfileActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,22 +21,27 @@ class editProfileActivity: AppCompatActivity() {
 
         val authUser = authenticatedUsers()
         authUser.userAuthenticate(name,pass)
-        authUser.isAuthenticated()
+
         Log.i("editProfile", "It's alive")
 
         uiBind.btnHome.setOnClickListener {
             authUser.updateUserData(uiBind.etNama.text.toString(),
                 uiBind.etEmail.text.toString(),
-                uiBind.etPassword.text.toString())
+                uiBind.etPassword.text.toString(),null,null)
+
             val editSettings = settings.edit()
-            editSettings.putString("password",uiBind.etPassword.text.toString())
-                .apply()
+            editSettings.putString("password",uiBind.etPassword.text.toString()).apply()
             Toast.makeText(this,"Your profile has been change",Toast.LENGTH_SHORT).show()
             finish()
         }
 
         uiBind.ivBackButton.setOnClickListener {
+            finish()
+        }
 
+        uiBind.profilePictureEdit.setOnClickListener {
+            val intent = Intent(this, photoUploadActivity::class.java).putExtra("data",authUser.getUserData())
+            startActivity(intent)
         }
 
     }

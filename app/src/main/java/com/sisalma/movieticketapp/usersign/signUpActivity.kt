@@ -6,58 +6,42 @@ import android.os.Bundle
 import android.widget.*
 import com.google.firebase.database.*
 import com.sisalma.movieticketapp.*
-import com.sisalma.movieticketapp.R
+import com.sisalma.movieticketapp.databinding.ActivitySignUpBinding
 
 
 class signUpActivity : AppCompatActivity() {
-    lateinit var database: DatabaseReference
+    private val guestUser = guestUser()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
-        //Set database reference to latihan-mta/User firebase
-        database = FirebaseDatabase.getInstance("https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("User")
-        //I wish this variable can be found automatically
-        var btnBack = findViewById<ImageView>(R.id.imageView4)
-        var next = findViewById<Button>(R.id.buttonTrue)
-        var user = findViewById<EditText>(R.id.inputUser)
-        var pass = findViewById<EditText>(R.id.inputPass)
-        var name = findViewById<EditText>(R.id.inputNama)
-        var mail = findViewById<EditText>(R.id.inputMail)
 
-        next.setOnClickListener(){
-            var dataUser = dataUser(user.text.toString(),pass.text.toString(),mail.text.toString()
-                ,name.text.toString(),"0","")
-            var user = guestUser()
-            if (dataUser.email!!.isEmpty() or dataUser.username.isEmpty() or dataUser.nama!!.isEmpty()
-            or dataUser.password!!.isEmpty()){
-                Toast.makeText(this,"Salah satu kolom diatas belum terisi", Toast.LENGTH_LONG).show()
+        var uiBind = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(uiBind.root)
+        val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE).edit()
+        uiBind.buttonTrue.setOnClickListener(){
+            var dataUser = dataUser(uiBind.inputUser.text.toString(),
+                uiBind.inputPass.text.toString(),
+                uiBind.inputMail.text.toString(),
+                uiBind.inputNama.text.toString(),
+                0,"")
+
+            if (dataUser.email!!.isEmpty() or dataUser.username.isEmpty() or
+                dataUser.nama!!.isEmpty() or dataUser.password!!.isEmpty()){
+                Toast.makeText(this,"Isi semua kolom diatas untuk melanjutkan pendaftaran akun", Toast.LENGTH_LONG).show()
             }else{
-                user.daftarBaru(dataUser)
+                guestUser.daftarBaru(dataUser)
+                Toast.makeText(this,"User berhasil dibuat", Toast.LENGTH_LONG).show()
+                settings.putString("username",dataUser.username)
+                settings.putString("password",dataUser.password)
+                settings.commit()
+                val intent = Intent(this, photoUploadActivity::class.java).putExtra("data",dataUser)
+                startActivity(intent)
             }
-
         }
-        btnBack.setOnClickListener(){
+
+        uiBind.imageView4.setOnClickListener(){
             //Move back to login activity
             finish()
         }
-    }
-    private fun saveUsertoFirebase(dataUser: Users){
-        database.child(dataUser.username!!).addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var user = dataSnapshot.getValue(Users::class.java)
-                if (user != null) {
-                    Toast.makeText(this@signUpActivity, "Nama user "+ user.username + " tidak tersedia",Toast.LENGTH_LONG).show()
-                }else{
-                    // Update firebase to set new user then
-                    database.child(dataUser.username!!).setValue(dataUser)
-                    Toast.makeText(this@signUpActivity,"User berhasil dibuat", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@signUpActivity, photoUploadActivity::class.java).putExtra("data",dataUser.nama)
-                    startActivity(intent)
-                }
-            }
-            override fun onCancelled(dbErr: DatabaseError) {
-                Toast.makeText(this@signUpActivity,dbErr.message,Toast.LENGTH_LONG).show()
-            }
-        })
     }
 }

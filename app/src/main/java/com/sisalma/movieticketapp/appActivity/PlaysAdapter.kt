@@ -11,8 +11,7 @@ import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.Playlist
 
-class PlaysAdapter(private var data: ArrayList<Playlist>,
-                   private val listener: (Playlist) -> Unit)
+class PlaysAdapter(private var data: ArrayList<Playlist>)
     : RecyclerView.Adapter<PlaysAdapter.LeagueViewHolder>() {
 
     lateinit var ContextAdapter : Context
@@ -26,7 +25,7 @@ class PlaysAdapter(private var data: ArrayList<Playlist>,
     }
 
     override fun onBindViewHolder(holder: LeagueViewHolder, position: Int) {
-        holder.bindItem(data[position], listener, ContextAdapter, position)
+        holder.bindItem(data[position], ContextAdapter, position)
     }
 
     override fun getItemCount(): Int = data.size
@@ -37,7 +36,7 @@ class PlaysAdapter(private var data: ArrayList<Playlist>,
 
         private val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
 
-        fun bindItem(data: Playlist, listener: (Playlist) -> Unit, context : Context, position : Int) {
+        fun bindItem(data: Playlist, context : Context, position : Int) {
 
             tvTitle.text = data.nama
             Glide

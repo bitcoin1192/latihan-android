@@ -7,9 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorBlueGrey">#292A50</color>
     <color name="Global_blue">#14153D</color>
     <color name="button_true">#FF2667</color>
     <color name="button_false">#292A50</color>
     <color name="whiteHint">#CCCCCC</color>
     <color name="lightGreen">#66FF99</color>
+    <color name="colorAccent">#D81B60</color>
 </resources>
