@@ -52,6 +52,9 @@
             android:name=".appActivity.saldoTopup.topupDompet"
             android:exported="true" />
         <activity
+            android:name=".appActivity.appHome.ticketShowActivity"
+            android:exported="true" />
+        <activity
             android:name=".onboarding.splash_screen"
             android:exported="true">
             <intent-filter>

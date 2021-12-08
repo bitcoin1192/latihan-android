@@ -42,7 +42,8 @@ class userRepository (userAuthenticated: authenticatedUsers){
     }
 
     fun getUserSeat(namaFilm: String): HashMap<String,Int>{
-        return userOwnSeat.get(namaFilm)!!
+        Log.i("userSeat",userOwnSeat.toString())
+        return userOwnSeat[namaFilm]!!
     }
     fun attachListener(){
         attachProfileData()
