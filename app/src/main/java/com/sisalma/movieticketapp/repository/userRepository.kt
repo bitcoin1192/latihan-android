@@ -42,7 +42,8 @@ class userRepository (userAuthenticated: authenticatedUsers){
     }
 
     fun getUserSeat(namaFilm: String): HashMap<String,Int>{
-        return userOwnSeat.get(namaFilm)!!
+        Log.i("userSeat",userOwnSeat.toString())
+        return userOwnSeat[namaFilm]!!
     }
     fun attachListener(){
         attachProfileData()
@@ -56,15 +57,15 @@ class userRepository (userAuthenticated: authenticatedUsers){
                 userOwnSeat.clear()
                 Log.i("attachTicketData", data.childrenCount.toString())
                 for (data in data.getChildren()){
+                    val test = HashMap<String,Int>()
                     if(data != null) {
                         ticketDataList.add(data.getValue(ticketData::class.java)!!)
                     }
                     for(seat in data.child("selectedSeat").children){
-                        val test = HashMap<String,Int>()
                         Log.i("test",seat.key.toString()+seat.value.toString())
                         test.put(seat.key as String,0)
-                        userOwnSeat.put(data.getValue(ticketData::class.java)!!.namaFilm, test)
                     }
+                    userOwnSeat.put(data.getValue(ticketData::class.java)!!.namaFilm, test)
                 }
                 userOwnTicket.value = ticketDataList
             }

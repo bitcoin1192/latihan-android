@@ -9,11 +9,12 @@ data class sesiTayang(
     val namaFilm: String = "",
     val ruangTayang: Int = 1,
     val tanggalTayang: String = "",
-    val priceList: Int = 0
-)
-data class availableSeat(
+    val priceList: Int = 0,
     val availableSeat: ArrayList<seat> = ArrayList()
 )
+
 data class seat(
-    val statusAvailable: Boolean = true
+    val seatID: Int = 0,
+    val statusAvailable: Boolean = true,
+    val statusSelected: Boolean = false
 )

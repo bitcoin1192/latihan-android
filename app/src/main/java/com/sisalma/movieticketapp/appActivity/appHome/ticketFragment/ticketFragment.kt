@@ -3,15 +3,14 @@ package com.sisalma.movieticketapp.appActivity.appHome.ticketFragment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.ComingSoonAdapter
 import com.sisalma.movieticketapp.appActivity.appHome.ticketShowActivity
-import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.FragmentTicketBinding
 import com.sisalma.movieticketapp.repository.filmRepository
 import com.sisalma.movieticketapp.repository.userRepository
@@ -39,7 +38,9 @@ class ticketFragment (userRepository: userRepository, filmRepository: filmReposi
         data.observe(this.viewLifecycleOwner, Observer{
             binding.rvTicketList.adapter = ComingSoonAdapter(it){ data ->
                 Log.i("ticketFragment", data.judul)
-                //val intent = Intent(this.activity,ticketShowActivity::class.java).putExtra<Film>(data)
+                val intent = Intent(this.activity,ticketShowActivity::class.java)
+                    .putExtra("filmDetail",data)
+                startActivity(intent)
             }
 
             binding.rvTicketList.layoutManager = LinearLayoutManager(context)

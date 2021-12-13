@@ -67,13 +67,13 @@ class cinemaRepository {
                 Log.i("sessionDataListener", data.childrenCount.toString())
                 for (item in data.children){
                     item.getValue(sesiTayang::class.java)?.let { sessionData.add(it) }
-                    for(seat in item.child("availableSeat").children){
-                        seatAvailable.add(seat.value as Boolean)
-                    }
+                    //for(seat in item.child("availableSeat").children){
+                    //    seatAvailable.add(seat.value as Boolean)
+                    //}
                 }
                 sessionDataLiveData.value = sessionData
-                seatAvailableLiveData.value = seatAvailable
-                Log.i("seatArray",seatAvailable.toString())
+                //seatAvailableLiveData.value = seatAvailable
+                Log.i("seatArray",sessionData.toString())
             }
 
             override fun onCancelled(errorMessages: DatabaseError) {
