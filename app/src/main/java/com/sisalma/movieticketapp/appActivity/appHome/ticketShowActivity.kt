@@ -9,10 +9,12 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.viewTicketModel
+import com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment.SeatAdapterTheme
 import com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment.seatAdapter
 import com.sisalma.movieticketapp.appActivity.saldoTopup.rowTransactionAdapter
 import com.sisalma.movieticketapp.authenticatedUsers
@@ -52,7 +54,7 @@ class ticketShowActivity: AppCompatActivity() {
             if (result.await()) {
                 val new = userRepository(userObject)
                 delay(1500)
-                uiBind.rcCheckout.adapter = seatAdapter(new.getUserSeat(data.judul))
+                uiBind.rcCheckout.adapter = SeatAdapterTheme(new.getUserSeat(data.judul),ContextCompat.getColor(this@ticketShowActivity,R.color.Global_blue))
             }
         }
 

@@ -19,7 +19,7 @@
         android:drawablePadding="10dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
-        android:textColor="@color/Global_blue"
+        android:textColor="@color/whiteHint"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
