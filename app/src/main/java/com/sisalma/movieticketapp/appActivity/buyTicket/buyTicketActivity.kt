@@ -22,16 +22,12 @@ class buyTicketActivity(): AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val authUser = authenticatedUsers()
+        val authUser = authenticatedUsers(applicationContext)
         val cinemaRepo = cinemaRepository()
 
         //username and password is always available after login page
         filmDetail = intent.getParcelableExtra<Film>("filmData")!!
-        val username = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-            .getString("username","")!!
-        val password = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-            .getString("password","")!!
-        authUser.userAuthenticate(username,password)
+        authUser.userAuthenticate()
         uiBind = ActivityBuyTicketBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
 
@@ -47,6 +43,7 @@ class buyTicketActivity(): AppCompatActivity() {
     override fun onBackPressed() {
         backPage()
     }
+
     fun nextPage(){
         if(uiBind.fragmentHolder.currentItem <= uiBind.fragmentHolder.childCount){
             uiBind.fragmentHolder.setCurrentItem(uiBind.fragmentHolder.currentItem + 1)

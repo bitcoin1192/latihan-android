@@ -16,29 +16,21 @@ import com.sisalma.movieticketapp.repository.cinemaRepository
 
 class seatSelectionFragment(filmObj: Film, cinemaRepository: cinemaRepository): Fragment() {
     val filmDetail = filmObj
-    val cinemaRepo = cinemaRepository
+    val seatAvailability = cinemaRepository.getSeatAvailability()
 
     var _binding: FragmentSeatSelectionBinding? = null
     private val uiBind get() = _binding!!
     lateinit var ticketActivity: buyTicketActivity
     val adapter: seatSelectorAdapter = seatSelectorAdapter(filmDetail.priceList)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val seatData = seatViewModel()
+        val seatArray = seatData.getSeatStatus()
+
         ticketActivity = activity as buyTicketActivity
         _binding = FragmentSeatSelectionBinding.inflate(inflater,container,false)
-        return uiBind.root
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val seatData = seatViewModel(cinemaRepo,this.viewLifecycleOwner)
-        val seatArray = seatData.getSeatStatus()
         uiBind.tvKursi.text = filmDetail.judul
-        //adapter = seatSelectorAdapter(filmDetail.priceList)
 
         seatArray.observe(this.viewLifecycleOwner, Observer {
             adapter.setData(it)
@@ -63,6 +55,7 @@ class seatSelectionFragment(filmObj: Film, cinemaRepository: cinemaRepository): 
                 Toast.makeText(this.activity,"Pilih bangku terlebih dahulu", Toast.LENGTH_SHORT).show()
             }
         }
+        return uiBind.root
     }
 
     fun returnSeatResult(): HashMap<String,Int>{

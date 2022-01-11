@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sisalma.movieticketapp.appActivity.buyTicket.buyTicketActivity
 import com.sisalma.movieticketapp.authenticatedUsers
+import com.sisalma.movieticketapp.dataStructure.seat
 import com.sisalma.movieticketapp.dataUser
 import com.sisalma.movieticketapp.databinding.FragmentPaymentConfirmBinding
 import java.text.NumberFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seatResult: HashMap<String, Int>): Fragment() {
@@ -37,7 +39,7 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seat
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        uiBind.rcCheckout.adapter = seatAdapter(seatResult)
+        //uiBind.rcCheckout.adapter = seatAdapter(seatResult)
         uiBind.rcCheckout.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         uiBind.btnCancel.setOnClickListener {
             activity?.finish()
@@ -46,7 +48,11 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seat
             ticketActivity.backPage()
         }
         uiBind.btnConfirm.setOnClickListener {
-            authUser.buyTicket(ticketActivity.filmDetail.judul)
+            var sbuild = ArrayList<seat>()
+            sbuild[0].seatID = 2
+            sbuild[0].statusAvailable = true
+            sbuild[0].statusSelected = true
+            authUser.buyTicket(ticketActivity.filmDetail.judul, sbuild)
             authUser.potongSaldo(total)
             ticketActivity.nextPage()
         }

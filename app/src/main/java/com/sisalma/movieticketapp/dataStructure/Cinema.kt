@@ -1,5 +1,8 @@
 package com.sisalma.movieticketapp.dataStructure
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 data class cinemaDetail(
     val namaCinema: String = "",
     val Lokasi: String = ""
@@ -13,8 +16,11 @@ data class sesiTayang(
     val availableSeat: ArrayList<seat> = ArrayList()
 )
 
+@Parcelize
 data class seat(
-    val seatID: Int = 0,
-    val statusAvailable: Boolean = true,
-    val statusSelected: Boolean = false
-)
+    var seatRow: String = "",
+    var seatID: Int = 0,
+    var statusAvailable: Boolean = true,
+    var statusSelected: Boolean = false,
+    var priceList: Int = 0
+):Parcelable

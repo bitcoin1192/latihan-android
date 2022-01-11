@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.util.Log
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
@@ -13,14 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.viewTicketModel
 import com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment.SeatAdapterTheme
-import com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment.seatAdapter
-import com.sisalma.movieticketapp.appActivity.saldoTopup.rowTransactionAdapter
-import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.dataStructure.Film
+import com.sisalma.movieticketapp.dataStructure.ticketData
 import com.sisalma.movieticketapp.databinding.ActivityTicketShowBinding
-import com.sisalma.movieticketapp.repository.userRepository
 import kotlinx.coroutines.*
 
 class ticketShowActivity: AppCompatActivity() {
@@ -29,34 +25,23 @@ class ticketShowActivity: AppCompatActivity() {
         var uiBind = ActivityTicketShowBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
 
-        val username = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-            .getString("username","")!!
-        val password = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-            .getString("password","")!!
-        val data = intent.getParcelableExtra<Film>("filmDetail")!!
+        val data = intent.getParcelableExtra<Film>("filmDetail")
+        val seat = intent.getParcelableExtra<ticketData>("ticketData")
+        data?.let {
+            uiBind.tvTitle.text= it.judul
+            uiBind.tvGenre.text = it.genre
+            uiBind.tvRate.text = it.rating
+            Glide.with(this)
+                .load(it.poster)
+                .into(uiBind.ivPosterImage)
 
-        uiBind.tvTitle.text= data.judul
-        uiBind.tvGenre.text = data.genre
-        uiBind.tvRate.text = data.rating
-
-        Glide.with(this)
-            .load(data.poster)
-            .into(uiBind.ivPosterImage)
-
-        uiBind.rcCheckout.layoutManager = LinearLayoutManager(this)
-
-        val userObject = authenticatedUsers()
-        userObject.userAuthenticate(username,password)
-
-        val userCheckCoroutine = CoroutineScope(Dispatchers.Main)
-        userCheckCoroutine.launch {
-            var result = async { userObject.testAuthorizeUser(userObject) }
-            if (result.await()) {
-                val new = userRepository(userObject)
-                delay(1500)
-                uiBind.rcCheckout.adapter = SeatAdapterTheme(new.getUserSeat(data.judul),ContextCompat.getColor(this@ticketShowActivity,R.color.Global_blue))
+            uiBind.rcCheckout.layoutManager = LinearLayoutManager(this)
+            seat?.let {
+                Log.i("tshowAct", it.toString())
+                uiBind.rcCheckout.adapter = SeatAdapterTheme(it.selectedSeat,ContextCompat.getColor(this@ticketShowActivity,R.color.Global_blue))
             }
         }
+
 
         uiBind.ivClose.setOnClickListener {
             finish()

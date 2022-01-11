@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -22,23 +24,22 @@ import com.sisalma.movieticketapp.repository.filmRepository
 import com.sisalma.movieticketapp.repository.userRepository
 import java.util.*
 
-class dashboardFragment(userRepository: userRepository, filmRepository: filmRepository) : Fragment() {
-    //var _binding: FragmentDashboardBinding? = null
-    //private val binding get() = _binding!!
+//class dashboardFragment(userRepository: userRepository, filmRepository: filmRepository) : Fragment() {
+class dashboardFragment() : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
-    val userProfile = userRepository.getUserProfile()
-    val filmRepo = filmRepository
+    //val userProfile = userRepository.getUserProfile()
+    //val filmRepo = filmRepository
+    private val viewModelFilm: viewModelFilm by activityViewModels()
+    private val ViewModelUser: ViewModelUser by activityViewModels()
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDashboardBinding.inflate(inflater,container,false)
-        val viewModelFilm = viewModelFilm(filmRepo, this.viewLifecycleOwner)
-        val filmList = viewModelFilm.getFilmData()
 
-        userProfile.observe(this.viewLifecycleOwner, Observer {
+        ViewModelUser.getUserData().observe(this.viewLifecycleOwner, Observer {
             Log.e("userProfile change", "")
             binding.tvNama.text = (it.nama)
             binding.tvSaldo.text = convertInt2Rupiah(it.saldo)
@@ -50,7 +51,7 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
                 .into(binding.ivProfile)
         })
 
-        filmList.observe(this.viewLifecycleOwner, Observer{
+        viewModelFilm.getFilmData().observe(viewLifecycleOwner, {
             if(binding.rvComingSoon.adapter == null || binding.rvNowPlaying.adapter == null){
                 binding.rvNowPlaying.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 binding.rvComingSoon.layoutManager = LinearLayoutManager(context)
@@ -69,6 +70,7 @@ class dashboardFragment(userRepository: userRepository, filmRepository: filmRepo
                 ).putExtra("filmDetail",data)
                 startActivity(intent)
             }
+            Log.i("viewModelObserver-db",it.toString())
         })
         return binding.root
     }

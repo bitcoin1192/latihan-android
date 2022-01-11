@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.database.*
+import com.sisalma.movieticketapp.GuestUser
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivitySignInBinding
 import com.sisalma.movieticketapp.appActivity.home
@@ -21,18 +22,15 @@ class signInActivity : AppCompatActivity() {
 
         var inputUsername = binding.inputUser.text
         var inputPassword = binding.inputPass.text
-        var authUser = authenticatedUsers()
+        val guest = GuestUser(applicationContext)
         val userCheckCoroutine = CoroutineScope(Dispatchers.Main)
 
         binding.buttonTrue.setOnClickListener {
-            authUser.userAuthenticate(inputUsername.toString(),inputPassword.toString())
+            Log.i("userInput", "${inputUsername} and ${inputPassword}")
+            guest.userAuthenticate(inputUsername.toString(),inputPassword.toString())
             userCheckCoroutine.launch {
-                var result = async {authUser.testAuthorizeUser(authUser)}
+                var result = async {guest.testAuthorizeUser()}
                 if(result.await()){
-                    val settingEditor = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE).edit()
-                    settingEditor.putString("username",inputUsername.toString())
-                    settingEditor.putString("password",inputPassword.toString())
-                    settingEditor.commit()
                     finishAffinity()
                     Toast.makeText(this@signInActivity,"Authentication Success, goto home", Toast.LENGTH_SHORT).show()
                     intent = Intent(this@signInActivity,home::class.java)

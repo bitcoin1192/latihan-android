@@ -40,8 +40,8 @@ class photoUploadActivity() : AppCompatActivity(){
         val requestClean = settings.getBoolean("cleanAffinity",false)
         val user = intent.getParcelableExtra<dataUser>("data")
 
-        val userObject = authenticatedUsers()
-        userObject.userAuthenticate(name,pass)
+        val userObject = authenticatedUsers(applicationContext)
+        userObject.userAuthenticate()
 
         var uiBind = ActivityPhotouploadBinding.inflate(layoutInflater)
         setContentView(uiBind.root)

@@ -7,17 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sisalma.movieticketapp.ViewModelUser
 import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.ComingSoonAdapter
 import com.sisalma.movieticketapp.appActivity.appHome.ticketShowActivity
 import com.sisalma.movieticketapp.databinding.FragmentTicketBinding
 import com.sisalma.movieticketapp.repository.filmRepository
 import com.sisalma.movieticketapp.repository.userRepository
+import com.sisalma.movieticketapp.viewModelFilm
 
-class ticketFragment (userRepository: userRepository, filmRepository: filmRepository): Fragment() {
-    val userRepo = userRepository
-    val filmRepo = filmRepository
+class ticketFragment (): Fragment() {
+    private val ViewModelTicket: ViewModelTicket by activityViewModels()
+    private val ViewModelUser: ViewModelUser by activityViewModels()
     var _binding: FragmentTicketBinding? = null
     private val binding get() = _binding!!
 
@@ -27,29 +31,20 @@ class ticketFragment (userRepository: userRepository, filmRepository: filmReposi
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentTicketBinding.inflate(inflater,container,false)
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         Log.i("ticketFragment", "activity created")
-        val viewModel = viewTicketModel(userRepo,filmRepo,this.viewLifecycleOwner)
-        val data = viewModel.getUserActiveTicket()
-        data.observe(this.viewLifecycleOwner, Observer{
+
+        ViewModelTicket.getUserActiveTicket().observe(this.viewLifecycleOwner, Observer{
             binding.rvTicketList.adapter = ComingSoonAdapter(it){ data ->
                 Log.i("ticketFragment", data.judul)
                 val intent = Intent(this.activity,ticketShowActivity::class.java)
                     .putExtra("filmDetail",data)
+                    .putExtra("ticketData", ViewModelTicket.getTicketData(data.judul))
+                Log.i("getsomedata",ViewModelTicket.getTicketData(data.judul).toString())
                 startActivity(intent)
             }
 
             binding.rvTicketList.layoutManager = LinearLayoutManager(context)
         })
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return binding.root
     }
 }

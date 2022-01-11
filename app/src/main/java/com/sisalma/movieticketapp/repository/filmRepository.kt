@@ -8,29 +8,30 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.sisalma.movieticketapp.dataStructure.Film
 
-class filmRepository {
+open class filmRepository {
     val instanceOfFirebase = "https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/"
     var listFilm = FirebaseDatabase
         .getInstance(instanceOfFirebase)
         .getReference("Film")
 
-    private var filmList: ArrayList<Film> = ArrayList()
-    private val filmData: MutableLiveData<ArrayList<Film>> = MutableLiveData<ArrayList<Film>>()
-    private var keyFilmData: HashMap<String, Film> = HashMap()
+    private var _filmList: ArrayList<Film> = ArrayList()
+    val filmList: MutableLiveData<ArrayList<Film>> = MutableLiveData<ArrayList<Film>>()
+    private var _keyFilmData: HashMap<String, Film> = HashMap()
+    val keyFilmData: MutableLiveData<HashMap<String, Film>> = MutableLiveData()
 
     init {
         attachFilmData()
     }
-    fun getFilmData():MutableLiveData<ArrayList<Film>>{
-        return filmData
+    fun getFilmLiveData():MutableLiveData<ArrayList<Film>>{
+        return filmList
     }
 
     fun getMapFilmData(): HashMap<String, Film>{
-        return keyFilmData
+        return _keyFilmData
     }
 
     fun searchKey(filmName:String):Boolean{
-        if(keyFilmData.containsKey(filmName)){
+        if(_keyFilmData.containsKey(filmName)){
             return true
         }
         return false
@@ -39,19 +40,25 @@ class filmRepository {
     fun attachFilmData(){
         listFilm.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
-                filmList.clear()
-                keyFilmData.clear()
+                _filmList.clear()
+                _keyFilmData.clear()
                 Log.e("filmDataListener", data.childrenCount.toString())
                 for (item in data.getChildren()){
-                    filmList.add(item.getValue(Film::class.java)!!)
-                    keyFilmData.put(item.getValue(Film::class.java)!!.judul,item.getValue(Film::class.java)!!)
+                    _filmList.add(item.getValue(Film::class.java)!!)
+                    _keyFilmData.put(item.getValue(Film::class.java)!!.judul,item.getValue(Film::class.java)!!)
                 }
-                filmData.value = filmList
+                filmList.value = _filmList
             }
 
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("filmDataListener",p0.message)
             }
         })
+    }
+}
+
+class NewFilmRepository: filmRepository(){
+    fun GetFilmData(){
+
     }
 }

@@ -10,14 +10,13 @@ import com.sisalma.movieticketapp.databinding.ActivitySignUpBinding
 
 
 class signUpActivity : AppCompatActivity() {
-    private val guestUser = guestUser()
+    private val guestUser = GuestUser(applicationContext)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         var uiBind = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
-        val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE).edit()
         uiBind.buttonTrue.setOnClickListener(){
             var dataUser = dataUser(uiBind.inputUser.text.toString(),
                 uiBind.inputPass.text.toString(),
@@ -31,9 +30,6 @@ class signUpActivity : AppCompatActivity() {
             }else{
                 guestUser.daftarBaru(dataUser)
                 Toast.makeText(this,"User berhasil dibuat", Toast.LENGTH_LONG).show()
-                settings.putString("username",dataUser.username)
-                settings.putString("password",dataUser.password)
-                settings.commit()
                 val intent = Intent(this, photoUploadActivity::class.java).putExtra("data",dataUser)
                 startActivity(intent)
             }

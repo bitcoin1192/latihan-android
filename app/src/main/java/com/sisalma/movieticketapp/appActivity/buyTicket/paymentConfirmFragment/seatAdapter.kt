@@ -13,15 +13,16 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment.seatSelectorAdapter
+import com.sisalma.movieticketapp.dataStructure.seat
 import com.sisalma.movieticketapp.databinding.RowItemCheckoutBinding
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-open class seatAdapter(seatResult: HashMap<String,Int>): RecyclerView.Adapter<seatAdapter.itemView>() {
+open class seatAdapter(seatResult: ArrayList<seat>): RecyclerView.Adapter<seatAdapter.itemView>() {
     lateinit var ContextAdapter: Context
     val seatResultMap = seatResult
-    private var seatResultArray = arrayListOf<itemData>()
+    private var seatResultArray = arrayListOf<seat>()
     var _binding: RowItemCheckoutBinding? = null
     val uiBind get() = _binding!!
 
@@ -34,6 +35,7 @@ open class seatAdapter(seatResult: HashMap<String,Int>): RecyclerView.Adapter<se
         return itemView(uiBind)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: itemView, position: Int) {
         holder.bindMap(seatResultArray[position])
     }
@@ -45,27 +47,29 @@ open class seatAdapter(seatResult: HashMap<String,Int>): RecyclerView.Adapter<se
     @RequiresApi(Build.VERSION_CODES.N)
     fun getMapItem(){
         seatResultArray.clear()
-        val NumberFormat = NumberFormat.getCurrencyInstance(
-            Locale("id","ID"))
         for (entry in seatResultMap) {
-            seatResultArray.add(itemData(entry.key,NumberFormat.format(entry.value)))
+            seatResultArray.add(entry)
         }
         Log.i("seatTotal", seatResultArray.size.toString())
     }
     class itemView(view: RowItemCheckoutBinding): RecyclerView.ViewHolder(view.root){
         private val uiBind = view
-        fun bindMap(seatResult: itemData){
-            uiBind.tvKursi.text = "Seat "+seatResult.kursi
-            if(seatResult.harga == "Rp 0,00") {
+        @RequiresApi(Build.VERSION_CODES.N)
+        fun bindMap(seatResult: seat){
+            uiBind.tvKursi.text = "Seat "+seatResult.seatRow+seatResult.seatID
+            val Int2Rupiah = NumberFormat
+                .getCurrencyInstance(Locale("id","ID"))
+                .format(seatResult.priceList)
+            if(Int2Rupiah == "Rp 0,00") {
                 uiBind.tvHarga.text = ""
             }else{
-                uiBind.tvHarga.text = seatResult.harga
+                uiBind.tvHarga.text = Int2Rupiah
             }
         }
     }
 }
 
-class SeatAdapterTheme(seatResult: HashMap<String,Int>, textColor: Int): seatAdapter(seatResult){
+class SeatAdapterTheme(seatResult: ArrayList<seat>, textColor: Int): seatAdapter(seatResult){
     val textColor = textColor
 
     @RequiresApi(Build.VERSION_CODES.N)

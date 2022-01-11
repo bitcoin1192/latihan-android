@@ -7,78 +7,40 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.sisalma.movieticketapp.FirebaseSourceCinemaData
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.dataStructure.cinemaDetail
 import com.sisalma.movieticketapp.dataStructure.sesiTayang
+import javax.inject.Inject
 
-class cinemaRepository {
-    val instanceOfFirebase = "https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/"
-    var listCinema = FirebaseDatabase
-        .getInstance(instanceOfFirebase)
-        .getReference("cinema")
-
-    var listSession = FirebaseDatabase
-        .getInstance(instanceOfFirebase)
-        .getReference("sesiTayang")
-
+class cinemaRepository{
+    private val data = FirebaseSourceCinemaData()
     private var cinemaDetailList: ArrayList<cinemaDetail> = ArrayList()
+    private var sessionData: ArrayList<sesiTayang> = ArrayList()
     private val cinemaDetailLiveData: MutableLiveData<ArrayList<cinemaDetail>> = MutableLiveData<ArrayList<cinemaDetail>>()
-    private val sessionData: ArrayList<sesiTayang> = ArrayList()
     private val sessionDataLiveData: MutableLiveData<ArrayList<sesiTayang>> = MutableLiveData<ArrayList<sesiTayang>>()
     private var seatAvailable: ArrayList<Boolean> = ArrayList()
     private var seatAvailableLiveData: MutableLiveData<ArrayList<Boolean>> = MutableLiveData<ArrayList<Boolean>>()
 
     init {
-        attachCinemaData()
-        attachSessionData()
+        data.attachCinemaData()
+        data.attachSessionData()
     }
 
     fun getCinemaDetail(): MutableLiveData<ArrayList<cinemaDetail>>{
-        return cinemaDetailLiveData
+        //cinemaDetailList = data.getCinemaList()
+        //cinemaDetailLiveData.value = cinemaDetailList
+        return data.LiveDataCinemaDetail
     }
 
     fun getSessionData(): MutableLiveData<ArrayList<sesiTayang>>{
-        return sessionDataLiveData
+        //sessionData = data.getCinemaSessionList()
+        //sessionDataLiveData.value = sessionData
+        return data.LiveDataSessionData
     }
 
     fun getSeatAvailability(): MutableLiveData<ArrayList<Boolean>>{
         return seatAvailableLiveData
     }
 
-    fun attachCinemaData(){
-        listCinema.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(data: DataSnapshot) {
-                Log.i("cinemaDataListener", data.childrenCount.toString())
-                for (item in data.children){
-                    cinemaDetailList.add(item.getValue(cinemaDetail::class.java)!!)
-                }
-                cinemaDetailLiveData.value = cinemaDetailList
-            }
-
-            override fun onCancelled(errorMessages: DatabaseError) {
-                Log.e("cinemaDataListener", errorMessages.message)
-            }
-        })
-    }
-    fun attachSessionData(){
-        listSession.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(data: DataSnapshot) {
-                seatAvailable.clear()
-                Log.i("sessionDataListener", data.childrenCount.toString())
-                for (item in data.children){
-                    item.getValue(sesiTayang::class.java)?.let { sessionData.add(it) }
-                    //for(seat in item.child("availableSeat").children){
-                    //    seatAvailable.add(seat.value as Boolean)
-                    //}
-                }
-                sessionDataLiveData.value = sessionData
-                //seatAvailableLiveData.value = seatAvailable
-                Log.i("seatArray",sessionData.toString())
-            }
-
-            override fun onCancelled(errorMessages: DatabaseError) {
-                Log.e("cinemaDataListener", errorMessages.message)
-            }
-        })
-    }
 }

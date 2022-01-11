@@ -16,11 +16,9 @@ class editProfileActivity: AppCompatActivity() {
         var uiBind = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
         val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-        val name = settings.getString("username",null)?:""
-        val pass = settings.getString("password",null)?:""
 
-        val authUser = authenticatedUsers()
-        authUser.userAuthenticate(name,pass)
+        val authUser = authenticatedUsers(applicationContext)
+        authUser.userAuthenticate()
 
         Log.i("editProfile", "It's alive")
 
@@ -28,9 +26,6 @@ class editProfileActivity: AppCompatActivity() {
             authUser.updateUserData(uiBind.etNama.text.toString(),
                 uiBind.etEmail.text.toString(),
                 uiBind.etPassword.text.toString(),null,null)
-
-            val editSettings = settings.edit()
-            editSettings.putString("password",uiBind.etPassword.text.toString()).apply()
             Toast.makeText(this,"Your profile has been change",Toast.LENGTH_SHORT).show()
             finish()
         }

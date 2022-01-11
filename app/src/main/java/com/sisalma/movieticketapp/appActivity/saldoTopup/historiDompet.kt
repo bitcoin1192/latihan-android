@@ -20,11 +20,8 @@ class historiDompet: AppCompatActivity() {
         setContentView(uiBind.root)
 
         val saldoUser = intent.getParcelableExtra<dataUser>("saldoUser")!!
-        val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-        val name = settings.getString("username",null)?:""
-        val pass = settings.getString("password",null)?:""
-        val authUser = authenticatedUsers()
-        authUser.userAuthenticate(name,pass)
+        val authUser = authenticatedUsers(applicationContext)
+        authUser.userAuthenticate()
         val number = NumberFormat.getCurrencyInstance(Locale("id","ID"))
         uiBind.ivButtonBack.setOnClickListener{
             finish()
