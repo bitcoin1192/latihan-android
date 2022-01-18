@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.ViewModelUser
+import com.sisalma.movieticketapp.appActivity.appHome.ViewModelNavTab
 import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.dashboardFragment
 import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ticketFragment
 import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ViewModelTicket
@@ -19,15 +20,21 @@ import com.sisalma.movieticketapp.repository.userRepository
 import com.sisalma.movieticketapp.viewModelFilm
 
 class home : AppCompatActivity() {
-    var currFragment: Fragment? = null
-    val filmRepo = filmRepository()
-    lateinit var userRepo: userRepository
+    private var currFragment: Fragment? = null
+    private val filmRepo = filmRepository()
+    private lateinit var userRepo: userRepository
+    private lateinit var binding: ActivityHomeBinding
     val viewModelFilm: viewModelFilm by viewModels()
     val viewModelUser: ViewModelUser by viewModels()
     val ViewModelTicket: ViewModelTicket by viewModels()
+    val ViewModelNavTab: ViewModelNavTab by viewModels()
+    private lateinit var fragmentHome: dashboardFragment
+    private lateinit var fragmentTiket: ticketFragment
+    private lateinit var fragmentSetting: settingFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
@@ -36,39 +43,28 @@ class home : AppCompatActivity() {
         val userObject = authenticatedUsers(applicationContext)
         userObject.userAuthenticate()
         userRepo = userRepository(userObject)
+
+        fragmentHome = dashboardFragment()
+        fragmentTiket = ticketFragment()
+        fragmentSetting = settingFragment()
+
         observeRepository()
-
-        val fragmentHome = dashboardFragment()
-        val fragmentTiket = ticketFragment()
-        val fragmentSetting = settingFragment()
-
-        if(savedInstanceState == null){
-            setFragment(fragmentHome)
-        }
+        observeViewModel()
 
         binding.ivMenu1.setOnClickListener {
-            setFragment(fragmentHome)
-
-            changeIcon(binding.ivMenu1, R.drawable.ic_home_active)
-            changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
-            changeIcon(binding.ivMenu3, R.drawable.ic_profile)
+            ViewModelNavTab.setCurrentPage(1)
         }
 
         binding.ivMenu2.setOnClickListener {
-            setFragment(fragmentTiket)
-
-            changeIcon(binding.ivMenu1, R.drawable.ic_home)
-            changeIcon(binding.ivMenu2, R.drawable.ic_tiket_active)
-            changeIcon(binding.ivMenu3, R.drawable.ic_profile)
+            ViewModelNavTab.setCurrentPage(2)
         }
 
         binding.ivMenu3.setOnClickListener {
-            setFragment(fragmentSetting)
-
-            changeIcon(binding.ivMenu1, R.drawable.ic_home)
-            changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
-            changeIcon(binding.ivMenu3, R.drawable.ic_profile_active)
+            ViewModelNavTab.setCurrentPage(3)
         }
+
+        ViewModelNavTab.triggerObserver()
+
         if(!oldUser) {
             settings.edit().putBoolean("oldUser", true).apply()
         }
@@ -106,6 +102,36 @@ class home : AppCompatActivity() {
         })
         userRepo.getUserTicket().observe(this,{
             ViewModelTicket.setDataTicket(it)
+        })
+    }
+
+    private fun observeViewModel(){
+        viewModelUser.logout.observe(this,{
+            if(it){
+                userRepo.userObj.userDeauthenticate()
+            }
+        })
+        ViewModelNavTab.liveCurrentPage().observe(this,{
+            when(it){
+                1 ->{
+                    changeIcon(binding.ivMenu1, R.drawable.ic_home_active)
+                    changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
+                    changeIcon(binding.ivMenu3, R.drawable.ic_profile)
+                    setFragment(fragmentHome)
+                }
+                2 ->{
+                    changeIcon(binding.ivMenu1, R.drawable.ic_home)
+                    changeIcon(binding.ivMenu2, R.drawable.ic_tiket_active)
+                    changeIcon(binding.ivMenu3, R.drawable.ic_profile)
+                    setFragment(fragmentTiket)
+                }
+                3 ->{
+                    changeIcon(binding.ivMenu1, R.drawable.ic_home)
+                    changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
+                    changeIcon(binding.ivMenu3, R.drawable.ic_profile_active)
+                    setFragment(fragmentSetting)
+                }
+            }
         })
     }
 }

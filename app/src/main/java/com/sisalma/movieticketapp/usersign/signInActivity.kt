@@ -1,10 +1,12 @@
 package com.sisalma.movieticketapp.usersign
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.firebase.database.*
 import com.sisalma.movieticketapp.GuestUser
 import com.sisalma.movieticketapp.authenticatedUsers
@@ -15,17 +17,18 @@ import java.util.*
 
 
 class signInActivity : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var binding =   ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var inputUsername = binding.inputUser.text
-        var inputPassword = binding.inputPass.text
         val guest = GuestUser(applicationContext)
         val userCheckCoroutine = CoroutineScope(Dispatchers.Main)
 
         binding.buttonTrue.setOnClickListener {
+            var inputUsername = binding.inputUser.text
+            var inputPassword = binding.inputPass.text
             Log.i("userInput", "${inputUsername} and ${inputPassword}")
             guest.userAuthenticate(inputUsername.toString(),inputPassword.toString())
             userCheckCoroutine.launch {

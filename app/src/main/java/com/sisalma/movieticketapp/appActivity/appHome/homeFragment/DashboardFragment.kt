@@ -1,7 +1,6 @@
 package com.sisalma.movieticketapp.appActivity.appHome.homeFragment
 
 import android.content.Intent
-import android.icu.number.NumberFormatter
 import android.icu.text.NumberFormat
 import android.os.Build
 import android.os.Bundle
@@ -12,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -20,8 +18,6 @@ import com.sisalma.movieticketapp.*
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.appActivity.filmDetailActivity
 import com.sisalma.movieticketapp.databinding.FragmentDashboardBinding
-import com.sisalma.movieticketapp.repository.filmRepository
-import com.sisalma.movieticketapp.repository.userRepository
 import java.util.*
 
 //class dashboardFragment(userRepository: userRepository, filmRepository: filmRepository) : Fragment() {
@@ -39,7 +35,7 @@ class dashboardFragment() : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentDashboardBinding.inflate(inflater,container,false)
 
-        ViewModelUser.getUserData().observe(this.viewLifecycleOwner, Observer {
+        ViewModelUser.liveUserData().observe(this.viewLifecycleOwner, Observer {
             Log.e("userProfile change", "")
             binding.tvNama.text = (it.nama)
             binding.tvSaldo.text = convertInt2Rupiah(it.saldo)

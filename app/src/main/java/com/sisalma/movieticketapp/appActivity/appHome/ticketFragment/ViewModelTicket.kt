@@ -14,32 +14,37 @@ import com.sisalma.movieticketapp.repository.userRepository
 class ViewModelTicket(): ViewModel() {
     var filmList: ArrayList<Film> = ArrayList()
     var ticketArrayList: ArrayList<ticketData> = ArrayList()
-    private val availableTicketFilms: MutableLiveData<ArrayList<Film>> = MutableLiveData<ArrayList<Film>>()
+    val availableTicketFilms: MutableLiveData<ArrayList<ticketData>> = MutableLiveData<ArrayList<ticketData>>()
     private var _keyFilmData: HashMap<String, Film> = HashMap()
-    private var selectedFilmList: ArrayList<Film> = ArrayList()
-    private var _keyTicketData: HashMap<String, ticketData> = HashMap()
+    var _keyTicketData: HashMap<String, ticketData> = HashMap()
 
     fun setfilmList(input: ArrayList<Film>){
         filmList = input
         createKeyFilmData()
-        selectFilmByOwnedTicket()
     }
 
     fun setDataTicket(input: ArrayList<ticketData>){
+        Log.i("vmt","$input")
         ticketArrayList = input
+        //ticketArrayList = arrayListOf(ticketData())
+        calculateTotalPriceList()
         createKeyTicketData()
-        selectFilmByOwnedTicket()
+        availableTicketFilms.value = ticketArrayList
     }
 
-    fun getTicketData(filmName: String): ticketData? {
-        return _keyTicketData[filmName]
+    fun getTicketData(UID: String): ticketData? {
+        return _keyTicketData[UID]
     }
 
-    fun getUserActiveTicket(): LiveData<ArrayList<Film>> {
+    fun getFilmMapData(): HashMap<String,Film>{
+        return _keyFilmData
+    }
+
+    fun getUserActiveTicket(): LiveData<ArrayList<ticketData>> {
         return availableTicketFilms
     }
 
-    fun selectFilmByOwnedTicket(){
+    /*fun selectFilmByOwnedTicket(){
         if(filmList.isNotEmpty()){
             selectedFilmList.clear()
             for (ticket in ticketArrayList){
@@ -50,12 +55,9 @@ class ViewModelTicket(): ViewModel() {
             }
             availableTicketFilms.value = selectedFilmList
         }
-    }
-    private fun searchKey(filmName: String):Boolean{
-        if(_keyFilmData.containsKey(filmName)){
-            return true
-        }
-        return false
+    }*/
+    private fun getFilmByKey(filmName: String):Film?{
+        return _keyFilmData[filmName]
     }
 
     private fun createKeyFilmData(){
@@ -68,7 +70,17 @@ class ViewModelTicket(): ViewModel() {
     private fun createKeyTicketData(){
         _keyTicketData.clear()
         ticketArrayList.forEach({
-            _keyTicketData.put(it.namaFilm,it)
+            _keyTicketData.put(it.UID,it)
         })
+    }
+    private fun calculateTotalPriceList(){
+        ticketArrayList.forEach{
+            var total = 0
+            it.selectedSeat.forEach{
+                total += it.priceList
+            }
+            it.seatPrice = total
+        }
+
     }
 }

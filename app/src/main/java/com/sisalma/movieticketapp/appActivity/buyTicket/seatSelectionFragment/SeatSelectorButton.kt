@@ -5,10 +5,13 @@ import android.util.AttributeSet
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import com.sisalma.movieticketapp.R
+import com.sisalma.movieticketapp.dataStructure.seat
 
 class seatSelectorButton(context: Context, attrs: AttributeSet): AppCompatImageView(context, attrs) {
-    var seatIsAvailable = false
-    var seatIsSelected = false
+    private var seatIsAvailable = false
+    private var seatIsSelected = false
+    private var _seatData = seat()
+
     init {
         context.theme.obtainStyledAttributes(
             attrs,
@@ -26,31 +29,42 @@ class seatSelectorButton(context: Context, attrs: AttributeSet): AppCompatImageV
     fun isSeatSelectable():Boolean{
         return seatIsAvailable
     }
+
     fun isSeatSelected():Boolean{
         return seatIsSelected
     }
+
+    fun setSeatData(input: seat){
+        _seatData = input
+        //setSeatIsSelectable(_seatData.statusAvailable)
+        seatSelectToggle()
+    }
+
+    fun getSeatData(): seat{
+        return _seatData
+    }
+
     fun setSeatIsSelectable(selectable: Boolean){
         if(selectable) {
             setImageState(intArrayOf(R.attr.seatIsSelectable), true)
         }else{
-            setImageState(intArrayOf(-R.attr.seatIsSelectable), true)
+
         }
         seatIsAvailable = selectable
         invalidate()
         requestLayout()
     }
     fun seatSelectToggle(){
-        if(seatIsAvailable){
-            if(seatIsSelected){
-                setImageState(intArrayOf(-R.attr.seatIsChecked,R.attr.seatIsSelectable), true)
+        if(_seatData.statusAvailable){
+            if(_seatData.statusSelected){
+                setImageState(intArrayOf(R.attr.seatIsChecked,R.attr.seatIsSelectable), false)
             }else{
-                setImageState(intArrayOf(R.attr.seatIsChecked,R.attr.seatIsSelectable), true)
+                setImageState(intArrayOf(-R.attr.seatIsChecked,R.attr.seatIsSelectable), false)
             }
         }else{
-            Log.i("extend-iv","Selected seat is not available")
+            setImageState(intArrayOf(-R.attr.seatIsChecked,-R.attr.seatIsSelectable), false)
+            Log.i("seatSelector-iv","Seat ${_seatData.seatID.toString()+_seatData.seatRow}is not available")
         }
-        seatIsSelected = !seatIsSelected
-        Log.i("extend-iv","setSeatSelected is now $seatIsSelected")
         invalidate()
         requestLayout()
     }

@@ -15,11 +15,6 @@ import javax.inject.Inject
 
 class cinemaRepository{
     private val data = FirebaseSourceCinemaData()
-    private var cinemaDetailList: ArrayList<cinemaDetail> = ArrayList()
-    private var sessionData: ArrayList<sesiTayang> = ArrayList()
-    private val cinemaDetailLiveData: MutableLiveData<ArrayList<cinemaDetail>> = MutableLiveData<ArrayList<cinemaDetail>>()
-    private val sessionDataLiveData: MutableLiveData<ArrayList<sesiTayang>> = MutableLiveData<ArrayList<sesiTayang>>()
-    private var seatAvailable: ArrayList<Boolean> = ArrayList()
     private var seatAvailableLiveData: MutableLiveData<ArrayList<Boolean>> = MutableLiveData<ArrayList<Boolean>>()
 
     init {

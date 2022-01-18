@@ -7,10 +7,13 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sisalma.movieticketapp.authenticatedUsers
+import com.sisalma.movieticketapp.dataStructure.ticketData
 import com.sisalma.movieticketapp.dataUser
 import com.sisalma.movieticketapp.databinding.ActivitySaldoHistoryBinding
 import java.util.*
+import kotlin.collections.ArrayList
 
 class historiDompet: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
@@ -19,9 +22,8 @@ class historiDompet: AppCompatActivity() {
         var uiBind = ActivitySaldoHistoryBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
 
-        val saldoUser = intent.getParcelableExtra<dataUser>("saldoUser")!!
-        val authUser = authenticatedUsers(applicationContext)
-        authUser.userAuthenticate()
+        val saldoUser = intent.getParcelableExtra<dataUser>("saldoUser")
+        val ticketHistory = intent.getParcelableArrayListExtra<ticketData>("ticketData")
         val number = NumberFormat.getCurrencyInstance(Locale("id","ID"))
         uiBind.ivButtonBack.setOnClickListener{
             finish()
@@ -32,7 +34,14 @@ class historiDompet: AppCompatActivity() {
             startActivity(intent)
         }
 
-        uiBind.currentSaldo.text = number.format(saldoUser.saldo)
+        saldoUser?.saldo.let {
+            uiBind.currentSaldo.text = number.format(it)
+        }
+
+        ticketHistory?.let {
+            uiBind.rvTransaksi.layoutManager = LinearLayoutManager(this)
+            uiBind.rvTransaksi.adapter = rowTransactionAdapter(it)
+        }
 
     }
 

@@ -10,10 +10,10 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.sisalma.movieticketapp.dataStructure.seat
 import com.sisalma.movieticketapp.dataStructure.ticketData
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.parcelize.Parcelize
 import java.util.*
+import kotlin.collections.ArrayList
 
 abstract class Users(applicationContext: Context) {
     val applicationContext = applicationContext
@@ -33,9 +33,8 @@ abstract class Users(applicationContext: Context) {
     val storageRef  = FirebaseStorage
         .getInstance()
         .getReference("Photos")
-    var ticketDataList:ArrayList<ticketData> = ArrayList()
-    val userOwnTicket: MutableLiveData<ArrayList<ticketData>> = MutableLiveData()
-    val userOwnSeat: HashMap<String, HashMap<String,Int>> = HashMap()
+    var _ticketDataList:ArrayList<ticketData> = ArrayList()
+    val ticketDataList: MutableLiveData<ArrayList<ticketData>> = MutableLiveData()
     var userProfile: MutableLiveData<dataUser> = MutableLiveData()
 }
 
@@ -49,7 +48,7 @@ interface AuthenticatedUser{
     fun userDeauthenticate()
     fun getUserData():dataUser?
     //fun updateUserData(nama:String?, email: String?, password: String?, saldo: Int?, url: String?)
-    fun updateUserFilmHistory(namaFilm: String, seatSelected: List<seat>)
+    fun updateUserFilmHistory(namaFilm: String, seatSelected: ArrayList<seat>)
     fun uploadImagetoFBStore(filepath: Uri)
 }
 
@@ -61,7 +60,10 @@ class authenticatedUsers(applicationContext: Context): AuthenticatedUser, Users(
         attachTicketData()
     }
 
-    fun buyTicket(namaFilm: String, seatSelected: List<seat>){
+    fun buyTicket(namaFilm: String, seatSelected: ArrayList<seat>){
+        var total  = 0
+        seatSelected.forEach { total += it.priceList }
+        potongSaldo(total)
         updateUserFilmHistory(namaFilm,seatSelected)
     }
 
@@ -84,6 +86,7 @@ class authenticatedUsers(applicationContext: Context): AuthenticatedUser, Users(
         //Remove unique username from sharedpreferences
         settingEditor.remove("username")
         settingEditor.remove("password")
+        settingEditor.remove("cleanAffinity")
         settingEditor.commit()
     }
 
@@ -139,15 +142,16 @@ class authenticatedUsers(applicationContext: Context): AuthenticatedUser, Users(
         }
     }
 
-    override fun updateUserFilmHistory(namaFilm: String, seatSelected: List<seat>) {
-        val ticketBuild = ticketData("22/01/2022","ticketQR",namaFilm)
+    override fun updateUserFilmHistory(namaFilm: String, seatSelected: ArrayList<seat>) {
         if(authenticated){
             userTicketData.child(username)
                 .child("listActive")
                 .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val UID = UUID.randomUUID().toString()
+                    val ticketBuild = ticketData(UID,"22/01/2022","ticketQR",namaFilm,0,seatSelected)
                     Log.i("updateUserTicketInfo",ticketBuild.toString())
-                    userTicketData.child(username).child("listActive").child(UUID.randomUUID().toString()).setValue(ticketBuild)
+                    userTicketData.child(username).child("listActive").child(UID).setValue(ticketBuild)
                 }
                 override fun onCancelled(p0: DatabaseError) {
                     Log.e("updateUserData",p0.message)
@@ -176,22 +180,15 @@ class authenticatedUsers(applicationContext: Context): AuthenticatedUser, Users(
             .child(username).child("listActive")
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(data: DataSnapshot) {
-                    ticketDataList.clear()
-                    userOwnSeat.clear()
+                    _ticketDataList.clear()
                     Log.i("attachTicketData", data.childrenCount.toString())
-                    for (data in data.getChildren()){
-                        val test = HashMap<String,Int>()
-                        if(data != null) {
-                            ticketDataList.add(data.getValue(ticketData::class.java)!!)
-                            Log.i("attachTicketData", ticketDataList.toString())
+                    data.children.forEach { userTicket ->
+                        userTicket.getValue(ticketData::class.java)?.let {
+                            _ticketDataList.add(it)
                         }
-                        for(seat in data.child("selectedSeat").children){
-                            Log.i("test",seat.key.toString()+seat.value.toString())
-                            test.put(seat.key as String,0)
-                        }
-                        userOwnSeat.put(data.getValue(ticketData::class.java)!!.namaFilm, test)
                     }
-                    userOwnTicket.value = ticketDataList
+                    Log.i("attachTicketData", _ticketDataList.toString())
+                    ticketDataList.value = _ticketDataList
                 }
 
                 override fun onCancelled(p0: DatabaseError) {

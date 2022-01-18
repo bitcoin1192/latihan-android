@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.sisalma.movieticketapp.appActivity.buyTicket.buyTicketActivity
+import com.sisalma.movieticketapp.appActivity.buyTicket.BuyTicketActivity
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.ActivityDetailBinding
 
@@ -31,7 +31,7 @@ class filmDetailActivity : AppCompatActivity() {
 
         binding.rvWhoPlay.adapter = PlaysAdapter(player)
         binding.btnPilihBangku.setOnClickListener {
-            val intent = Intent(this,buyTicketActivity::class.java)
+            val intent = Intent(this,BuyTicketActivity::class.java)
                 .putExtra("filmData",detailParcel)
             startActivity(intent)
         }

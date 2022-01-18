@@ -10,11 +10,11 @@ import com.sisalma.movieticketapp.databinding.ActivitySignUpBinding
 
 
 class signUpActivity : AppCompatActivity() {
-    private val guestUser = GuestUser(applicationContext)
+    private lateinit var guestUser: GuestUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        guestUser = GuestUser(applicationContext)
         var uiBind = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(uiBind.root)
         uiBind.buttonTrue.setOnClickListener(){

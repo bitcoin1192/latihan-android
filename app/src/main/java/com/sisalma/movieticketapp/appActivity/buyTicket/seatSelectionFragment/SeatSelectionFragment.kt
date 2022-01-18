@@ -1,64 +1,60 @@
 package com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sisalma.movieticketapp.appActivity.buyTicket.buyTicketActivity
+import com.sisalma.movieticketapp.ViewModelCinema
+import com.sisalma.movieticketapp.appActivity.appHome.ViewModelNavTab
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.FragmentSeatSelectionBinding
-import com.sisalma.movieticketapp.repository.cinemaRepository
 
-class seatSelectionFragment(filmObj: Film, cinemaRepository: cinemaRepository): Fragment() {
-    val filmDetail = filmObj
-    val seatAvailability = cinemaRepository.getSeatAvailability()
-
+class SeatSelectionFragment(): Fragment() {
     var _binding: FragmentSeatSelectionBinding? = null
     private val uiBind get() = _binding!!
-    lateinit var ticketActivity: buyTicketActivity
-    val adapter: seatSelectorAdapter = seatSelectorAdapter(filmDetail.priceList)
+    val adapter: seatSelectorAdapter = seatSelectorAdapter()
+    val ViewModelCinema: ViewModelCinema by activityViewModels()
+    val ViewModelNavTab: ViewModelNavTab by activityViewModels()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val seatData = seatViewModel()
-        val seatArray = seatData.getSeatStatus()
-
-        ticketActivity = activity as buyTicketActivity
         _binding = FragmentSeatSelectionBinding.inflate(inflater,container,false)
 
-        uiBind.tvKursi.text = filmDetail.judul
+        uiBind.tvKursi.text = ViewModelCinema.getNamaFilm()
 
-        seatArray.observe(this.viewLifecycleOwner, Observer {
+        ViewModelCinema.getAvailableSeat().observe(this.viewLifecycleOwner, {
+            Log.i("sometest","hey im here")
             adapter.setData(it)
             if(uiBind.rvSeatSelector.adapter == null){
-                Log.i("adapterAttach", "Check 1")
                 uiBind.rvSeatSelector.adapter = adapter
                 uiBind.rvSeatSelector.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }else {
                 adapter.notifyDataSetChanged()
             }
         })
-
+        adapter.resultListener().observe(this.viewLifecycleOwner,{
+            Log.i("some button is clicked","$it")
+            ViewModelCinema.setSelectedSeat(it)
+        })
         uiBind.imageView3.setOnClickListener {
-            ticketActivity.backPage()
+            ViewModelNavTab.setCurrentPage(-1)
         }
 
         uiBind.btnTicketBuy.setOnClickListener {
-            Log.i("ticketBuyBtn",adapter.seatResult.size.toString())
-            if(adapter.seatResult.size != 0){
-                ticketActivity.nextPage()
+            Log.i("ticketBuyBtn", ViewModelCinema.getSelectedSeat().size.toString())
+            if(ViewModelCinema.getSelectedSeat().size != 0){
+                ViewModelNavTab.setCurrentPage(1)
             }else{
                 Toast.makeText(this.activity,"Pilih bangku terlebih dahulu", Toast.LENGTH_SHORT).show()
             }
         }
         return uiBind.root
-    }
-
-    fun returnSeatResult(): HashMap<String,Int>{
-        return adapter.seatResult
     }
 }

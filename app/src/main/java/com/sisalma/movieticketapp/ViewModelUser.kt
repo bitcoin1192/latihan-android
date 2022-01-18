@@ -9,16 +9,28 @@ class ViewModelUser: ViewModel() {
     /*private var profilePictureURL: String = ""
     private var currentSaldo: Int = 0
     private var userNickname: String = ""*/
-    var _userData = dataUser()
+    private var _latestSeatRequest: ArrayList<seat> = ArrayList()
+    val latestSeatRequest: MutableLiveData<ArrayList<seat>> = MutableLiveData()
+    private var _userData = dataUser()
     val userData: MutableLiveData<dataUser> = MutableLiveData()
+    val logout: MutableLiveData<Boolean> = MutableLiveData()
 
     fun setUserData(inputUserData: dataUser){
         _userData = inputUserData
         userData.value = _userData
     }
 
-    fun getUserData(): LiveData<dataUser>{
+    fun liveUserData(): LiveData<dataUser>{
         return userData
+    }
+
+    fun getUserData(): dataUser{
+        return _userData
+    }
+
+    fun buyTicket(input: ArrayList<seat>){
+        _latestSeatRequest = input
+        latestSeatRequest.value = _latestSeatRequest
     }
 
     fun getUserHistoryTicket(){
@@ -27,5 +39,9 @@ class ViewModelUser: ViewModel() {
 
     fun getUserHistoryTopup(){
 
+    }
+
+    fun userLogout(inputBool: Boolean){
+        logout.value = inputBool
     }
 }

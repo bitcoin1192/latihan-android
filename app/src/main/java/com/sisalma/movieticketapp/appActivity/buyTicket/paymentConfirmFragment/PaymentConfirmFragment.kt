@@ -2,70 +2,59 @@ package com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sisalma.movieticketapp.appActivity.buyTicket.buyTicketActivity
-import com.sisalma.movieticketapp.authenticatedUsers
+import com.sisalma.movieticketapp.ViewModelCinema
+import com.sisalma.movieticketapp.ViewModelUser
+import com.sisalma.movieticketapp.appActivity.appHome.ViewModelNavTab
 import com.sisalma.movieticketapp.dataStructure.seat
-import com.sisalma.movieticketapp.dataUser
 import com.sisalma.movieticketapp.databinding.FragmentPaymentConfirmBinding
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
-class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seatResult: HashMap<String, Int>): Fragment() {
+class paymentConfirmFragment(): Fragment() {
     var _binding: FragmentPaymentConfirmBinding? = null
     private val uiBind get() = _binding!!
-    val authUser = authUser
-    lateinit var userDetail: dataUser
-    val seatResult = seatResult
+
     var total = 0
-    lateinit var ticketActivity: buyTicketActivity
+    val ViewModelCinema: ViewModelCinema by activityViewModels()
+    val ViewModelNavTab: ViewModelNavTab by activityViewModels()
+    val ViewModelUser: ViewModelUser by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        ticketActivity = activity as buyTicketActivity
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentPaymentConfirmBinding.inflate(inflater,container,false)
-        return uiBind.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         //uiBind.rcCheckout.adapter = seatAdapter(seatResult)
         uiBind.rcCheckout.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         uiBind.btnCancel.setOnClickListener {
             activity?.finish()
         }
         uiBind.ivButtonBack.setOnClickListener {
-            ticketActivity.backPage()
+            ViewModelNavTab.setCurrentPage(ViewModelNavTab.getCurrentPage()-1)
         }
         uiBind.btnConfirm.setOnClickListener {
-            var sbuild = ArrayList<seat>()
-            sbuild[0].seatID = 2
-            sbuild[0].statusAvailable = true
-            sbuild[0].statusSelected = true
-            authUser.buyTicket(ticketActivity.filmDetail.judul, sbuild)
-            authUser.potongSaldo(total)
-            ticketActivity.nextPage()
+            ViewModelUser.buyTicket(ViewModelCinema.getSelectedSeat())
+            //authUser.buyTicket(filmName, sbuild)
+            //authUser.potongSaldo(total)
+            ViewModelNavTab.setCurrentPage(2)
         }
-        userDetail = authUser.getUserData()!!
+        //userDetail = authUser.getUserData()!!
+        return uiBind.root
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onResume() {
         super.onResume()
         uiBind.rcCheckout.adapter?.notifyDataSetChanged()
-        uiBind.tvSaldo.text = calculateTotal(seatResult)
-        uiBind.tvSisa.text = calculateTotal(userDetail.saldo)
-        if(userDetail.saldo-total < 0){
+        uiBind.tvSaldo.text = calculateTotal(ViewModelCinema.getSelectedSeat())
+        uiBind.tvSisa.text = calculateTotal(ViewModelUser.getUserData().saldo)
+        if(ViewModelUser.getUserData().saldo-total < 0){
             uiBind.btnConfirm.visibility = View.INVISIBLE
         }else{
             uiBind.btnConfirm.visibility = View.VISIBLE
@@ -73,11 +62,11 @@ class paymentConfirmFragment(authUser: authenticatedUsers,filmName: String, seat
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun calculateTotal(items: HashMap<String, Int>): String{
+    fun calculateTotal(items: ArrayList<seat>): String{
         val currency = NumberFormat.getCurrencyInstance(Locale("id","ID"))
         total = 0
-        items.forEach { t, u ->
-            total += u
+        items.forEach { u ->
+            total += u.priceList
         }
         return currency.format(total)
     }

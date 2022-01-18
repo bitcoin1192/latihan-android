@@ -10,19 +10,6 @@ class seatViewModel (): ViewModel() {
     val seatSelected: MutableLiveData<HashMap<String, Boolean>> = MutableLiveData()
     val seatGroup: ArrayList<Boolean> = ArrayList()
 
-    init {
-    /*    seatStatus.forEachIndexed { index, b ->
-            seatGroup.add(b)
-            if (((index + 1) % 4) == 0) {
-                seatArrayStatus.add(seatGroup.clone() as java.util.ArrayList<Boolean>)
-                if (index == seatStatus.size - 1) {
-                    seatAvailable.value = seatArrayStatus
-                }
-                seatGroup.clear()
-            }
-        }*/
-    }
-
     fun setSeatStatus(seatData: sesiTayang){
 
     }

@@ -9,19 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sisalma.movieticketapp.ViewModelUser
-import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.ComingSoonAdapter
+import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.ticketRowAdapter
 import com.sisalma.movieticketapp.appActivity.appHome.ticketShowActivity
 import com.sisalma.movieticketapp.databinding.FragmentTicketBinding
-import com.sisalma.movieticketapp.repository.filmRepository
-import com.sisalma.movieticketapp.repository.userRepository
-import com.sisalma.movieticketapp.viewModelFilm
 
 class ticketFragment (): Fragment() {
     private val ViewModelTicket: ViewModelTicket by activityViewModels()
-    private val ViewModelUser: ViewModelUser by activityViewModels()
     var _binding: FragmentTicketBinding? = null
     private val binding get() = _binding!!
 
@@ -33,12 +27,12 @@ class ticketFragment (): Fragment() {
         _binding = FragmentTicketBinding.inflate(inflater,container,false)
         Log.i("ticketFragment", "activity created")
 
-        ViewModelTicket.getUserActiveTicket().observe(this.viewLifecycleOwner, Observer{
-            binding.rvTicketList.adapter = ComingSoonAdapter(it){ data ->
+        ViewModelTicket.availableTicketFilms.observe(this.viewLifecycleOwner, Observer{
+            binding.rvTicketList.adapter = ticketRowAdapter(ViewModelTicket.getFilmMapData(),it){ data, ticket ->
                 Log.i("ticketFragment", data.judul)
                 val intent = Intent(this.activity,ticketShowActivity::class.java)
                     .putExtra("filmDetail",data)
-                    .putExtra("ticketData", ViewModelTicket.getTicketData(data.judul))
+                    .putExtra("ticketData", ticket)
                 Log.i("getsomedata",ViewModelTicket.getTicketData(data.judul).toString())
                 startActivity(intent)
             }

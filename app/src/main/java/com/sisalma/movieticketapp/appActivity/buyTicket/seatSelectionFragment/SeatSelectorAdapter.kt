@@ -4,17 +4,22 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.sisalma.movieticketapp.dataStructure.seat
+import com.sisalma.movieticketapp.dataStructure.sesiTayang
 import com.sisalma.movieticketapp.databinding.RowSeatBinding
 
-class seatSelectorAdapter(saldoSeat: Int): RecyclerView.Adapter<seatSelectorAdapter.seatSelection>() {
-    val hargaSeat = saldoSeat
-    val seatLevel = arrayListOf<String>("A","B","C","D")
-    var seatStatus = ArrayList<ArrayList<Boolean>>()
-    val seatResult = HashMap<String,Int>()
+class seatSelectorAdapter(): RecyclerView.Adapter<seatSelection>() {
+    private lateinit var _cinemaSession: sesiTayang
+    var seatLevel: ArrayList<String> = ArrayList()
+
+    private var _seatResult: MutableLiveData<seat> = MutableLiveData()
+    private var _seatDataGroup: HashMap<String,ArrayList<seat>> = HashMap()
     lateinit var ContextAdapter: Context
 
-    var _binding: RowSeatBinding? = null
+    private var _binding: RowSeatBinding? = null
     private val uiBind get() = _binding!!
 
     override fun getItemCount(): Int {
@@ -22,7 +27,7 @@ class seatSelectorAdapter(saldoSeat: Int): RecyclerView.Adapter<seatSelectorAdap
     }
 
     override fun onBindViewHolder(holder: seatSelection, position: Int) {
-        holder.setAvailableSeat(seatStatus[position])
+        _seatDataGroup.get(seatLevel[position])?.let { holder.setRowData(it) }
         holder.bindSeat(seatLevel[position])
     }
 
@@ -31,55 +36,67 @@ class seatSelectorAdapter(saldoSeat: Int): RecyclerView.Adapter<seatSelectorAdap
 
         val layoutInflater = LayoutInflater.from(parent.context)
         ContextAdapter = parent.context
-        var uiBind = RowSeatBinding.inflate(layoutInflater,parent,false)
+        _binding = RowSeatBinding.inflate(layoutInflater,parent,false)
 
-        return seatSelection(uiBind, seatResult, hargaSeat)
+        return seatSelection(uiBind,_seatResult)
     }
 
-    fun setData(seatData: ArrayList<ArrayList<Boolean>>){
-        seatStatus = seatData
+    fun setData(input: sesiTayang){
+        _cinemaSession = input
+        countSeatLevel()
+        groupSeatData()
     }
 
-    class seatSelection(view: RowSeatBinding, seatResult: HashMap<String, Int>, hargaSeat: Int):RecyclerView.ViewHolder(view.root){
-        var seatAvailability: ArrayList<Boolean> = ArrayList()
-        val seatRowPrice = hargaSeat
-        private val uiBind = view
-        val result = seatResult
-        private val rowSeat = arrayListOf<seatSelectorButton>(uiBind.seatSelector1,uiBind.seatSelector2,
-                                    uiBind.seatSelector3,uiBind.seatSelector4)
+    fun resultListener(): LiveData<seat>{
+        return _seatResult
+    }
 
-        fun bindSeat(seatLevelName: String){
-            selectAvailableSeat()
-            uiBind.tvRowIndicator.text = seatLevelName
-            // Iterate over array of seatSelectorButton and
-            // then set the onClickListener to respond to user input
-            rowSeat.forEachIndexed { index, seatSelectorButton ->
+    private fun countSeatLevel(){
+        seatLevel.clear()
+        _cinemaSession.availableSeat.forEachIndexed { i, seatDetail ->
+            if(seatLevel.size == 0){
+                seatLevel.add(seatDetail.seatRow.uppercase())
+            }
+            if(seatDetail.seatRow.lowercase() != seatLevel[seatLevel.size-1].lowercase()) {
+                    seatLevel.add(seatDetail.seatRow.uppercase())
+                    Log.i("test-byte", "$seatLevel + $i")
+            }
+        }
+    }
+    private fun groupSeatData(){
+        seatLevel.forEach { level ->
+            _seatDataGroup.put(level, ArrayList(_cinemaSession.availableSeat.filter {
+                it.seatRow.lowercase() == level.lowercase()
+                })
+            )
+        }
+
+    }
+}
+
+class seatSelection(view: RowSeatBinding, val _resultPipe: MutableLiveData<seat>):RecyclerView.ViewHolder(view.root){
+    private var _seatRowData: ArrayList<seat> = ArrayList()
+    private val _uiBind = view
+    private val rowSeat = arrayListOf<seatSelectorButton>(_uiBind.seatSelector1,_uiBind.seatSelector2,
+        _uiBind.seatSelector3,_uiBind.seatSelector4)
+
+    fun bindSeat(seatLevelName: String){
+        _uiBind.tvRowIndicator.text = seatLevelName.uppercase()
+        // Iterate over array of seatSelectorButton and
+        // then set the onClickListener to respond to user input
+        rowSeat.forEachIndexed { index, seatSelectorButton ->
+            seatSelectorButton.setSeatData(_seatRowData[index])
+            //Listen event from seatSelector only
+            //if upstream data permit it
+            if(_seatRowData[index].statusAvailable) {
                 seatSelectorButton.setOnClickListener {
-                    val seatName = seatLevelName+index.toString()
-                    if(result.containsKey(seatName)) {
-                        result.remove(seatName)
-                    }
-                    else {
-                        result.put(seatName, seatRowPrice)
-                    }
-                    seatSelectorButton.seatSelectToggle()
+                    _resultPipe.value = seatSelectorButton.getSeatData()
                 }
             }
         }
+    }
 
-        fun selectAvailableSeat(){
-            rowSeat.forEachIndexed { index, seatSelectorButton ->
-                Log.i("seatIndex", seatAvailability.size.toString())
-                if(seatAvailability[index]){
-                    seatSelectorButton.setSeatIsSelectable(true)
-                }else{
-                    seatSelectorButton.setSeatIsSelectable(false)
-                }
-            }
-        }
-
-        fun setAvailableSeat(seatStatus: ArrayList<Boolean>){
-            seatAvailability = seatStatus
-        }
+    fun setRowData(input: ArrayList<seat>){
+        _seatRowData = input
     }
 }

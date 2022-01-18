@@ -23,8 +23,8 @@ class topupDompet: AppCompatActivity() {
         val authUser = authenticatedUsers(applicationContext)
         authUser.userAuthenticate()
 
-        val status = arrayListOf<Boolean>(false,false,false,false,false,false)
-        val buttonView = arrayListOf<TextView>(uiBind.tv10k,uiBind.tv20k,uiBind.tv30k,uiBind.tv40k,uiBind.tv50k,uiBind.tv60k)
+        val status = arrayListOf(false,false,false,false,false,false)
+        val buttonView = arrayListOf(uiBind.tv10k,uiBind.tv20k,uiBind.tv30k,uiBind.tv40k,uiBind.tv50k,uiBind.tv60k)
         buttonView.forEachIndexed{ index, button ->
             button.setOnClickListener{
                 if (status[index]){
@@ -41,7 +41,6 @@ class topupDompet: AppCompatActivity() {
         }
 
         uiBind.btnTopUp.setOnClickListener {
-            Log.i("bulsshit", "$topupSaldo")
             authUser.topupSaldo(topupSaldo)
             val intent = Intent(this, home::class.java)
             startActivity(intent)
