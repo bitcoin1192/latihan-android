@@ -18,7 +18,7 @@ import com.sisalma.movieticketapp.databinding.ActivityBuyTicketBinding
 import com.sisalma.movieticketapp.repository.cinemaRepository
 import com.sisalma.movieticketapp.repository.userRepository
 
-class BuyTicketActivity(): AppCompatActivity() {
+class BuyTicketActivity : AppCompatActivity() {
     lateinit var uiBind: ActivityBuyTicketBinding
     lateinit var fragmentArrayList: ArrayList<Fragment>
     lateinit var authUser: authenticatedUsers
@@ -42,7 +42,8 @@ class BuyTicketActivity(): AppCompatActivity() {
         setContentView(uiBind.root)
 
         filmDetail?.let {
-            fragmentArrayList = arrayListOf(SeatSelectionFragment(),
+            fragmentArrayList = arrayListOf(
+                SeatSelectionFragment(),
                 paymentConfirmFragment(),
                 paymentFinishFragment()
             )
@@ -50,7 +51,7 @@ class BuyTicketActivity(): AppCompatActivity() {
 
         ObserveRepository()
         ObserveViewModel()
-        uiBind.fragmentHolder.adapter = pageHolder(this,fragmentArrayList)
+        uiBind.fragmentHolder.adapter = pageHolder(this, fragmentArrayList)
         uiBind.fragmentHolder.isUserInputEnabled = false
     }
 
@@ -58,10 +59,10 @@ class BuyTicketActivity(): AppCompatActivity() {
         backPage()
     }
 
-    private fun nextPage(){
-        if(uiBind.fragmentHolder.currentItem <= uiBind.fragmentHolder.childCount){
-            uiBind.fragmentHolder.setCurrentItem(uiBind.fragmentHolder.currentItem + 1)
-        }else{
+    private fun nextPage() {
+        if(uiBind.fragmentHolder.currentItem <= uiBind.fragmentHolder.childCount) {
+            uiBind.fragmentHolder.currentItem = uiBind.fragmentHolder.currentItem + 1
+        } else {
             finishAffinity()
             val intent = Intent(this, home::class.java)
             startActivity(intent)
@@ -70,34 +71,34 @@ class BuyTicketActivity(): AppCompatActivity() {
         //Log.i("seatResultActivity", seatFragment.returnSeatResult().toString())
     }
 
-    private fun backPage(){
-        if(uiBind.fragmentHolder.currentItem > 0 ){
-            uiBind.fragmentHolder.setCurrentItem(uiBind.fragmentHolder.currentItem-1)
-        }else{
+    private fun backPage() {
+        if(uiBind.fragmentHolder.currentItem > 0) {
+            uiBind.fragmentHolder.currentItem = uiBind.fragmentHolder.currentItem - 1
+        } else {
             finish()
         }
     }
 
-    private fun ObserveRepository(){
-        cinemaRepo.getSessionData().observe(this,{
+    private fun ObserveRepository() {
+        cinemaRepo.getSessionData().observe(this, {
             ViewModelCinema.setSesiTayang(it)
         })
-        userRepo.getUserProfile().observe(this,{
+        userRepo.getUserProfile().observe(this, {
             ViewModelUser.setUserData(it)
         })
     }
 
-    private fun ObserveViewModel(){
-        ViewModelNavTab.liveCurrentPage().observe(this,{ page ->
-            if(!(page < 0 || page > fragmentArrayList.size-1 )){
-                uiBind.fragmentHolder.setCurrentItem(page)
-            }else{
+    private fun ObserveViewModel() {
+        ViewModelNavTab.liveCurrentPage().observe(this, { page ->
+            if(!(page < 0 || page > fragmentArrayList.size - 1)) {
+                uiBind.fragmentHolder.currentItem = page
+            } else {
                 finish()
             }
         })
-        ViewModelUser.latestSeatRequest.observe(this,{
+        ViewModelUser.latestSeatRequest.observe(this, {
             filmDetail?.judul?.let { filmName ->
-                authUser.buyTicket(filmName ,it)
+                authUser.buyTicket(filmName, it)
             }
         })
     }

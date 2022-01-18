@@ -2,7 +2,6 @@ package com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,8 @@ import com.sisalma.movieticketapp.dataStructure.seat
 import com.sisalma.movieticketapp.databinding.FragmentPaymentConfirmBinding
 import java.text.NumberFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class paymentConfirmFragment(): Fragment() {
+class paymentConfirmFragment : Fragment() {
     var _binding: FragmentPaymentConfirmBinding? = null
     private val uiBind get() = _binding!!
 
@@ -28,15 +26,20 @@ class paymentConfirmFragment(): Fragment() {
     val ViewModelNavTab: ViewModelNavTab by activityViewModels()
     val ViewModelUser: ViewModelUser by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentPaymentConfirmBinding.inflate(inflater,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentPaymentConfirmBinding.inflate(inflater, container, false)
         //uiBind.rcCheckout.adapter = seatAdapter(seatResult)
-        uiBind.rcCheckout.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        uiBind.rcCheckout.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         uiBind.btnCancel.setOnClickListener {
             activity?.finish()
         }
         uiBind.ivButtonBack.setOnClickListener {
-            ViewModelNavTab.setCurrentPage(ViewModelNavTab.getCurrentPage()-1)
+            ViewModelNavTab.setCurrentPage(ViewModelNavTab.getCurrentPage() - 1)
         }
         uiBind.btnConfirm.setOnClickListener {
             ViewModelUser.buyTicket(ViewModelCinema.getSelectedSeat())
@@ -54,16 +57,16 @@ class paymentConfirmFragment(): Fragment() {
         uiBind.rcCheckout.adapter?.notifyDataSetChanged()
         uiBind.tvSaldo.text = calculateTotal(ViewModelCinema.getSelectedSeat())
         uiBind.tvSisa.text = calculateTotal(ViewModelUser.getUserData().saldo)
-        if(ViewModelUser.getUserData().saldo-total < 0){
+        if(ViewModelUser.getUserData().saldo - total < 0) {
             uiBind.btnConfirm.visibility = View.INVISIBLE
-        }else{
+        } else {
             uiBind.btnConfirm.visibility = View.VISIBLE
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun calculateTotal(items: ArrayList<seat>): String{
-        val currency = NumberFormat.getCurrencyInstance(Locale("id","ID"))
+    fun calculateTotal(items: ArrayList<seat>): String {
+        val currency = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
         total = 0
         items.forEach { u ->
             total += u.priceList
@@ -72,8 +75,8 @@ class paymentConfirmFragment(): Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun calculateTotal(saldo: Int): String{
-        val currency = NumberFormat.getCurrencyInstance(Locale("id","ID"))
-        return currency.format((saldo-total))
+    fun calculateTotal(saldo: Int): String {
+        val currency = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        return currency.format((saldo - total))
     }
 }

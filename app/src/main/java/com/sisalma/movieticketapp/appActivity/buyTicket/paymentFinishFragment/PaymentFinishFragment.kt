@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.sisalma.movieticketapp.appActivity.appHome.ViewModelNavTab
 import com.sisalma.movieticketapp.databinding.FragmentPaymentFinishBinding
 
-class paymentFinishFragment(): Fragment() {
+class paymentFinishFragment : Fragment() {
     var _binding: FragmentPaymentFinishBinding? = null
     private val uiBind get() = _binding!!
     private val ViewModelNavTab: ViewModelNavTab by activityViewModels()
@@ -19,14 +19,14 @@ class paymentFinishFragment(): Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPaymentFinishBinding.inflate(inflater,container,false)
+        _binding = FragmentPaymentFinishBinding.inflate(inflater, container, false)
         return uiBind.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         uiBind.btnHome.setOnClickListener {
-            ViewModelNavTab.setCurrentPage(ViewModelNavTab.getCurrentPage()+1)
+            ViewModelNavTab.setCurrentPage(ViewModelNavTab.getCurrentPage() + 1)
         }
     }
 }

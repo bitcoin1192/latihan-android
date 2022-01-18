@@ -12,15 +12,16 @@ import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.dataStructure.ticketData
 
-class ComingSoonAdapter(private var data: ArrayList<Film>, private val listener: (Film) -> Unit)
-    : RecyclerView.Adapter<LeagueViewHolder>() {
+class ComingSoonAdapter(private var data: ArrayList<Film>, private val listener: (Film) -> Unit) :
+    RecyclerView.Adapter<LeagueViewHolder>() {
 
-    lateinit var ContextAdapter : Context
+    lateinit var ContextAdapter: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         ContextAdapter = parent.context
-        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_coming_soon, parent, false)
+        val inflatedView: View =
+            layoutInflater.inflate(R.layout.row_item_coming_soon, parent, false)
 
         return LeagueViewHolder(inflatedView)
     }
@@ -30,13 +31,22 @@ class ComingSoonAdapter(private var data: ArrayList<Film>, private val listener:
     }
 
     override fun getItemCount(): Int = data.size
-    }
+}
 
-class ticketRowAdapter(var filmList: HashMap<String,Film>, var ticketList: ArrayList<ticketData>, val listener: (Film, ticketData) -> Unit): RecyclerView.Adapter<ticketRowAdapter.ViewHolder>(){
-    lateinit var ContextAdapter : Context
+class ticketRowAdapter(
+    var filmList: HashMap<String, Film>,
+    var ticketList: ArrayList<ticketData>,
+    val listener: (Film, ticketData) -> Unit
+) : RecyclerView.Adapter<ticketRowAdapter.ViewHolder>() {
+    lateinit var ContextAdapter: Context
 
-    inner class ViewHolder(view: View) : LeagueViewHolder(view){
-        fun bindTicketItem(data: Film, ticket: ticketData, listener: (Film,ticketData) -> Unit, context: Context){
+    inner class ViewHolder(view: View) : LeagueViewHolder(view) {
+        fun bindTicketItem(
+            data: Film,
+            ticket: ticketData,
+            listener: (Film, ticketData) -> Unit,
+            context: Context
+        ) {
             tvTitle.text = data.judul
             tvGenre.text = data.genre
             tvRate.text = data.rating
@@ -55,13 +65,14 @@ class ticketRowAdapter(var filmList: HashMap<String,Film>, var ticketList: Array
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         ContextAdapter = parent.context
-        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_coming_soon, parent, false)
+        val inflatedView: View =
+            layoutInflater.inflate(R.layout.row_item_coming_soon, parent, false)
         return ViewHolder(inflatedView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         filmList[ticketList[position].namaFilm]?.let {
-            holder.bindTicketItem(it,ticketList[position],listener,ContextAdapter)
+            holder.bindTicketItem(it, ticketList[position], listener, ContextAdapter)
         }
     }
 
@@ -78,7 +89,7 @@ open class LeagueViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     protected val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
 
-    fun bindItem(data: Film, listener: (Film) -> Unit, context : Context, position : Int) {
+    fun bindItem(data: Film, listener: (Film) -> Unit, context: Context, position: Int) {
 
         tvTitle.text = data.judul
         tvGenre.text = data.genre

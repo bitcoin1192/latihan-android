@@ -9,12 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.appActivity.Playlist
 
-class PlaysAdapter(private var data: ArrayList<Playlist>)
-    : RecyclerView.Adapter<PlaysAdapter.LeagueViewHolder>() {
+class PlaysAdapter(private var data: ArrayList<Playlist>) :
+    RecyclerView.Adapter<PlaysAdapter.LeagueViewHolder>() {
 
-    lateinit var ContextAdapter : Context
+    lateinit var ContextAdapter: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -36,7 +35,7 @@ class PlaysAdapter(private var data: ArrayList<Playlist>)
 
         private val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
 
-        fun bindItem(data: Playlist, context : Context, position : Int) {
+        fun bindItem(data: Playlist, context: Context, position: Int) {
 
             tvTitle.text = data.nama
             Glide

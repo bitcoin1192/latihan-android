@@ -1,30 +1,27 @@
 package com.sisalma.movieticketapp.appActivity.appHome.ticketFragment
 
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sisalma.movieticketapp.dataStructure.Film
-import com.sisalma.movieticketapp.dataStructure.seat
-import com.sisalma.movieticketapp.repository.filmRepository
 import com.sisalma.movieticketapp.dataStructure.ticketData
-import com.sisalma.movieticketapp.repository.userRepository
 
-class ViewModelTicket(): ViewModel() {
+class ViewModelTicket : ViewModel() {
     var filmList: ArrayList<Film> = ArrayList()
     var ticketArrayList: ArrayList<ticketData> = ArrayList()
-    val availableTicketFilms: MutableLiveData<ArrayList<ticketData>> = MutableLiveData<ArrayList<ticketData>>()
+    val availableTicketFilms: MutableLiveData<ArrayList<ticketData>> =
+        MutableLiveData<ArrayList<ticketData>>()
     private var _keyFilmData: HashMap<String, Film> = HashMap()
     var _keyTicketData: HashMap<String, ticketData> = HashMap()
 
-    fun setfilmList(input: ArrayList<Film>){
+    fun setfilmList(input: ArrayList<Film>) {
         filmList = input
         createKeyFilmData()
     }
 
-    fun setDataTicket(input: ArrayList<ticketData>){
-        Log.i("vmt","$input")
+    fun setDataTicket(input: ArrayList<ticketData>) {
+        Log.i("vmt", "$input")
         ticketArrayList = input
         //ticketArrayList = arrayListOf(ticketData())
         calculateTotalPriceList()
@@ -36,7 +33,7 @@ class ViewModelTicket(): ViewModel() {
         return _keyTicketData[UID]
     }
 
-    fun getFilmMapData(): HashMap<String,Film>{
+    fun getFilmMapData(): HashMap<String, Film> {
         return _keyFilmData
     }
 
@@ -56,27 +53,28 @@ class ViewModelTicket(): ViewModel() {
             availableTicketFilms.value = selectedFilmList
         }
     }*/
-    private fun getFilmByKey(filmName: String):Film?{
+    private fun getFilmByKey(filmName: String): Film? {
         return _keyFilmData[filmName]
     }
 
-    private fun createKeyFilmData(){
+    private fun createKeyFilmData() {
         _keyFilmData.clear()
         filmList.forEach({
-            _keyFilmData.put(it.judul,it)
+            _keyFilmData.put(it.judul, it)
         })
     }
 
-    private fun createKeyTicketData(){
+    private fun createKeyTicketData() {
         _keyTicketData.clear()
         ticketArrayList.forEach({
-            _keyTicketData.put(it.UID,it)
+            _keyTicketData.put(it.UID, it)
         })
     }
-    private fun calculateTotalPriceList(){
-        ticketArrayList.forEach{
+
+    private fun calculateTotalPriceList() {
+        ticketArrayList.forEach {
             var total = 0
-            it.selectedSeat.forEach{
+            it.selectedSeat.forEach {
                 total += it.priceList
             }
             it.seatPrice = total

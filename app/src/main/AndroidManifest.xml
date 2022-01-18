@@ -74,7 +74,7 @@
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name=".appActivity.appHome.ticketShowActivity"
+            android:name=".appActivity.appHome.TicketShowActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"/>

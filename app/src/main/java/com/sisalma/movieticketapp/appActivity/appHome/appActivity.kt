@@ -1,17 +1,17 @@
 package com.sisalma.movieticketapp.appActivity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.ViewModelUser
 import com.sisalma.movieticketapp.appActivity.appHome.ViewModelNavTab
 import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.dashboardFragment
-import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ticketFragment
 import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ViewModelTicket
+import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ticketFragment
 import com.sisalma.movieticketapp.appActivity.appHome.userProfileFragment.settingFragment
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivityHomeBinding
@@ -38,7 +38,7 @@ class home : AppCompatActivity() {
         setContentView(binding.root)
 
         val settings = applicationContext.getSharedPreferences("app-setting", MODE_PRIVATE)
-        val oldUser = settings.getBoolean("oldUser",false)
+        val oldUser = settings.getBoolean("oldUser", false)
 
         val userObject = authenticatedUsers(applicationContext)
         userObject.userAuthenticate()
@@ -74,14 +74,14 @@ class home : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         if(currFragment != null) {
-            if (fragment != currFragment) {
+            if(fragment != currFragment) {
                 fragmentTransaction.replace(R.id.layout_frame, fragment)
                 fragmentTransaction.commit()
                 currFragment = fragment
-            }else{
-                Log.i("setFragment","Not replacing fragment because user selected same menu")
+            } else {
+                Log.i("setFragment", "Not replacing fragment because user selected same menu")
             }
-        }else{
+        } else {
             fragmentTransaction.replace(R.id.layout_frame, fragment)
             fragmentTransaction.commit()
             currFragment = fragment
@@ -92,40 +92,40 @@ class home : AppCompatActivity() {
         imageView.setImageResource(int)
     }
 
-    private fun observeRepository(){
+    private fun observeRepository() {
         filmRepo.getFilmLiveData().observe(this, {
             viewModelFilm.setFilmData(it)
             ViewModelTicket.setfilmList(it)
         })
-        userRepo.getUserProfile().observe(this,{
+        userRepo.getUserProfile().observe(this, {
             viewModelUser.setUserData(it)
         })
-        userRepo.getUserTicket().observe(this,{
+        userRepo.getUserTicket().observe(this, {
             ViewModelTicket.setDataTicket(it)
         })
     }
 
-    private fun observeViewModel(){
-        viewModelUser.logout.observe(this,{
-            if(it){
+    private fun observeViewModel() {
+        viewModelUser.logout.observe(this, {
+            if(it) {
                 userRepo.userObj.userDeauthenticate()
             }
         })
-        ViewModelNavTab.liveCurrentPage().observe(this,{
-            when(it){
-                1 ->{
+        ViewModelNavTab.liveCurrentPage().observe(this, {
+            when (it) {
+                1 -> {
                     changeIcon(binding.ivMenu1, R.drawable.ic_home_active)
                     changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
                     changeIcon(binding.ivMenu3, R.drawable.ic_profile)
                     setFragment(fragmentHome)
                 }
-                2 ->{
+                2 -> {
                     changeIcon(binding.ivMenu1, R.drawable.ic_home)
                     changeIcon(binding.ivMenu2, R.drawable.ic_tiket_active)
                     changeIcon(binding.ivMenu3, R.drawable.ic_profile)
                     setFragment(fragmentTiket)
                 }
-                3 ->{
+                3 -> {
                     changeIcon(binding.ivMenu1, R.drawable.ic_home)
                     changeIcon(binding.ivMenu2, R.drawable.ic_tiket)
                     changeIcon(binding.ivMenu3, R.drawable.ic_profile_active)

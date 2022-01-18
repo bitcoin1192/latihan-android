@@ -6,19 +6,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.*
-import androidx.core.app.NotificationCompat
-import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import java.util.*
-import android.app.NotificationManager
 
-import android.app.NotificationChannel
-import android.content.Context
-import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.NotificationManagerCompat
 import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.appActivity.home
 import com.sisalma.movieticketapp.databinding.ActivityPhotouploadBinding

@@ -4,18 +4,15 @@ import android.content.Intent
 import android.icu.text.NumberFormat
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.dataStructure.ticketData
 import com.sisalma.movieticketapp.dataUser
 import com.sisalma.movieticketapp.databinding.ActivitySaldoHistoryBinding
 import java.util.*
-import kotlin.collections.ArrayList
 
-class historiDompet: AppCompatActivity() {
+class historiDompet : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +21,13 @@ class historiDompet: AppCompatActivity() {
 
         val saldoUser = intent.getParcelableExtra<dataUser>("saldoUser")
         val ticketHistory = intent.getParcelableArrayListExtra<ticketData>("ticketData")
-        val number = NumberFormat.getCurrencyInstance(Locale("id","ID"))
-        uiBind.ivButtonBack.setOnClickListener{
+        val number = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        uiBind.ivButtonBack.setOnClickListener {
             finish()
         }
 
         uiBind.btnTopUp.setOnClickListener {
-            val intent = Intent(this,topupDompet::class.java)
+            val intent = Intent(this, topupDompet::class.java)
             startActivity(intent)
         }
 

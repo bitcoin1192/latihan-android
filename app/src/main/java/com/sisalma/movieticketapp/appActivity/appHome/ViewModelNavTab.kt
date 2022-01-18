@@ -5,24 +5,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 
-class ViewModelNavTab: ViewModel() {
+class ViewModelNavTab : ViewModel() {
     private var _currentPage = 1
     val currentPage: MutableLiveData<Int> = MutableLiveData()
 
-    fun liveCurrentPage():LiveData<Int>{
+    fun liveCurrentPage(): LiveData<Int> {
         return currentPage
     }
 
-    fun getCurrentPage(): Int{
+    fun getCurrentPage(): Int {
         return _currentPage
     }
 
-    fun setCurrentPage(input: Int){
+    fun setCurrentPage(input: Int) {
         _currentPage = input
         currentPage.value = _currentPage
     }
 
-    fun triggerObserver(){
+    fun triggerObserver() {
         currentPage.value = _currentPage
     }
 }

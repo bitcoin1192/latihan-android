@@ -12,15 +12,17 @@ import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.dataStructure.Film
 
-class NowPlayingAdapter(private var data: ArrayList<Film>, private val listener: (Film) -> Unit): RecyclerView.Adapter<NowPlayingAdapter.LeagueViewHolder>() {
+class NowPlayingAdapter(private var data: ArrayList<Film>, private val listener: (Film) -> Unit) :
+    RecyclerView.Adapter<NowPlayingAdapter.LeagueViewHolder>() {
 
-    lateinit var ContextAdapter : Context
+    lateinit var ContextAdapter: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder {
-        Log.e("NowPlayingadapter","Its alive")
+        Log.e("NowPlayingadapter", "Its alive")
         val layoutInflater = LayoutInflater.from(parent.context)
         ContextAdapter = parent.context
-        val inflatedView: View = layoutInflater.inflate(R.layout.row_item_now_playing, parent, false)
+        val inflatedView: View =
+            layoutInflater.inflate(R.layout.row_item_now_playing, parent, false)
 
         return LeagueViewHolder(inflatedView)
     }
@@ -39,7 +41,7 @@ class NowPlayingAdapter(private var data: ArrayList<Film>, private val listener:
 
         private val tvImage: ImageView = view.findViewById(R.id.iv_poster_image)
 
-        fun bindItem(data: Film, listener: (Film) -> Unit, context : Context, position : Int) {
+        fun bindItem(data: Film, listener: (Film) -> Unit, context: Context, position: Int) {
 
             tvTitle.text = data.judul
             tvGenre.text = data.genre
