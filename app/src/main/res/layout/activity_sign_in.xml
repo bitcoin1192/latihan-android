@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Global_blue"
-    tools:context=".activity_sign_in">
+    tools:context=".usersign.SignInActivity">
 
     <Button
         android:id="@+id/buttonTrue"
@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/iv_backButton"
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
@@ -59,7 +59,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_backButton" />
 
     <TextView
         android:id="@+id/textView4"
