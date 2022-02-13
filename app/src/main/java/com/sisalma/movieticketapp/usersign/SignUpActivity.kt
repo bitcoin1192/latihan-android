@@ -4,12 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import com.google.firebase.database.*
 import com.sisalma.movieticketapp.*
 import com.sisalma.movieticketapp.databinding.ActivitySignUpBinding
 
 
-class signUpActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
     private lateinit var guestUser: GuestUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +29,7 @@ class signUpActivity : AppCompatActivity() {
             }else{
                 guestUser.daftarBaru(dataUser)
                 Toast.makeText(this,"User berhasil dibuat", Toast.LENGTH_LONG).show()
-                val intent = Intent(this, photoUploadActivity::class.java).putExtra("data",dataUser)
+                val intent = Intent(this, PhotoUploadActivity::class.java).putExtra("data",dataUser)
                 startActivity(intent)
             }
         }

@@ -1,15 +1,14 @@
 package com.sisalma.movieticketapp.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.dataUser
-import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.dataStructure.TicketData
 
-class userRepository (userAuthenticated: authenticatedUsers){
+class UserRepository (userAuthenticated: authenticatedUsers){
     val userObj = userAuthenticated
 
-    fun getUserTicket(): LiveData<ArrayList<ticketData>> {
+    fun getUserTicket(): LiveData<ArrayList<TicketData>> {
         return userObj.ticketDataList
     }
 

@@ -8,8 +8,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import com.sisalma.movieticketapp.dataStructure.seat
-import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.dataStructure.Seat
+import com.sisalma.movieticketapp.dataStructure.TicketData
 import kotlinx.coroutines.delay
 import kotlinx.parcelize.Parcelize
 import java.util.*
@@ -33,8 +33,8 @@ abstract class Users(applicationContext: Context) {
     val storageRef  = FirebaseStorage
         .getInstance()
         .getReference("Photos")
-    var _ticketDataList:ArrayList<ticketData> = ArrayList()
-    val ticketDataList: MutableLiveData<ArrayList<ticketData>> = MutableLiveData()
+    var _ticketDataList:ArrayList<TicketData> = ArrayList()
+    val ticketDataList: MutableLiveData<ArrayList<TicketData>> = MutableLiveData()
     var userProfile: MutableLiveData<dataUser> = MutableLiveData()
 }
 
@@ -48,7 +48,7 @@ interface AuthenticatedUser{
     fun userDeauthenticate()
     fun getUserData():dataUser?
     //fun updateUserData(nama:String?, email: String?, password: String?, saldo: Int?, url: String?)
-    fun updateUserFilmHistory(namaFilm: String, seatSelected: ArrayList<seat>)
+    fun updateUserFilmHistory(namaFilm: String, seatSelected: ArrayList<Seat>)
     fun uploadImagetoFBStore(filepath: Uri)
 }
 
@@ -60,7 +60,7 @@ class authenticatedUsers(applicationContext: Context): AuthenticatedUser, Users(
         attachTicketData()
     }
 
-    fun buyTicket(namaFilm: String, seatSelected: ArrayList<seat>){
+    fun buyTicket(namaFilm: String, seatSelected: ArrayList<Seat>){
         var total  = 0
         seatSelected.forEach { total += it.priceList }
         potongSaldo(total)
@@ -142,14 +142,14 @@ class authenticatedUsers(applicationContext: Context): AuthenticatedUser, Users(
         }
     }
 
-    override fun updateUserFilmHistory(namaFilm: String, seatSelected: ArrayList<seat>) {
+    override fun updateUserFilmHistory(namaFilm: String, seatSelected: ArrayList<Seat>) {
         if(authenticated){
             userTicketData.child(username)
                 .child("listActive")
                 .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val UID = UUID.randomUUID().toString()
-                    val ticketBuild = ticketData(UID,"22/01/2022","ticketQR",namaFilm,0,seatSelected)
+                    val ticketBuild = TicketData(UID,"22/01/2022","ticketQR",namaFilm,0,seatSelected)
                     Log.i("updateUserTicketInfo",ticketBuild.toString())
                     userTicketData.child(username).child("listActive").child(UID).setValue(ticketBuild)
                 }
@@ -183,7 +183,7 @@ class authenticatedUsers(applicationContext: Context): AuthenticatedUser, Users(
                     _ticketDataList.clear()
                     Log.i("attachTicketData", data.childrenCount.toString())
                     data.children.forEach { userTicket ->
-                        userTicket.getValue(ticketData::class.java)?.let {
+                        userTicket.getValue(TicketData::class.java)?.let {
                             _ticketDataList.add(it)
                         }
                     }

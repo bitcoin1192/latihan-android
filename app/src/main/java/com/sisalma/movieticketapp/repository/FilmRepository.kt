@@ -8,7 +8,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.sisalma.movieticketapp.dataStructure.Film
 
-open class filmRepository {
+open class FilmRepository {
     val instanceOfFirebase = "https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/"
     var listFilm = FirebaseDatabase
         .getInstance(instanceOfFirebase)
@@ -57,7 +57,7 @@ open class filmRepository {
     }
 }
 
-class NewFilmRepository: filmRepository(){
+class NewFilmRepository: FilmRepository(){
     fun GetFilmData(){
 
     }

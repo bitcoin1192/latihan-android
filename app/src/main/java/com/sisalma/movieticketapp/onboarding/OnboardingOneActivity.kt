@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.usersign.signInActivity
+import com.sisalma.movieticketapp.usersign.SignInActivity
 
 class OnboardingOneActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +21,7 @@ class OnboardingOneActivity : AppCompatActivity() {
         }
 
         skip.setOnClickListener(){
-            var intent = Intent(this, signInActivity::class.java)
+            var intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
             finish()
         }

@@ -14,7 +14,7 @@ import com.sisalma.movieticketapp.appActivity.appHome.TicketShowActivity
 import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.ticketRowAdapter
 import com.sisalma.movieticketapp.databinding.FragmentTicketBinding
 
-class ticketFragment : Fragment() {
+class TicketFragment : Fragment() {
     private val ViewModelTicket: ViewModelTicket by activityViewModels()
     var _binding: FragmentTicketBinding? = null
     private val binding get() = _binding!!

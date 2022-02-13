@@ -1,15 +1,12 @@
 package com.sisalma.movieticketapp
 
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.sisalma.movieticketapp.dataStructure.Film
-import com.sisalma.movieticketapp.repository.filmRepository
 
-class viewModelFilm(): ViewModel() {
+class ViewModelFilm(): ViewModel() {
     private val films: MutableLiveData<ArrayList<Film>> = MutableLiveData<ArrayList<Film>>()
     private var datalist: ArrayList<Film> = ArrayList()
 

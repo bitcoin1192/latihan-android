@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.appActivity.home
-import com.sisalma.movieticketapp.usersign.signInActivity
+import com.sisalma.movieticketapp.appActivity.Home
+import com.sisalma.movieticketapp.usersign.SignInActivity
 
-class splash_screen : AppCompatActivity() {
+class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -17,12 +17,12 @@ class splash_screen : AppCompatActivity() {
         var handler = Handler()
 
         if(setting.getString("username","").toString().isNotBlank() && setting.getString("password","").toString().isNotBlank()){
-            var intent = Intent(this, home::class.java)
+            var intent = Intent(this, Home::class.java)
             startActivity(intent)
             finishAffinity()
         }else{
             if(setting.getBoolean("oldUser",false)){
-                var intent = Intent(this, signInActivity::class.java)
+                var intent = Intent(this, SignInActivity::class.java)
                 startActivity(intent)
                 finish()
             }else{

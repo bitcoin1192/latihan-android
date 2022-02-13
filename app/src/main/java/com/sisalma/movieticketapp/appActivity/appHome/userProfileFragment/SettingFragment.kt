@@ -11,16 +11,16 @@ import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.ViewModelUser
 import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ViewModelTicket
-import com.sisalma.movieticketapp.appActivity.editProfile.editProfileActivity
+import com.sisalma.movieticketapp.appActivity.editProfile.EditProfileActivity
 import com.sisalma.movieticketapp.appActivity.saldoTopup.historiDompet
 import com.sisalma.movieticketapp.dataUser
 import com.sisalma.movieticketapp.databinding.FragmentSettingBinding
-import com.sisalma.movieticketapp.onboarding.splash_screen
+import com.sisalma.movieticketapp.onboarding.SplashScreen
 
-class settingFragment : Fragment() {
+class SettingFragment : Fragment() {
     private lateinit var uiBind: FragmentSettingBinding
-    val ViewModelUser: ViewModelUser by activityViewModels()
-    val ViewModelTicket: ViewModelTicket by activityViewModels()
+    private val ViewModelUser: ViewModelUser by activityViewModels()
+    private val ViewModelTicket: ViewModelTicket by activityViewModels()
     lateinit var parcelableData: dataUser
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +41,12 @@ class settingFragment : Fragment() {
         }
         )
         uiBind.cardViewProfile.setOnClickListener {
-            val intent = Intent(this.activity, editProfileActivity::class.java)
+            val intent = Intent(this.activity, EditProfileActivity::class.java)
             startActivity(intent)
         }
 
         uiBind.cardViewLogout.setOnClickListener {
-            val intent = Intent(activity, splash_screen::class.java)
+            val intent = Intent(activity, SplashScreen::class.java)
             ViewModelUser.userLogout(true)
             startActivity(intent)
         }

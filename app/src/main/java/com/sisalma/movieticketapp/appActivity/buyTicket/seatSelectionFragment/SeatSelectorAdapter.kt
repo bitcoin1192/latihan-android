@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.sisalma.movieticketapp.dataStructure.seat
-import com.sisalma.movieticketapp.dataStructure.sesiTayang
+import com.sisalma.movieticketapp.dataStructure.Seat
+import com.sisalma.movieticketapp.dataStructure.SesiTayang
 import com.sisalma.movieticketapp.databinding.RowSeatBinding
 
 class seatSelectorAdapter : RecyclerView.Adapter<seatSelection>() {
-    private lateinit var _cinemaSession: sesiTayang
+    private lateinit var _cinemaSession: SesiTayang
     var seatLevel: ArrayList<String> = ArrayList()
 
-    private var _seatResult: MutableLiveData<seat> = MutableLiveData()
-    private var _seatDataGroup: HashMap<String, ArrayList<seat>> = HashMap()
+    private var _seatResult: MutableLiveData<Seat> = MutableLiveData()
+    private var _seatDataGroup: HashMap<String, ArrayList<Seat>> = HashMap()
     lateinit var ContextAdapter: Context
 
     private var _binding: RowSeatBinding? = null
@@ -41,13 +41,13 @@ class seatSelectorAdapter : RecyclerView.Adapter<seatSelection>() {
         return seatSelection(uiBind, _seatResult)
     }
 
-    fun setData(input: sesiTayang) {
+    fun setData(input: SesiTayang) {
         _cinemaSession = input
         countSeatLevel()
         groupSeatData()
     }
 
-    fun resultListener(): LiveData<seat> {
+    fun resultListener(): LiveData<Seat> {
         return _seatResult
     }
 
@@ -76,9 +76,9 @@ class seatSelectorAdapter : RecyclerView.Adapter<seatSelection>() {
     }
 }
 
-class seatSelection(view: RowSeatBinding, val _resultPipe: MutableLiveData<seat>) :
+class seatSelection(view: RowSeatBinding, val _resultPipe: MutableLiveData<Seat>) :
     RecyclerView.ViewHolder(view.root) {
-    private var _seatRowData: ArrayList<seat> = ArrayList()
+    private var _seatRowData: ArrayList<Seat> = ArrayList()
     private val _uiBind = view
     private val rowSeat = arrayListOf<seatSelectorButton>(
         _uiBind.seatSelector1, _uiBind.seatSelector2,
@@ -101,7 +101,7 @@ class seatSelection(view: RowSeatBinding, val _resultPipe: MutableLiveData<seat>
         }
     }
 
-    fun setRowData(input: ArrayList<seat>) {
+    fun setRowData(input: ArrayList<Seat>) {
         _seatRowData = input
     }
 }

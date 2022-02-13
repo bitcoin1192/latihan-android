@@ -9,14 +9,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.*
 import com.sisalma.movieticketapp.GuestUser
-import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivitySignInBinding
-import com.sisalma.movieticketapp.appActivity.home
+import com.sisalma.movieticketapp.appActivity.Home
 import kotlinx.coroutines.*
 import java.util.*
 
 
-class signInActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +34,17 @@ class signInActivity : AppCompatActivity() {
                 var result = async {guest.testAuthorizeUser()}
                 if(result.await()){
                     finishAffinity()
-                    Toast.makeText(this@signInActivity,"Authentication Success, goto home", Toast.LENGTH_SHORT).show()
-                    intent = Intent(this@signInActivity,home::class.java)
+                    Toast.makeText(this@SignInActivity,"Authentication Success, goto home", Toast.LENGTH_SHORT).show()
+                    intent = Intent(this@SignInActivity,Home::class.java)
                     startActivity(intent)
                 }else {
-                    Toast.makeText(this@signInActivity,"Authentication Fail, please try again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignInActivity,"Authentication Fail, please try again", Toast.LENGTH_SHORT).show()
                 }
             }
 
         }
         binding.buttonFalse.setOnClickListener(){
-            val intent = Intent(this, signUpActivity::class.java)
+            val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 

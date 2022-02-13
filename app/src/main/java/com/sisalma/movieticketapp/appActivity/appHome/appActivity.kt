@@ -11,26 +11,26 @@ import com.sisalma.movieticketapp.ViewModelUser
 import com.sisalma.movieticketapp.appActivity.appHome.ViewModelNavTab
 import com.sisalma.movieticketapp.appActivity.appHome.homeFragment.dashboardFragment
 import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ViewModelTicket
-import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.ticketFragment
-import com.sisalma.movieticketapp.appActivity.appHome.userProfileFragment.settingFragment
+import com.sisalma.movieticketapp.appActivity.appHome.ticketFragment.TicketFragment
+import com.sisalma.movieticketapp.appActivity.appHome.userProfileFragment.SettingFragment
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivityHomeBinding
-import com.sisalma.movieticketapp.repository.filmRepository
-import com.sisalma.movieticketapp.repository.userRepository
-import com.sisalma.movieticketapp.viewModelFilm
+import com.sisalma.movieticketapp.repository.FilmRepository
+import com.sisalma.movieticketapp.repository.UserRepository
+import com.sisalma.movieticketapp.ViewModelFilm
 
-class home : AppCompatActivity() {
+class Home : AppCompatActivity() {
     private var currFragment: Fragment? = null
-    private val filmRepo = filmRepository()
-    private lateinit var userRepo: userRepository
+    private val filmRepo = FilmRepository()
+    private lateinit var userRepo: UserRepository
     private lateinit var binding: ActivityHomeBinding
-    val viewModelFilm: viewModelFilm by viewModels()
+    val ViewModelFilm: ViewModelFilm by viewModels()
     val viewModelUser: ViewModelUser by viewModels()
     val ViewModelTicket: ViewModelTicket by viewModels()
     val ViewModelNavTab: ViewModelNavTab by viewModels()
     private lateinit var fragmentHome: dashboardFragment
-    private lateinit var fragmentTiket: ticketFragment
-    private lateinit var fragmentSetting: settingFragment
+    private lateinit var fragmentTiket: TicketFragment
+    private lateinit var fragmentSetting: SettingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +42,11 @@ class home : AppCompatActivity() {
 
         val userObject = authenticatedUsers(applicationContext)
         userObject.userAuthenticate()
-        userRepo = userRepository(userObject)
+        userRepo = UserRepository(userObject)
 
         fragmentHome = dashboardFragment()
-        fragmentTiket = ticketFragment()
-        fragmentSetting = settingFragment()
+        fragmentTiket = TicketFragment()
+        fragmentSetting = SettingFragment()
 
         observeRepository()
         observeViewModel()
@@ -94,7 +94,7 @@ class home : AppCompatActivity() {
 
     private fun observeRepository() {
         filmRepo.getFilmLiveData().observe(this, {
-            viewModelFilm.setFilmData(it)
+            ViewModelFilm.setFilmData(it)
             ViewModelTicket.setfilmList(it)
         })
         userRepo.getUserProfile().observe(this, {

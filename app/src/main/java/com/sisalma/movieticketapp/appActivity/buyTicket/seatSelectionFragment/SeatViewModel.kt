@@ -2,7 +2,7 @@ package com.sisalma.movieticketapp.appActivity.buyTicket.seatSelectionFragment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sisalma.movieticketapp.dataStructure.sesiTayang
+import com.sisalma.movieticketapp.dataStructure.SesiTayang
 
 class seatViewModel : ViewModel() {
     val seatAvailable: MutableLiveData<ArrayList<ArrayList<Boolean>>> = MutableLiveData()
@@ -10,7 +10,7 @@ class seatViewModel : ViewModel() {
     val seatSelected: MutableLiveData<HashMap<String, Boolean>> = MutableLiveData()
     val seatGroup: ArrayList<Boolean> = ArrayList()
 
-    fun setSeatStatus(seatData: sesiTayang) {
+    fun setSeatStatus(seatData: SesiTayang) {
 
     }
 

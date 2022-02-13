@@ -1,23 +1,21 @@
 package com.sisalma.movieticketapp
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sisalma.movieticketapp.dataStructure.cinemaDetail
-import com.sisalma.movieticketapp.dataStructure.seat
-import com.sisalma.movieticketapp.dataStructure.sesiTayang
-import com.sisalma.movieticketapp.repository.cinemaRepository
+import com.sisalma.movieticketapp.dataStructure.Seat
+import com.sisalma.movieticketapp.dataStructure.SesiTayang
 
 class ViewModelCinema(): ViewModel() {
     private var _namaFilm = ""
-    private var _seatArray: ArrayList<sesiTayang> = ArrayList()
-    private var _selectedseatArray: ArrayList<seat> = ArrayList()
-    private var _seatHashMap: HashMap<String, sesiTayang> = HashMap()
-    private var cancelItem = seat()
-    val CinemaData: MutableLiveData<sesiTayang>  = MutableLiveData()
+    private var _seatArray: ArrayList<SesiTayang> = ArrayList()
+    private var _selectedseatArray: ArrayList<Seat> = ArrayList()
+    private var _seatHashMap: HashMap<String, SesiTayang> = HashMap()
+    private var cancelItem = Seat()
+    val cinemaData: MutableLiveData<SesiTayang>  = MutableLiveData()
+    val selectedSeat: MutableLiveData<ArrayList<Seat>> = MutableLiveData()
 
     fun setNamaFilm(input: String){
         _namaFilm = input
@@ -27,19 +25,23 @@ class ViewModelCinema(): ViewModel() {
     fun getNamaFilm(): String{
         return _namaFilm
     }
-    fun getAvailableSeat(): LiveData<sesiTayang> {
-        return CinemaData
+    fun getAvailableSeat(): LiveData<SesiTayang> {
+        return cinemaData
+    }
+
+    fun liveSelectedSeat(): LiveData<ArrayList<Seat>>{
+        return selectedSeat
     }
 
     //Observe cinemaRepository from activity
-    fun setSesiTayang(input: ArrayList<sesiTayang>) {
+    fun setSesiTayang(input: ArrayList<SesiTayang>) {
         _seatArray = input
         createKeySesiTayang()
         mergeSeat()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun setSelectedSeat(input: seat){
+    fun setSelectedSeat(input: Seat){
         _selectedseatArray.find{ input.seatRow == it.seatRow && input.seatID == it.seatID }.run {
             if(this != null) {
                 cancelItem = this.copy()
@@ -50,6 +52,7 @@ class ViewModelCinema(): ViewModel() {
                 _selectedseatArray.add(input)
             }
         }
+        selectedSeat.value = _selectedseatArray
         mergeSeat()
     }
     private fun mergeSeat(){
@@ -65,14 +68,14 @@ class ViewModelCinema(): ViewModel() {
             it.seatID == cancelItem.seatID && it.seatRow == cancelItem.seatRow
         }?.run {
             this.statusSelected = false
-            cancelItem = seat()
+            cancelItem = Seat()
         }
         if(temp != null) {
             _seatHashMap[_namaFilm] = temp
         }
         refreshSeatMap()
     }
-    fun getSelectedSeat():ArrayList<seat> {
+    fun getSelectedSeat():ArrayList<Seat> {
         return _selectedseatArray
     }
 
@@ -85,7 +88,7 @@ class ViewModelCinema(): ViewModel() {
 
     private fun refreshSeatMap(){
         _seatHashMap[_namaFilm]?.let { sesiTayang ->
-            CinemaData.value = sesiTayang
+            cinemaData.value = sesiTayang
         }
     }
 }

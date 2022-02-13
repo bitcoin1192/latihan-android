@@ -25,7 +25,6 @@ class filmDetailActivity : AppCompatActivity() {
         Glide.with(this)
             .load(detailParcel.poster)
             .into(binding.ivPoster)
-        Log.i("Hashmap Test", detailParcel.play.toString())
 
         val player = playerHashMap2Array(detailParcel)
 

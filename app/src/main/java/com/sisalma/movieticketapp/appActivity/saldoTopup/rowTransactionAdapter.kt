@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.dataStructure.TicketData
 import com.sisalma.movieticketapp.databinding.RowItemTransaksiBinding
 import java.util.*
 
-class rowTransactionAdapter(inputData: ArrayList<ticketData>) :
+class rowTransactionAdapter(inputData: ArrayList<TicketData>) :
     RecyclerView.Adapter<rowTransactionAdapter.rowItem>() {
     val ticketArray = inputData
     var _binding: RowItemTransaksiBinding? = null
@@ -38,7 +38,7 @@ class rowTransactionAdapter(inputData: ArrayList<ticketData>) :
         private val uiBind = view
 
         @RequiresApi(Build.VERSION_CODES.N)
-        fun bindItem(ticket: ticketData) {
+        fun bindItem(ticket: TicketData) {
             val Int2Rupiah = NumberFormat
                 .getCurrencyInstance(Locale("id", "ID"))
                 .format(ticket.seatPrice)

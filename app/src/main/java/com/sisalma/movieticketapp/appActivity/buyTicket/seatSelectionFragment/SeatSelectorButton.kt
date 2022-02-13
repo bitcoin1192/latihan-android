@@ -5,13 +5,13 @@ import android.util.AttributeSet
 import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.dataStructure.seat
+import com.sisalma.movieticketapp.dataStructure.Seat
 
 class seatSelectorButton(context: Context, attrs: AttributeSet) :
     AppCompatImageView(context, attrs) {
     private var seatIsAvailable = false
     private var seatIsSelected = false
-    private var _seatData = seat()
+    private var _seatData = Seat()
 
     init {
         context.theme.obtainStyledAttributes(
@@ -36,13 +36,13 @@ class seatSelectorButton(context: Context, attrs: AttributeSet) :
         return seatIsSelected
     }
 
-    fun setSeatData(input: seat) {
+    fun setSeatData(input: Seat) {
         _seatData = input
         //setSeatIsSelectable(_seatData.statusAvailable)
         seatSelectToggle()
     }
 
-    fun getSeatData(): seat {
+    fun getSeatData(): Seat {
         return _seatData
     }
 

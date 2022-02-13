@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Global_blue"
-    tools:context=".usersign.signInActivity">
+    tools:context=".usersign.SignInActivity">
 
     <Button
         android:id="@+id/buttonTrue"

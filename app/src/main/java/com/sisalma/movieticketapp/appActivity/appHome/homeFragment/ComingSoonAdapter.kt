@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.dataStructure.Film
-import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.dataStructure.TicketData
 
 class ComingSoonAdapter(private var data: ArrayList<Film>, private val listener: (Film) -> Unit) :
     RecyclerView.Adapter<LeagueViewHolder>() {
@@ -35,16 +35,16 @@ class ComingSoonAdapter(private var data: ArrayList<Film>, private val listener:
 
 class ticketRowAdapter(
     var filmList: HashMap<String, Film>,
-    var ticketList: ArrayList<ticketData>,
-    val listener: (Film, ticketData) -> Unit
+    var ticketList: ArrayList<TicketData>,
+    val listener: (Film, TicketData) -> Unit
 ) : RecyclerView.Adapter<ticketRowAdapter.ViewHolder>() {
     lateinit var ContextAdapter: Context
 
     inner class ViewHolder(view: View) : LeagueViewHolder(view) {
         fun bindTicketItem(
             data: Film,
-            ticket: ticketData,
-            listener: (Film, ticketData) -> Unit,
+            ticket: TicketData,
+            listener: (Film, TicketData) -> Unit,
             context: Context
         ) {
             tvTitle.text = data.judul

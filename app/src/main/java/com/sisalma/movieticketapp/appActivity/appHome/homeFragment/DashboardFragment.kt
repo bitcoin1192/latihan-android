@@ -19,7 +19,7 @@ import com.sisalma.movieticketapp.ViewModelUser
 import com.sisalma.movieticketapp.appActivity.filmDetailActivity
 import com.sisalma.movieticketapp.dataStructure.Film
 import com.sisalma.movieticketapp.databinding.FragmentDashboardBinding
-import com.sisalma.movieticketapp.viewModelFilm
+import com.sisalma.movieticketapp.ViewModelFilm
 import java.util.*
 
 //class dashboardFragment(userRepository: userRepository, filmRepository: filmRepository) : Fragment() {
@@ -28,7 +28,7 @@ class dashboardFragment : Fragment() {
 
     //val userProfile = userRepository.getUserProfile()
     //val filmRepo = filmRepository
-    private val viewModelFilm: viewModelFilm by activityViewModels()
+    private val ViewModelFilm: ViewModelFilm by activityViewModels()
     private val ViewModelUser: ViewModelUser by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -51,7 +51,7 @@ class dashboardFragment : Fragment() {
                 .into(binding.ivProfile)
         })
 
-        viewModelFilm.getFilmData().observe(viewLifecycleOwner, {
+        ViewModelFilm.getFilmData().observe(viewLifecycleOwner, {
             if(binding.rvComingSoon.adapter == null || binding.rvNowPlaying.adapter == null) {
                 binding.rvNowPlaying.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

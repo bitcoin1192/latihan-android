@@ -5,22 +5,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sisalma.movieticketapp.dataStructure.Film
-import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.dataStructure.TicketData
 
 class ViewModelTicket : ViewModel() {
     var filmList: ArrayList<Film> = ArrayList()
-    var ticketArrayList: ArrayList<ticketData> = ArrayList()
-    val availableTicketFilms: MutableLiveData<ArrayList<ticketData>> =
-        MutableLiveData<ArrayList<ticketData>>()
+    var ticketArrayList: ArrayList<TicketData> = ArrayList()
+    val availableTicketFilms: MutableLiveData<ArrayList<TicketData>> =
+        MutableLiveData<ArrayList<TicketData>>()
     private var _keyFilmData: HashMap<String, Film> = HashMap()
-    var _keyTicketData: HashMap<String, ticketData> = HashMap()
+    var _keyTicketData: HashMap<String, TicketData> = HashMap()
 
     fun setfilmList(input: ArrayList<Film>) {
         filmList = input
         createKeyFilmData()
     }
 
-    fun setDataTicket(input: ArrayList<ticketData>) {
+    fun setDataTicket(input: ArrayList<TicketData>) {
         Log.i("vmt", "$input")
         ticketArrayList = input
         //ticketArrayList = arrayListOf(ticketData())
@@ -29,7 +29,7 @@ class ViewModelTicket : ViewModel() {
         availableTicketFilms.value = ticketArrayList
     }
 
-    fun getTicketData(UID: String): ticketData? {
+    fun getTicketData(UID: String): TicketData? {
         return _keyTicketData[UID]
     }
 
@@ -37,7 +37,7 @@ class ViewModelTicket : ViewModel() {
         return _keyFilmData
     }
 
-    fun getUserActiveTicket(): LiveData<ArrayList<ticketData>> {
+    fun getUserActiveTicket(): LiveData<ArrayList<TicketData>> {
         return availableTicketFilms
     }
 
@@ -53,7 +53,7 @@ class ViewModelTicket : ViewModel() {
             availableTicketFilms.value = selectedFilmList
         }
     }*/
-    private fun getFilmByKey(filmName: String): Film? {
+    fun getFilmByKey(filmName: String): Film? {
         return _keyFilmData[filmName]
     }
 

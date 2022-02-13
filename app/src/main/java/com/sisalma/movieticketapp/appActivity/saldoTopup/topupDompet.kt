@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sisalma.movieticketapp.R
-import com.sisalma.movieticketapp.appActivity.home
+import com.sisalma.movieticketapp.appActivity.Home
 import com.sisalma.movieticketapp.authenticatedUsers
 import com.sisalma.movieticketapp.databinding.ActivitySaldoTopupBinding
 
@@ -46,7 +46,7 @@ class topupDompet : AppCompatActivity() {
 
         uiBind.btnTopUp.setOnClickListener {
             authUser.topupSaldo(topupSaldo)
-            val intent = Intent(this, home::class.java)
+            val intent = Intent(this, Home::class.java)
             startActivity(intent)
             finishAffinity()
         }

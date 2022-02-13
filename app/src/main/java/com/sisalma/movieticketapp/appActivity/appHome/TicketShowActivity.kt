@@ -18,7 +18,7 @@ import com.google.zxing.MultiFormatWriter
 import com.sisalma.movieticketapp.R
 import com.sisalma.movieticketapp.appActivity.buyTicket.paymentConfirmFragment.SeatAdapterTheme
 import com.sisalma.movieticketapp.dataStructure.Film
-import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.dataStructure.TicketData
 import com.sisalma.movieticketapp.databinding.ActivityTicketShowBinding
 import kotlinx.coroutines.*
 
@@ -29,7 +29,7 @@ class TicketShowActivity : AppCompatActivity() {
         setContentView(uiBind.root)
 
         val data = intent.getParcelableExtra<Film>("filmDetail")
-        val ticket = intent.getParcelableExtra<ticketData>("ticketData")
+        val ticket = intent.getParcelableExtra<TicketData>("ticketData")
 
         data?.let {
             uiBind.tvTitle.text = it.judul

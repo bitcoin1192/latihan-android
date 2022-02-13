@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sisalma.movieticketapp.dataStructure.ticketData
+import com.sisalma.movieticketapp.dataStructure.TicketData
 import com.sisalma.movieticketapp.dataUser
 import com.sisalma.movieticketapp.databinding.ActivitySaldoHistoryBinding
 import java.util.*
@@ -20,7 +20,7 @@ class historiDompet : AppCompatActivity() {
         setContentView(uiBind.root)
 
         val saldoUser = intent.getParcelableExtra<dataUser>("saldoUser")
-        val ticketHistory = intent.getParcelableArrayListExtra<ticketData>("ticketData")
+        val ticketHistory = intent.getParcelableArrayListExtra<TicketData>("ticketData")
         val number = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
         uiBind.ivButtonBack.setOnClickListener {
             finish()

@@ -1,14 +1,13 @@
 package com.sisalma.movieticketapp
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.sisalma.movieticketapp.dataStructure.cinemaDetail
-import com.sisalma.movieticketapp.dataStructure.sesiTayang
+import com.sisalma.movieticketapp.dataStructure.CinemaDetail
+import com.sisalma.movieticketapp.dataStructure.SesiTayang
 
 class FirebaseSourceCinemaData {
     val instanceOfFirebase = "https://latihan-mta-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -21,36 +20,36 @@ class FirebaseSourceCinemaData {
         .getInstance(instanceOfFirebase)
         .getReference("sesiTayang")
 
-    private var CinemaDetailList: ArrayList<cinemaDetail> = ArrayList()
-    private var SessionDataList: ArrayList<sesiTayang> = ArrayList()
+    private var cinemaDetailList: ArrayList<CinemaDetail> = ArrayList()
+    private var sessionDataList: ArrayList<SesiTayang> = ArrayList()
 
-    val LiveDataCinemaDetail: MutableLiveData<ArrayList<cinemaDetail>> = MutableLiveData()
-    val LiveDataSessionData: MutableLiveData<ArrayList<sesiTayang>> = MutableLiveData()
+    val liveDataCinemaDetail: MutableLiveData<ArrayList<CinemaDetail>> = MutableLiveData()
+    val liveDataSessionData: MutableLiveData<ArrayList<SesiTayang>> = MutableLiveData()
 
     init {
         attachCinemaData()
         attachSessionData()
     }
 
-    fun getCinemaList():ArrayList<cinemaDetail>{
-        return CinemaDetailList
+    fun getCinemaList():ArrayList<CinemaDetail>{
+        return cinemaDetailList
     }
 
-    fun getCinemaSessionList(): ArrayList<sesiTayang>{
-        return SessionDataList
+    fun getCinemaSessionList(): ArrayList<SesiTayang>{
+        return sessionDataList
     }
 
     fun attachCinemaData(){
         listCinema.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
                 Log.i("CinemaDataListener", data.childrenCount.toString())
-                CinemaDetailList.clear()
+                cinemaDetailList.clear()
                 for (item in data.children){
-                    item.getValue(cinemaDetail::class.java)?.let {
-                        CinemaDetailList.add(it)
+                    item.getValue(CinemaDetail::class.java)?.let {
+                        cinemaDetailList.add(it)
                     }
                 }
-                LiveDataCinemaDetail.value = CinemaDetailList
+                liveDataCinemaDetail.value = cinemaDetailList
             }
 
             override fun onCancelled(errorMessages: DatabaseError) {
@@ -63,14 +62,14 @@ class FirebaseSourceCinemaData {
         listSession.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
                 Log.i("sessionDataListener", data.childrenCount.toString())
-                SessionDataList.clear()
+                sessionDataList.clear()
                 for (item in data.children){
-                    item.getValue(sesiTayang::class.java)?.let {
-                        SessionDataList.add(it)
+                    item.getValue(SesiTayang::class.java)?.let {
+                        sessionDataList.add(it)
                     }
                 }
-                LiveDataSessionData.value = SessionDataList
-                Log.i("sessionDataListener", SessionDataList.toString())
+                liveDataSessionData.value = sessionDataList
+                Log.i("sessionDataListener", sessionDataList.toString())
             }
 
             override fun onCancelled(errorMessages: DatabaseError) {

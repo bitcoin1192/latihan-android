@@ -8,14 +8,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.sisalma.movieticketapp.dataStructure.seat
+import com.sisalma.movieticketapp.dataStructure.Seat
 import com.sisalma.movieticketapp.databinding.RowItemCheckoutBinding
 import java.util.*
 
-open class seatAdapter(seatResult: ArrayList<seat>) : RecyclerView.Adapter<seatAdapter.itemView>() {
+open class SeatAdapter(seatResult: ArrayList<Seat>) : RecyclerView.Adapter<SeatAdapter.itemView>() {
     lateinit var ContextAdapter: Context
-    val seatResultMap = seatResult
-    private var seatResultArray = arrayListOf<seat>()
+    private val seatResultMap = seatResult
+    private var seatResultArray = arrayListOf<Seat>()
     var _binding: RowItemCheckoutBinding? = null
     val uiBind get() = _binding!!
 
@@ -50,7 +50,7 @@ open class seatAdapter(seatResult: ArrayList<seat>) : RecyclerView.Adapter<seatA
         private val uiBind = view
 
         @RequiresApi(Build.VERSION_CODES.N)
-        fun bindMap(seatResult: seat) {
+        fun bindMap(seatResult: Seat) {
             uiBind.tvKursi.text = "Seat " + seatResult.seatRow + seatResult.seatID
             val Int2Rupiah = NumberFormat
                 .getCurrencyInstance(Locale("id", "ID"))
@@ -64,7 +64,7 @@ open class seatAdapter(seatResult: ArrayList<seat>) : RecyclerView.Adapter<seatA
     }
 }
 
-class SeatAdapterTheme(seatResult: ArrayList<seat>, textColor: Int) : seatAdapter(seatResult) {
+class SeatAdapterTheme(seatResult: ArrayList<Seat>, textColor: Int) : SeatAdapter(seatResult) {
     val textColor = textColor
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -81,8 +81,3 @@ class SeatAdapterTheme(seatResult: ArrayList<seat>, textColor: Int) : seatAdapte
         uiBind.tvKursi.setTextColor(textColor)
     }
 }
-
-data class itemData(
-    val kursi: String = "",
-    val harga: String = ""
-)

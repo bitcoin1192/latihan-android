@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class pageHolder(activity: AppCompatActivity, fragmentArrayList: ArrayList<Fragment>) :
+class PageHolder(activity: AppCompatActivity, fragmentArrayList: ArrayList<Fragment>) :
     FragmentStateAdapter(activity) {
     val fragmentArrayList = fragmentArrayList
 

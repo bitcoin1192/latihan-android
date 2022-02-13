@@ -1,6 +1,5 @@
 package com.sisalma.movieticketapp
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +8,10 @@ import android.view.View
 
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
-import com.sisalma.movieticketapp.appActivity.home
+import com.sisalma.movieticketapp.appActivity.Home
 import com.sisalma.movieticketapp.databinding.ActivityPhotouploadBinding
 
-class photoUploadActivity() : AppCompatActivity(){
+class PhotoUploadActivity() : AppCompatActivity(){
 
     lateinit var filepath:Uri
 
@@ -56,7 +55,7 @@ class photoUploadActivity() : AppCompatActivity(){
             if(requestClean){
                 finish()
             }else{
-                val intent = Intent(this, home::class.java)
+                val intent = Intent(this, Home::class.java)
                 settingEditor.putBoolean("cleanAffinity",true)
                 settingEditor.commit()
                 finishAffinity()
@@ -66,7 +65,7 @@ class photoUploadActivity() : AppCompatActivity(){
 
         uiBind.btnHome.setOnClickListener(){
             finishAffinity()
-            val intent = Intent(this, home::class.java)
+            val intent = Intent(this, Home::class.java)
             startActivity(intent)
         }
 
